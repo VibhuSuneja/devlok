@@ -36,10 +36,11 @@ function Graph({ data, onSelectNode, selectedNodeId, searchQuery }) {
     svg.call(zoom);
     svg.on('touchstart', (e) => e.preventDefault(), { passive: false });
 
-    // Initial transform to center the graph
-    svg.call(zoom.transform, d3.zoomIdentity.translate(width / 2, height / 2).scale(.65));
-
     const isMobile = window.innerWidth < 768;
+
+    // Initial transform to center the graph
+    const initialScale = isMobile ? 0.45 : 1.1;
+    svg.call(zoom.transform, d3.zoomIdentity.translate(width / 2, height / 2).scale(initialScale));
 
     const simulation = d3.forceSimulation(data.nodes)
       .force('link', d3.forceLink(data.links).id(d => d.id).distance(120).strength(1))

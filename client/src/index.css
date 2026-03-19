@@ -414,6 +414,95 @@ header {
 .admin-table tr:hover td { background: rgba(212,151,58,.03); }
 .type-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; }
 
+/* ── CRAZY ANIMATIONS & UX UPGRADES ── */
+@keyframes titleGlow {
+  0%, 100% { text-shadow: 0 0 15px rgba(240,184,74,.3); }
+  50% { text-shadow: 0 0 35px rgba(240,184,74,.8); }
+}
+.brand-title { animation: titleGlow 4s ease-in-out infinite; }
+
+@keyframes voidPulse {
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 1; }
+}
+body::before { animation: voidPulse 10s ease-in-out infinite; }
+
+.search-input { transition: all 0.4s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s; }
+.search-input:focus { box-shadow: 0 0 20px rgba(212,151,58,.15); }
+
+.filter-btn { position: relative; overflow: hidden; }
+.filter-btn::after {
+  content: ''; position: absolute; bottom: 0; left: 50%;
+  width: 0%; height: 1px; background: var(--amber-glow);
+  transition: all 0.3s ease; transform: translateX(-50%);
+}
+.filter-btn:hover::after { width: 70%; }
+
+@keyframes pulseRing {
+  0%, 100% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.15); opacity: 1; }
+}
+.node-group:hover .node-ring { animation: pulseRing 1.5s infinite; opacity: 1; }
+
+.yuga-seg { transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.2s; }
+.yuga-seg:hover { transform: translateY(-4px); background: rgba(212,151,58,.04); box-shadow: 0 6px 20px rgba(0,0,0,0.6); }
+.yuga-seg.active { background: linear-gradient(180deg, rgba(212,151,58,.12) 0%, transparent 100%); border-top: 1px solid var(--amber-glow); }
+
+@keyframes floatIn {
+  0% { opacity: 0; transform: translateY(30px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+.legend { animation: floatIn 1s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.node-counter { animation: floatIn 1s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards; opacity: 0; }
+.legend-item { transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+.legend-item:hover { transform: translateX(8px); }
+
+.detail-panel { transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.6s ease; }
+.detail-panel.open { box-shadow: -20px 0 60px rgba(0, 0, 0, 0.8); }
+
+.panel-header > *, .panel-section { opacity: 0; transform: translateY(15px); transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+.detail-panel.open .panel-header > *, .detail-panel.open .panel-section { opacity: 1; transform: translateY(0); }
+.detail-panel.open .panel-header > *:nth-child(1) { transition-delay: 0.1s; }
+.detail-panel.open .panel-header > *:nth-child(2) { transition-delay: 0.15s; }
+.detail-panel.open .panel-header > *:nth-child(3) { transition-delay: 0.2s; }
+.detail-panel.open .panel-header > *:nth-child(4) { transition-delay: 0.25s; }
+.detail-panel.open .panel-section:nth-child(1) { transition-delay: 0.3s; }
+.detail-panel.open .panel-section:nth-child(2) { transition-delay: 0.35s; }
+.detail-panel.open .panel-section:nth-child(3) { transition-delay: 0.4s; }
+
 /* ── MISC ── */
 a { color: inherit; text-decoration: none; }
 button { font-family: inherit; }
+
+@media (max-width: 768px) {
+  header { padding: 8px 10px; gap: 8px; flex-wrap: wrap; justify-content: center; }
+  .brand-title { font-size: 1rem; }
+  .brand-sub { display: none; }
+  .search-input { width: 160px; padding: 4px 24px 4px 8px; font-size: .75rem; }
+  .search-input:focus { width: 190px; }
+  .filter-label { display: none; }
+  .filter-btn { padding: 3px 6px; font-size: .65rem; }
+  
+  .yuga-bar { padding: 6px 8px 8px; }
+  .yuga-title { display: none; }
+  .yuga-seg { padding: 3px 2px; }
+  .yuga-seg-name { font-size: .55rem; }
+  .yuga-seg-sub { font-size: .45rem; line-height: 1.1; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-bottom: 2px;}
+  .yuga-seg-yrs { font-size: .45rem; }
+  
+  .legend { bottom: 70px; left: 10px; padding: 8px; max-width: 90px; }
+  .legend-title { font-size: .45rem; margin-bottom: 5px; }
+  .legend-item { font-size: .55rem; gap: 5px; }
+  .legend-dot { width: 6px; height: 6px; }
+  
+  .node-counter { bottom: 70px; right: 10px; }
+  .counter-number { font-size: 1.5rem; }
+  .counter-label { font-size: .45rem; }
+  
+  .detail-panel { width: 100vw; max-width: 100vw; }
+  .panel-header { padding: 60px 16px 16px; }
+  .panel-close { top: 12px; right: 16px; }
+  
+  .instructions { display: none; }
+}
+

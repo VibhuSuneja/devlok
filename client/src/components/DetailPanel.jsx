@@ -21,7 +21,7 @@ function DetailPanel({ node, links, allNodes, onClose, onSelectNode }) {
 
   return (
     <div className={`detail-panel ${node ? 'open' : ''}`}>
-      <button className="panel-close" onClick={onClose}>×</button>
+      <button className="panel-close" style={{ zIndex: 10, fontSize: '1.2rem', width: '32px', height: '32px' }} onClick={onClose}>×</button>
       
       {node && (
         <>
