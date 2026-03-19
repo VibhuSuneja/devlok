@@ -8,6 +8,8 @@ import Header from '../components/Header.jsx';
 import Legend from '../components/Legend.jsx';
 import YugaTimeline from '../components/YugaTimeline.jsx';
 import NodeCounter from '../components/NodeCounter.jsx';
+import Tooltip from '../components/Tooltip.jsx';
+import IntroOverlay from '../components/IntroOverlay.jsx';
 
 function GraphPage() {
   const [data, setData] = useState({ nodes: [], links: [] });
@@ -16,6 +18,8 @@ function GraphPage() {
   const [yugaFilter, setYugaFilter] = useState('all');
   const [typeFilter, setTypeFilter] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
+  const [tooltip, setTooltip] = useState({ visible: false, x: 0, y: 0, node: null });
+  const [showIntro, setShowIntro] = useState(true);
   const [searchParams] = useSearchParams();
 
   useEffect(() => {
@@ -69,6 +73,7 @@ function GraphPage() {
 
   return (
     <div className="graph-viewer">
+      {showIntro && <IntroOverlay onEnter={() => setShowIntro(false)} />}
       <Loader visible={loading} />
       
       <Header 
@@ -81,6 +86,7 @@ function GraphPage() {
       <Graph 
         data={filteredData} 
         onSelectNode={handleSelectNode}
+        onHoverNode={setTooltip}
         selectedNodeId={selectedNodeId}
         searchQuery={searchQuery}
       />
@@ -99,6 +105,13 @@ function GraphPage() {
         allNodes={data.nodes}
         onClose={() => setSelectedNodeId(null)}
         onSelectNode={id => setSelectedNodeId(id)}
+      />
+
+      <Tooltip 
+        node={tooltip.node} 
+        x={tooltip.x} 
+        y={tooltip.y} 
+        visible={tooltip.visible} 
       />
       
       <div className="instructions">

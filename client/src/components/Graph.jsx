@@ -10,7 +10,7 @@ const COLORS = {
   celestial: '#9a6ed4',  // Celestial
 };
 
-function Graph({ data, onSelectNode, selectedNodeId, searchQuery }) {
+function Graph({ data, onSelectNode, onHoverNode, selectedNodeId, searchQuery }) {
   const svgRef = useRef(null);
   const simulationRef = useRef(null);
   const gRef = useRef(null);
@@ -63,7 +63,10 @@ function Graph({ data, onSelectNode, selectedNodeId, searchQuery }) {
       .attr('d', 'M0,-5L10,0L0,5')
       .attr('fill', 'rgba(232,213,163,.15)');
 
-    const link = g.append('g')
+    const linkGroup = g.append('g');
+    const nodeGroup = g.append('g');
+
+    const link = linkGroup
       .selectAll('line')
       .data(data.links)
       .join('line')
@@ -72,16 +75,37 @@ function Graph({ data, onSelectNode, selectedNodeId, searchQuery }) {
       .attr('stroke-width', 1.5)
       .attr('marker-end', 'url(#arrow)');
 
-    const node = g.append('g')
+    const node = nodeGroup
       .selectAll('g')
       .data(data.nodes)
       .join('g')
       .attr('class', 'node-group')
       .on('click', (e, d) => {
         if (e.defaultPrevented) return; // Prevent selection if dragging
-        console.log("Archive selection signal sent:", d.id);
         e.stopPropagation();
         onSelectNode(d.id);
+      })
+      .on('mouseover', (e, d) => {
+        onHoverNode({ visible: true, x: e.clientX, y: e.clientY, node: d });
+        
+        // Highlight ego network
+        node.style('opacity', n => {
+          const conn = data.links.some(l => 
+            (l.source.id === d.id && l.target.id === n.id) || 
+            (l.target.id === d.id && l.source.id === n.id) || 
+            n.id === d.id
+          );
+          return conn ? 1 : 0.1;
+        });
+        link.style('opacity', l => (l.source.id === d.id || l.target.id === d.id) ? 0.8 : 0.03);
+      })
+      .on('mousemove', (e) => {
+        onHoverNode(prev => ({ ...prev, x: e.clientX, y: e.clientY }));
+      })
+      .on('mouseout', () => {
+        onHoverNode({ visible: false, x: 0, y: 0, node: null });
+        node.style('opacity', 1);
+        link.style('opacity', null);
       })
       .call(d3.drag()
         .on('start', dragstarted)
