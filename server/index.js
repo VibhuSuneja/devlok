@@ -15,8 +15,22 @@ const app = express();
 connectDB();
 
 // Middleware
+const allowedOrigins = [
+  process.env.CLIENT_URL,
+  process.env.CLIENT_URL?.endsWith('/') ? process.env.CLIENT_URL.slice(0, -1) : process.env.CLIENT_URL + '/',
+  'http://localhost:5173',
+  'https://devlok-three.vercel.app/'
+].filter(Boolean);
+
 app.use(cors({
-  origin: process.env.CLIENT_URL,
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      console.warn('Blocked by CORS:', origin);
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
 }));
 app.use(express.json());
