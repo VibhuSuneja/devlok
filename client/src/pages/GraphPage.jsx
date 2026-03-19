@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import axios from '../api/axios.js';
 import Graph from '../components/Graph.jsx';
 import Loader from '../components/Loader.jsx';
@@ -15,12 +16,18 @@ function GraphPage() {
   const [yugaFilter, setYugaFilter] = useState('all');
   const [typeFilter, setTypeFilter] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
+  const [searchParams] = useSearchParams();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const res = await axios.get('/graph');
         setData(res.data);
+        
+        const focusId = searchParams.get('focus');
+        if (focusId) {
+          setSelectedNodeId(focusId);
+        }
       } catch (err) {
         console.error('Fetch error:', err);
       } finally {
@@ -28,7 +35,7 @@ function GraphPage() {
       }
     };
     fetchData();
-  }, []);
+  }, [searchParams]);
 
   const filteredData = useMemo(() => {
     let nodes = data.nodes;
@@ -42,20 +49,11 @@ function GraphPage() {
       nodes = nodes.filter(n => n.type === typeFilter);
     }
 
-    if (searchQuery) {
-      const q = searchQuery.toLowerCase();
-      nodes = nodes.filter(n => 
-        n.label.toLowerCase().includes(q) || 
-        n.epithets?.some(e => e.toLowerCase().includes(q)) ||
-        n.sanskrit?.includes(q)
-      );
-    }
-
     const nodeIds = new Set(nodes.map(n => n.id));
     links = links.filter(l => nodeIds.has(l.source?.id || l.source) && nodeIds.has(l.target?.id || l.target));
 
     return { nodes, links };
-  }, [data, yugaFilter, typeFilter, searchQuery]);
+  }, [data, yugaFilter, typeFilter]);
 
   const selectedNode = useMemo(() => 
     data.nodes.find(n => n.id === selectedNodeId),
@@ -84,6 +82,7 @@ function GraphPage() {
         data={filteredData} 
         onSelectNode={handleSelectNode}
         selectedNodeId={selectedNodeId}
+        searchQuery={searchQuery}
       />
 
       <Legend />

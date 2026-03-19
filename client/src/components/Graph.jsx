@@ -10,7 +10,7 @@ const COLORS = {
   celestial: '#9a6ed4',  // Celestial
 };
 
-function Graph({ data, onSelectNode, selectedNodeId }) {
+function Graph({ data, onSelectNode, selectedNodeId, searchQuery }) {
   const svgRef = useRef(null);
   const simulationRef = useRef(null);
   const gRef = useRef(null);
@@ -34,15 +34,18 @@ function Graph({ data, onSelectNode, selectedNodeId }) {
       .on('zoom', (event) => g.attr('transform', event.transform));
 
     svg.call(zoom);
+    svg.on('touchstart', (e) => e.preventDefault(), { passive: false });
 
     // Initial transform to center the graph
-    svg.call(zoom.transform, d3.zoomIdentity.translate(width / 2, height / 2).scale(.4));
+    svg.call(zoom.transform, d3.zoomIdentity.translate(width / 2, height / 2).scale(.65));
+
+    const isMobile = window.innerWidth < 768;
 
     const simulation = d3.forceSimulation(data.nodes)
       .force('link', d3.forceLink(data.links).id(d => d.id).distance(120).strength(1))
-      .force('charge', d3.forceManyBody().strength(-400))
+      .force('charge', d3.forceManyBody().strength(isMobile ? -200 : -400))
       .force('center', d3.forceCenter(0, 0))
-      .force('collision', d3.forceCollide().radius(d => d.size + 15));
+      .force('collision', d3.forceCollide().radius(d => d.size + (isMobile ? 15 : 25)));
 
     simulationRef.current = simulation;
 
@@ -123,6 +126,7 @@ function Graph({ data, onSelectNode, selectedNodeId }) {
     });
 
     function dragstarted(event) {
+      if (event.sourceEvent) event.sourceEvent.stopPropagation();
       if (!event.active) simulation.alphaTarget(0.3).restart();
       event.subject.fx = event.subject.x;
       event.subject.fy = event.subject.y;
@@ -162,6 +166,20 @@ function Graph({ data, onSelectNode, selectedNodeId }) {
       .style('stroke-opacity', d => (d.source.id === selectedNodeId || d.target.id === selectedNodeId) ? 1 : .32)
       .style('stroke-width', d => (d.source.id === selectedNodeId || d.target.id === selectedNodeId) ? 2.5 : 1.5);
   }, [selectedNodeId]);
+
+  useEffect(() => {
+    if (!gRef.current) return;
+    const q = (searchQuery || '').toLowerCase().trim();
+    d3.select(gRef.current).selectAll('.node-group')
+      .style('opacity', d => {
+        if (!q) return 1;
+        const match = d.label.toLowerCase().includes(q) ||
+          (d.epithets||[]).some(e => e.toLowerCase().includes(q)) ||
+          (d.desc||'').toLowerCase().includes(q) ||
+          (d.sanskrit||'').toLowerCase().includes(q);
+        return match ? 1 : 0.08;
+      });
+  }, [searchQuery]);
 
   return (
     <div className="graph-container">

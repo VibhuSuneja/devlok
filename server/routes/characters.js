@@ -14,6 +14,18 @@ router.get('/', async (req, res) => {
   }
 });
 
+// GET /api/characters/:id/og — public
+router.get('/:id/og', async (req, res) => {
+  try {
+    const character = await Character.findOne({ id: req.params.id }).lean();
+    if (!character) return res.status(404).json({ message: 'Character not found' });
+    const { label, sanskrit, epithets, desc, type, yuga } = character;
+    res.json({ label, sanskrit, epithets, desc, type, yuga });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 // GET /api/characters/:id — public
 router.get('/:id', async (req, res) => {
   try {

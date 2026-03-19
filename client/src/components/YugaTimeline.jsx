@@ -1,11 +1,11 @@
 import React from 'react';
 
 const YUGAS = [
+  { id: 'all', name: 'All Yugas', sub: 'Complete Cosmos', yrs: 'Eternal' },
   { id: 'satya', name: 'Satya', sub: 'The Age of Truth', yrs: '1.72M Yrs' },
   { id: 'treta', name: 'Treta', sub: 'The Age of Three', yrs: '1.29M Yrs' },
   { id: 'dvapara', name: 'Dvapara', sub: 'The Age of Two', yrs: '864k Yrs' },
   { id: 'kali', name: 'Kali', sub: 'The Age of Darkness', yrs: '432k Yrs' },
-  { id: 'all', name: 'The Cycle', sub: 'Maha Yuga', yrs: 'Eternal Time' },
 ];
 
 function YugaTimeline({ activeYuga, setYuga }) {
