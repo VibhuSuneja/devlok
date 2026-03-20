@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import axios from '../api/axios.js';
 import Graph from '../components/Graph.jsx';
@@ -19,7 +19,12 @@ function GraphPage() {
   const [typeFilter, setTypeFilter] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [tooltip, setTooltip] = useState({ visible: false, x: 0, y: 0, node: null });
-  const [showIntro, setShowIntro] = useState(true);
+  const [showIntro, setShowIntro] = useState(() => {
+    // Check if user has already entered the site before
+    return !localStorage.getItem('hasSeenIntro');
+  });
+  const [isPanelOpen, setIsPanelOpen] = useState(false);
+  const unselectTimerRef = useRef(null);
   const [searchParams] = useSearchParams();
 
   useEffect(() => {
@@ -31,6 +36,7 @@ function GraphPage() {
         const focusId = searchParams.get('focus');
         if (focusId) {
           setSelectedNodeId(focusId);
+          setIsPanelOpen(true);
         }
       } catch (err) {
         console.error('Fetch error:', err);
@@ -39,6 +45,12 @@ function GraphPage() {
       }
     };
     fetchData();
+
+    return () => {
+      if (unselectTimerRef.current) {
+        clearTimeout(unselectTimerRef.current);
+      }
+    };
   }, [searchParams]);
 
   const filteredData = useMemo(() => {
@@ -67,13 +79,38 @@ function GraphPage() {
     selectedNodeId ? data.links.filter(l => (l.source?.id || l.source) === selectedNodeId || (l.target?.id || l.target) === selectedNodeId) : [],
   [data.links, selectedNodeId]);
 
-  const handleSelectNode = React.useCallback((id) => {
+  const handleSelectNode = useCallback((id) => {
+    if (unselectTimerRef.current) {
+      clearTimeout(unselectTimerRef.current);
+      unselectTimerRef.current = null;
+    }
     setSelectedNodeId(id);
+    setIsPanelOpen(!!id);
+  }, []);
+
+  const handleClosePanel = useCallback(() => {
+    setIsPanelOpen(false);
+    
+    if (unselectTimerRef.current) {
+      clearTimeout(unselectTimerRef.current);
+    }
+    
+    unselectTimerRef.current = setTimeout(() => {
+      setSelectedNodeId(null);
+      unselectTimerRef.current = null;
+    }, 3000); // Wait for 3 seconds
   }, []);
 
   return (
     <div className="graph-viewer">
-      {showIntro && <IntroOverlay onEnter={() => setShowIntro(false)} />}
+      {showIntro && (
+        <IntroOverlay 
+          onEnter={() => {
+            setShowIntro(false);
+            localStorage.setItem('hasSeenIntro', 'true');
+          }} 
+        />
+      )}
       <Loader visible={loading} />
       
       <Header 
@@ -100,11 +137,11 @@ function GraphPage() {
       />
 
       <DetailPanel 
-        node={selectedNode} 
+        node={isPanelOpen ? selectedNode : null} 
         links={relatedLinks}
         allNodes={data.nodes}
-        onClose={() => setSelectedNodeId(null)}
-        onSelectNode={id => setSelectedNodeId(id)}
+        onClose={handleClosePanel}
+        onSelectNode={handleSelectNode}
       />
 
       <Tooltip 

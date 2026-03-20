@@ -9,6 +9,82 @@ const COLORS = {
   celestial: '#9a6ed4',
 };
 
+// Returns the correct label from the perspective of currentNodeId
+// If currentNode is the source, use the label as-is.
+// If currentNode is the target, return the semantic inverse.
+function getEffectiveLabel(link, currentNodeId, otherNode) {
+  const isSource = (link.source?.id || link.source) === currentNodeId;
+  if (isSource) return link.label;
+
+  // Target-side: compute the inverse label
+  const otherType = otherNode?.type;
+  const otherIsDevi = otherType === 'devi';
+  // For "Son of" inversion: the "other" node (the source) is the parent.
+  // Determine if parent is likely female (devi) to say "Mother of" vs "Father of".
+  const otherIsDeviSource = otherIsDevi;
+
+  const childLabel = otherIsDevi ? 'Daughter' : 'Son';
+  const parentLabel = otherIsDeviSource ? 'Mother of' : 'Father of';
+
+  const INVERSE_MAP = {
+    // Spousal
+    'Husband':          'Wife',
+    'Wife of':          'Husband of',
+    'Consort':          'Consort',
+    'First Consort':    'First Consort',
+    'Divine Love':      'Divine Love',
+    // Parentage
+    'Father':           childLabel,
+    'Mother':           childLabel,
+    'Son of':           parentLabel,
+    'Grandfather':      'Grandchild',
+    // Siblings (symmetric)
+    'Brother':          'Brother',
+    'Half-brother':     'Half-brother',
+    // Spiritual
+    'Guru':             'Student',
+    'Family Guru':      'Student',
+    'Avatar':           'Incarnation of',
+    // Actions (conflict)
+    'Slays':            'Slain by',
+    'Slain by':         'Slays',
+    'Abducts':          'Abducted by',
+    'Fell to':          'Defeated',
+    'Seduces':          'Seduced by',
+    'Cursed':           'Cursed by',
+    'Curses':           'Cursed by',
+    'Cursed by':        'Cursed',
+    'Fought':           'Fought by',
+    'Enemies':          'Enemies',
+    'Rivals':           'Rivals',
+    // Divine roles
+    'Charioteer':       'Rider',
+    'Vehicle':          'Rider',
+    'Devoted to':       'Devotee',
+    'Manifestation':    'Manifested into',
+    'Born from':        'Source',
+    'Reborn as':        'Previous life',
+    'Scribe for':       'Author',
+    // Alliance
+    'Allied with':      'Allied with',
+    'Loyal to':         'Receives loyalty from',
+    'Commander':        'Commanded by',
+    // Specific acts
+    'Sheltered':        'Sheltered by',
+    'Inspired':         'Inspired by',
+    'Blessed':          'Blessed by',
+    'Gave mantra':      'Received mantra from',
+    'Died protecting':  'Protected by',
+    'Demanded thumb':   'Gave thumb to',
+    'Vamana defeats':   'Defeated by Vamana',
+    'Built Lanka for':  'Built by Vishwakarma',
+    'Built Dwarka for': 'Built by Vishwakarma',
+    'Trinity':          'Trinity',
+  };
+
+  return INVERSE_MAP[link.label] ?? link.label;
+}
+
 function DetailPanel({ node, links, allNodes, onClose, onSelectNode }) {
   const [copied, setCopied] = React.useState(false);
   
@@ -77,7 +153,7 @@ function DetailPanel({ node, links, allNodes, onClose, onSelectNode }) {
                       onClick={() => onSelectNode(otherNode.id)}
                     >
                       <span className="relation-dot" style={{ background: COLORS[otherNode.type] }} />
-                      <span className="relation-type">{l.label}</span>
+                      <span className="relation-type">{getEffectiveLabel(l, node.id, otherNode)}</span>
                       <span className="relation-name">{otherNode.label}</span>
                       <span className="relation-arrow">→</span>
                     </div>
