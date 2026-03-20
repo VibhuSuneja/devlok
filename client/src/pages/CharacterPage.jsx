@@ -8,6 +8,12 @@ function CharacterPage() {
   const [character, setCharacter] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [copied, setCopied] = useState(false);
+
+  const COLORS = {
+    deva: '#d4973a', devi: '#c45c8a', hero: '#5c8ac4',
+    sage: '#5cb88a', asura: '#c45c5c', celestial: '#9a6ed4'
+  };
 
   useEffect(() => {
     const fetchChar = async () => {
@@ -45,10 +51,21 @@ function CharacterPage() {
 
   const handleShare = () => {
     navigator.clipboard.writeText(window.location.href);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
   };
 
-  if (loading) return <div style={{ color: "white", padding: "2rem" }}>Loading...</div>;
-  if (error || !character) return <div style={{ color: "white", padding: "2rem" }}>This being has not yet been mapped.</div>;
+  if (loading) return (
+    <div style={{ position:'fixed', inset:0, background:'var(--void)', display:'flex', alignItems:'center', justifyContent:'center' }}>
+      <div style={{ fontFamily:'"Cinzel Decorative", serif', color:'var(--amber-glow)', fontSize:'1rem', letterSpacing:'.3em' }}>Summoning...</div>
+    </div>
+  );
+  if (error || !character) return (
+    <div style={{ position:'fixed', inset:0, background:'var(--void)', display:'flex', alignItems:'center', justifyContent:'center', flexDirection:'column', gap:'20px' }}>
+      <div style={{ fontFamily:'"Cinzel Decorative", serif', color:'var(--text-dim)', fontSize:'.9rem', letterSpacing:'.2em' }}>This being has not yet been mapped.</div>
+      <button onClick={() => navigate('/')} style={{ background:'transparent', border:'1px solid var(--amber-dim)', color:'var(--amber)', padding:'8px 20px', cursor:'pointer', fontFamily:'"Cormorant Garamond", serif', fontSize:'.85rem', letterSpacing:'.15em', textTransform:'uppercase' }}>← Return to the Map</button>
+    </div>
+  );
 
   return (
     <div style={{
@@ -72,17 +89,17 @@ function CharacterPage() {
         </h2>
         
         <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', marginBottom: '2rem' }}>
-          <div className="panel-yuga-badge" style={{ padding: '0.3rem 0.8rem', borderRadius: '4px', fontSize: '0.85rem', textTransform: 'uppercase', border: '1px solid currentColor', color: '#d4973a' }}>
+          <div className="panel-yuga-badge" style={{ padding: '0.3rem 0.8rem', borderRadius: '4px', fontSize: '0.85rem', textTransform: 'uppercase', border: '1px solid currentColor', color: COLORS[character.type] }}>
             {character.yuga} yuga
           </div>
-          <div className="panel-type-badge" style={{ padding: '0.3rem 0.8rem', borderRadius: '4px', fontSize: '0.85rem', textTransform: 'uppercase', border: '1px solid currentColor', color: '#d4973a' }}>
+          <div className="panel-type-badge" style={{ padding: '0.3rem 0.8rem', borderRadius: '4px', fontSize: '0.85rem', textTransform: 'uppercase', border: '1px solid currentColor', color: COLORS[character.type] }}>
             {character.type}
           </div>
         </div>
 
         <div className="panel-epithets" style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', justifyContent: 'center', marginBottom: '2rem' }}>
           {character.epithets?.map(e => (
-            <span key={e} className="epithet-tag" style={{ color: '#e8d5a3', border: '1px solid rgba(232,213,163,0.3)', padding: '0.3rem 0.8rem', borderRadius: '20px', fontSize: '0.85rem' }}>
+            <span key={e} className="epithet-tag" style={{ color: COLORS[character.type], border: `1px solid ${COLORS[character.type]}44`, padding: '0.3rem 0.8rem', borderRadius: '20px', fontSize: '0.85rem' }}>
               {e}
             </span>
           ))}
@@ -107,7 +124,7 @@ function CharacterPage() {
           <button 
             onClick={handleShare}
             style={{ padding: '0.8rem 1.5rem', background: 'transparent', color: 'var(--amber-glow, #d4973a)', border: '1px solid var(--amber-glow, #d4973a)', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold', letterSpacing: '1px', textTransform: 'uppercase', fontSize: '0.9rem' }}>
-            Share Link
+            {copied ? 'Copied!' : 'Share Link'}
           </button>
         </div>
       </div>
