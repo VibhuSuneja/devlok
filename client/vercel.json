@@ -1,1 +1,21 @@
-{ "rewrites": [{ "source": "/(.*)", "destination": "/" }] }
+{
+  "rewrites": [
+    {
+      "source": "/ingest/static/:path*",
+      "destination": "https://us.i.posthog.com/static/:path*"
+    },
+    {
+      "source": "/ingest/:path*",
+      "destination": "https://us.i.posthog.com/:path*"
+    },
+    {
+      "source": "/ingest/decide/:path*",
+      "destination": "https://us.i.posthog.com/decide/:path*"
+    },
+    {
+      "source": "/((?!api|ingest|static|favicon.ico|_next).*)",
+      "destination": "/index.html"
+    }
+  ]
+}
+
