@@ -1,4 +1,5 @@
 import React from 'react';
+import posthog from 'posthog-js';
 import storyArcs from '../data/storyArcs.json';
 
 function ArcSelector({ activeArcId, setActiveArcId }) {
@@ -16,7 +17,10 @@ function ArcSelector({ activeArcId, setActiveArcId }) {
           <button 
             key={arc.id} 
             className={`arc-btn ${activeArcId === arc.id ? 'active' : ''}`}
-            onClick={() => setActiveArcId(arc.id)}
+            onClick={() => {
+              setActiveArcId(arc.id);
+              posthog.capture('story_arc_selected', { arc_id: arc.id, arc_name: arc.name });
+            }}
             title={arc.desc}
           >
             {arc.name}
