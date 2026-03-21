@@ -122,6 +122,36 @@ header {
 .filter-btn.active { color: var(--amber-glow); border-color: var(--amber); background: rgba(212,151,58,.10); }
 
 /* Admin link */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-shrink: 0;
+}
+
+.today-link {
+  font-size: .65rem;
+  color: var(--amber-glow);
+  text-decoration: none;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border: 1px solid var(--amber-dim);
+  border-radius: 2px;
+  background: rgba(212,151,58,.08);
+  transition: all .3s;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.today-link:hover {
+  background: rgba(212,151,58,.18);
+  border-color: var(--amber);
+  box-shadow: 0 0 12px rgba(240,184,74,.2);
+  text-shadow: 0 0 8px rgba(240,184,74,.4);
+}
+
 .admin-link {
   font-size: .65rem;
   color: var(--text-dim);

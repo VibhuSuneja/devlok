@@ -17,7 +17,10 @@ function Header({ typeFilter, setTypeFilter, searchQuery, setSearchQuery }) {
         <FilterBar filter={typeFilter} setFilter={setTypeFilter} />
       </div>
 
-      <Link to="/admin" className="admin-link">Access Core</Link>
+      <div className="header-actions">
+        <Link to="/today" className="today-link">🔥 Daily Concept</Link>
+        <Link to="/admin" className="admin-link">Access Core</Link>
+      </div>
     </header>
   );
 }

@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&amp;family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&amp;family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&amp;family=Noto+Serif:ital,wght@0,100..900;1,100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-variant": "#373245",
+              "surface-tint": "#f6bd4f",
+              "on-secondary": "#00315c",
+              "on-error-container": "#ffdad6",
+              "on-primary-fixed": "#271900",
+              "secondary": "#a2c9ff",
+              "on-primary-fixed-variant": "#5e4200",
+              "surface-dim": "#151122",
+              "outline": "#9d8e7d",
+              "on-surface": "#e8d5a3",
+              "error": "#ffb4ab",
+              "tertiary-container": "#ef7faf",
+              "on-secondary-container": "#8ab8f5",
+              "primary-container": "#ce9a2e",
+              "surface-bright": "#3b3749",
+              "background": "#04020f",
+              "inverse-surface": "#e7dff7",
+              "outline-variant": "#514537",
+              "inverse-primary": "#7c5800",
+              "surface-container-highest": "#373245",
+              "surface": "#04020f",
+              "on-background": "#e8d5a3",
+              "inverse-on-surface": "#322e40",
+              "secondary-container": "#0c487e",
+              "on-surface-variant": "#d5c4b1",
+              "on-error": "#690005",
+              "on-secondary-fixed": "#001c38",
+              "tertiary-fixed-dim": "#ffb0ce",
+              "on-tertiary-fixed-variant": "#7e2350",
+              "surface-container-low": "#080520",
+              "surface-container": "#211d2e",
+              "tertiary-fixed": "#ffd9e5",
+              "on-tertiary-fixed": "#3e0022",
+              "tertiary": "#ffb0ce",
+              "on-primary": "#412d00",
+              "error-container": "#93000a",
+              "primary-fixed": "#ffdea7",
+              "secondary-fixed-dim": "#a2c9ff",
+              "on-secondary-fixed-variant": "#0c487e",
+              "surface-container-high": "#2c2739",
+              "surface-container-lowest": "#020108",
+              "on-primary-container": "#4c3500",
+              "secondary-fixed": "#d3e4ff",
+              "primary": "#f6bd4f",
+              "primary-fixed-dim": "#f6bd4f",
+              "on-tertiary": "#610839",
+              "on-tertiary-container": "#6c1442"
+            },
+            fontFamily: {
+              "headline": ["Cinzel Decorative"],
+              "body": ["Cormorant Garamond"],
+              "label": ["Cormorant Garamond"]
+            },
+            borderRadius: {"DEFAULT": "2px", "lg": "4px", "xl": "8px", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #04020f;
+            color: #e8d5a3;
+            font-family: 'Cormorant Garamond', serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .cinzel { font-family: 'Cinzel Decorative', cursive; }
+        .cormorant { font-family: 'Cormorant Garamond', serif; }
+        .letter-spacing-ritual { letter-spacing: 0.3em; }
+        .glass-panel {
+            backdrop-filter: blur(20px);
+            background: rgba(8, 5, 32, 0.6);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="selection:bg-primary/30 selection:text-primary">
+<!-- Top Navigation Shell -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-6 h-16 bg-[#04020f]/40 backdrop-blur-md border-b-[0.5px] border-[#f6bd4f]/15">
+<div class="flex items-center gap-4">
+<button class="text-[#f6bd4f] hover:bg-[#f6bd4f]/10 p-2 transition-all active:scale-95 duration-200">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<h1 class="text-xl font-bold tracking-[0.4em] text-[#f6bd4f] cinzel uppercase">DEVLOK ARCHIVE</h1>
+</div>
+<div class="flex items-center gap-2">
+<button class="text-[#f6bd4f] hover:bg-[#f6bd4f]/10 p-2 transition-all active:scale-95 duration-200">
+<span class="material-symbols-outlined">share</span>
+</button>
+</div>
+</header>
+<main class="relative min-h-screen">
+<!-- Full-Bleed Cosmic Header -->
+<section class="relative h-[751px] w-full flex flex-col items-center justify-center text-center px-4 overflow-hidden">
+<!-- Background Image with Nebula Effect -->
+<div class="absolute inset-0 z-0">
+<img class="w-full h-full object-cover opacity-60" data-alt="Deep space nebula with swirling gold and purple cosmic dust" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBrN0m8AZJNh-ORPoX_peZHtljpFw_0nhHyhProA7TV8Qc1FjtTpEBey92z8nfBDLaiscMkJfqeyyvOcnBxkwMTuLXf6reWD3AYRLgnzQrCi68Kz_P-XQ2sf_PlPEQCtLXgoikB7S2xIG52WfCV4YPxXOXdhE-b7EbkB_kliO3fCEBk5Qhde5hpE7lGiOjtsitsUzs6W3hUGWckWTpF6nvU4EgNIqxYwkfQlQ8cRcK1qC5vzDUlx7z6hEM1Ow4Ho56rTpMwqGvkvox2"/>
+<div class="absolute inset-0 bg-gradient-to-t from-[#04020f] via-transparent to-[#04020f]/50"></div>
+<div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_transparent_0%,_#04020f_100%)] opacity-80"></div>
+</div>
+<!-- Content Overlay -->
+<div class="relative z-10 max-w-5xl">
+<span class="text-[#f6bd4f] cinzel text-sm md:text-base font-bold tracking-[0.5em] uppercase mb-6 block opacity-80">CONSTRUCTION OF COSMOS</span>
+<h2 class="cinzel text-5xl md:text-8xl lg:text-9xl text-[#f6bd4f] font-black tracking-tight leading-tight mb-8">
+                    HIRANYAGARBHA
+                </h2>
+<div class="flex items-center justify-center gap-8 border-y border-[#f6bd4f]/20 py-4 max-w-2xl mx-auto">
+<div class="flex flex-col">
+<span class="text-[10px] cinzel tracking-[0.3em] text-[#f6bd4f]/60 uppercase">Origin</span>
+<span class="text-lg italic">The Golden Womb</span>
+</div>
+<div class="w-[1px] h-10 bg-[#f6bd4f]/20"></div>
+<div class="flex flex-col">
+<span class="text-[10px] cinzel tracking-[0.3em] text-[#f6bd4f]/60 uppercase">Domain</span>
+<span class="text-lg italic">Creation</span>
+</div>
+</div>
+</div>
+<!-- Downward Indicator -->
+<div class="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-50">
+<span class="text-[10px] tracking-[0.4em] uppercase cinzel">Scroll to Transcend</span>
+<span class="material-symbols-outlined animate-bounce">expand_more</span>
+</div>
+</section>
+<!-- Reading Flow Content -->
+<section class="relative bg-[#04020f] z-20 pt-24 pb-32">
+<article class="max-w-3xl mx-auto px-6">
+<!-- Introductory Scribe Note -->
+<div class="mb-20 text-center">
+<p class="text-2xl md:text-3xl font-light leading-relaxed italic text-[#e8d5a3]/90 first-letter:text-7xl first-letter:font-bold first-letter:text-[#f6bd4f] first-letter:mr-3 first-letter:float-left first-letter:cinzel">
+                        Before the stars were scattered like salt across the dark expanse, there existed only the Hiranyagarbha—the cosmic egg that floated in the causal waters of the unmanifested universe.
+                    </p>
+</div>
+<!-- Reading Body -->
+<div class="space-y-12 text-lg md:text-xl leading-[1.8] text-[#e8d5a3]/80">
+<p>
+                        In the Rig Veda, the Hiranyagarbha is hailed as the source of all existence. It is not merely a physical object, but the latent potential of all consciousness, heat, and matter condensed into a singular, radiant point of amber light.
+                    </p>
+<div class="py-12 px-8 bg-surface-container-low border-l-2 border-[#f6bd4f]/40 relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-8xl">auto_stories</span>
+</div>
+<h4 class="cinzel text-[#f6bd4f] text-sm tracking-[0.3em] uppercase mb-4">Mantra Extraction</h4>
+<blockquote class="text-2xl italic font-medium leading-snug">
+                            "In the beginning was the Golden Womb, the Lord of all that is, the sole sustainer of earth and heaven."
+                        </blockquote>
+<cite class="block mt-4 text-xs tracking-[0.2em] uppercase cinzel text-[#f6bd4f]/60">— Rig Veda 10.121</cite>
+</div>
+<p>
+                        As the shell fractured under the pressure of divine will (Sankalpa), the universe began its expansion. The upper half of the golden shell became the heavens (Akasha), while the lower half solidified into the earth (Prithvi). Between them, the breath of life—Prana—began to circulate, giving rise to the first deity, Brahma, the architect of worlds.
+                    </p>
+<p>
+                        Philosophically, this concept mirrors the modern Big Bang theory, yet adds a layer of consciousness. The Archive suggests that we are all fragments of that original golden light, perpetually seeking to return to the unity of the womb.
+                    </p>
+</div>
+<!-- Metadata Footer -->
+<div class="mt-24 pt-12 border-t border-[#f6bd4f]/10 flex flex-wrap gap-4 items-center justify-between">
+<div class="flex gap-2">
+<span class="px-4 py-1 bg-surface-container-high text-[10px] tracking-[0.2em] cinzel text-[#f6bd4f] uppercase border border-[#f6bd4f]/10">VEDIC</span>
+<span class="px-4 py-1 bg-surface-container-high text-[10px] tracking-[0.2em] cinzel text-[#f6bd4f] uppercase border border-[#f6bd4f]/10">COSMOLOGY</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="text-[10px] tracking-[0.2em] cinzel uppercase text-[#e8d5a3]/40">Last Updated: Satya Yuga</span>
+</div>
+</div>
+</article>
+</section>
+<!-- Related Beings & Rituals -->
+<section class="bg-surface-container-lowest py-24 px-6 border-t border-[#f6bd4f]/5">
+<div class="max-w-6xl mx-auto">
+<header class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+<div>
+<h3 class="cinzel text-3xl text-[#f6bd4f] mb-2 uppercase tracking-[0.2em]">Related Beings</h3>
+<p class="text-[#e8d5a3]/60 max-w-md">Entities tethered to the emergence of the Golden Womb through lineage or function.</p>
+</div>
+<button class="bg-[#f6bd4f] text-[#04020f] px-8 py-3 text-sm font-bold tracking-[0.3em] cinzel uppercase hover:shadow-[0_0_20px_rgba(246,189,79,0.3)] transition-all active:scale-95">
+                        EXPLORE MAP
+                    </button>
+</header>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Being Card 1 -->
+<div class="group bg-[#080520] border border-[#f6bd4f]/10 p-1 hover:border-[#f6bd4f]/30 transition-all">
+<div class="relative h-64 overflow-hidden">
+<img class="w-full h-full object-cover grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-80 transition-all duration-700" data-alt="Abstract golden silhouette of a four-headed creator deity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCeke7fMjzmL1OWflJKrVtbTFiwFLusNND8EJQ5PPv_8Vwl0rOEV9WR_jc8n1z0D8QsCDlboPDwIigrNCCg8p_iQ6YOX_-8nP-m6_yROd9AZainMxyXVqOb9zEtRfxC5lPLRAf3U81s8RDJBdMvNfdDha5Fs-xFJQPuoI_Lw2Lbs9U4CgsTNrGrfFoooRtHqGPDEbWFTSkxhdRy2SskA1oFmH5K5pgNZCstiKpDGIJAiqiD0FKvktZdH6M4C_iSbTBBEeQonRS2t68T"/>
+<div class="absolute inset-0 bg-gradient-to-t from-[#080520] to-transparent"></div>
+<div class="absolute bottom-6 left-6">
+<span class="text-[10px] tracking-[0.3em] cinzel text-[#f6bd4f] uppercase mb-1 block">The Architect</span>
+<h5 class="text-2xl font-semibold text-[#e8d5a3]">Brahma</h5>
+</div>
+</div>
+</div>
+<!-- Being Card 2 -->
+<div class="group bg-[#080520] border border-[#f6bd4f]/10 p-1 hover:border-[#f6bd4f]/30 transition-all">
+<div class="relative h-64 overflow-hidden">
+<img class="w-full h-full object-cover grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-80 transition-all duration-700" data-alt="Swirling purple and blue celestial galaxy" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCDZL_JZbv5eVaW2dAaI9TKUNAp_U-jrUB3VbAPOn_C4W44l3O0-GzHNQTu1cuoKT6eP_jIm330L-15BeOVNeyW95a0pK95agGMq9KCRURkdbkOg8qjQN0I10klG4_YhujGHpACkWQc36ZQefE0bqtcno_1oYxYM_42-qF3be8pyi-Qavl6FFMSfsSjkeDBh2ISvWZNSvD9re-53jB1qU5OHaJZ565e2zNUEkhV-4ikCHvAhWoPayms5VbG2FCKUHcNH32SK8R5y8wM"/>
+<div class="absolute inset-0 bg-gradient-to-t from-[#080520] to-transparent"></div>
+<div class="absolute bottom-6 left-6">
+<span class="text-[10px] tracking-[0.3em] cinzel text-[#f6bd4f] uppercase mb-1 block">The Void</span>
+<h5 class="text-2xl font-semibold text-[#e8d5a3]">Shunya</h5>
+</div>
+</div>
+</div>
+<!-- Being Card 3 -->
+<div class="group bg-[#080520] border border-[#f6bd4f]/10 p-1 hover:border-[#f6bd4f]/30 transition-all">
+<div class="relative h-64 overflow-hidden">
+<img class="w-full h-full object-cover grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-80 transition-all duration-700" data-alt="Abstract depiction of water meeting cosmic light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA4giHznO6RrcRwTTAahs6-L-6gm6IFpRlvrWryZT5le4ApudBqH_MjrJ9kmwfekYH5RW-Xc5gxZ5SMks2tpFVjB20txV-o49h02yyJnndFUz4CO_f-5HvYgz3Xyu8NAKBkXMmzvtFmG_iX3kTBWQhMmTQcRIq3QsQtjjONsqKG2RljvIPoBtFys97uyEpfP1TJ0fzaCvyLVxpKqFBbKTqNCNL1FEVi-esTASwNzxODtB3gGtdolVqlqgmKwFdYxcK1RQLm020CYbyE"/>
+<div class="absolute inset-0 bg-gradient-to-t from-[#080520] to-transparent"></div>
+<div class="absolute bottom-6 left-6">
+<span class="text-[10px] tracking-[0.3em] cinzel text-[#f6bd4f] uppercase mb-1 block">The Waters</span>
+<h5 class="text-2xl font-semibold text-[#e8d5a3]">Narayana</h5>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Social Engagement Footer -->
+<section class="py-24 text-center bg-[#04020f] border-t border-[#f6bd4f]/5">
+<h4 class="cinzel text-[#f6bd4f]/60 text-xs tracking-[0.5em] uppercase mb-12">Commune with the Archive</h4>
+<div class="flex flex-wrap justify-center gap-6">
+<button class="flex items-center gap-3 px-8 py-4 border border-[#f6bd4f]/20 hover:bg-[#f6bd4f]/5 transition-all group">
+<span class="material-symbols-outlined text-[#f6bd4f]">share</span>
+<span class="cinzel text-xs tracking-[0.3em] uppercase">Disseminate</span>
+</button>
+<button class="flex items-center gap-3 px-8 py-4 border border-[#f6bd4f]/20 hover:bg-[#f6bd4f]/5 transition-all group">
+<span class="material-symbols-outlined text-[#f6bd4f]">bookmark</span>
+<span class="cinzel text-xs tracking-[0.3em] uppercase">Scribe to Heart</span>
+</button>
+<button class="flex items-center gap-3 px-8 py-4 border border-[#f6bd4f]/20 hover:bg-[#f6bd4f]/5 transition-all group">
+<span class="material-symbols-outlined text-[#f6bd4f]">chat_bubble</span>
+<span class="cinzel text-xs tracking-[0.3em] uppercase">Deliberate</span>
+</button>
+</div>
+</section>
+</main>
+<!-- Bottom Navigation Shell -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 h-20 pb-safe bg-[#080520]/80 backdrop-blur-xl border-t border-[#f6bd4f]/10 shadow-[0px_-4px_20px_rgba(4,2,15,0.8)]">
+<a class="flex flex-col items-center justify-center text-[#f6bd4f] bg-[#f6bd4f]/5 rounded-sm py-1 shadow-[inset_0_-2px_0_#f6bd4f] px-4 group transition-transform active:translate-y-[-2px]" href="#">
+<span class="material-symbols-outlined mb-1">auto_stories</span>
+<span class="font-['Cormorant_Garamond'] text-[10px] uppercase tracking-[0.3em] font-bold">ARCHIVE</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#e8d5a3]/50 hover:text-[#e8d5a3] px-4 group hover:bg-[#f6bd4f]/5 transition-colors" href="#">
+<span class="material-symbols-outlined mb-1">explore</span>
+<span class="font-['Cormorant_Garamond'] text-[10px] uppercase tracking-[0.3em] font-bold">CONSTELLATIONS</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#e8d5a3]/50 hover:text-[#e8d5a3] px-4 group hover:bg-[#f6bd4f]/5 transition-colors" href="#">
+<span class="material-symbols-outlined mb-1">brightness_7</span>
+<span class="font-['Cormorant_Garamond'] text-[10px] uppercase tracking-[0.3em] font-bold">RITUALS</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#e8d5a3]/50 hover:text-[#e8d5a3] px-4 group hover:bg-[#f6bd4f]/5 transition-colors" href="#">
+<span class="material-symbols-outlined mb-1">edit_note</span>
+<span class="font-['Cormorant_Garamond'] text-[10px] uppercase tracking-[0.3em] font-bold">SCRIBE</span>
+</a>
+</nav>
+<!-- Custom Floating Decorative Element -->
+<div class="fixed top-1/2 right-4 -translate-y-1/2 hidden lg:flex flex-col gap-8 items-center opacity-30 hover:opacity-100 transition-opacity pointer-events-none">
+<div class="w-[1px] h-32 bg-gradient-to-t from-[#f6bd4f] to-transparent"></div>
+<div class="rotate-45 w-4 h-4 border border-[#f6bd4f]"></div>
+<div class="rotate-45 w-2 h-2 bg-[#f6bd4f]"></div>
+<div class="rotate-45 w-4 h-4 border border-[#f6bd4f]"></div>
+<div class="w-[1px] h-32 bg-gradient-to-b from-[#f6bd4f] to-transparent"></div>
+</div>
+</body></html>
