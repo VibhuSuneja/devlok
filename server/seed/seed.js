@@ -54,29 +54,47 @@ const characters = [
   { id: 'vyasa', label: 'Vyasa', type: 'sage', size: 18, filter: 'mahabharata', yuga: 'dvapara', sanskrit: 'व्यास', epithets: ['Veda Vyasa', 'Krishna Dvaipayana', 'Badarayana'], desc: "The sage who arranged the four Vedas, authored the Mahabharata (the longest poem ever written), composed all eighteen Puranas, and the Brahma Sutras. Simultaneously the story's author, narrator, and a participant as grandfather of both Pandavas and Kauravas.", source: 'Mahābhārata · Vishnu Purāṇa · Brahma Purāṇa' },
   { id: 'valmiki', label: 'Valmiki', type: 'sage', size: 15, filter: 'ramayana', yuga: 'treta', sanskrit: 'वाल्मीकि', epithets: ['Adikavi', 'First Poet'], desc: "A reformed bandit transformed by Narada's teaching who became the first Sanskrit poet. On seeing a hunter kill one bird of a mating pair, grief burst from him as the first shloka in all human literature. Brahma commanded him to write the entire Ramayana in that form.", source: 'Vālmīki Rāmāyaṇa · Uttara Kānda' },
   { id: 'narada', label: 'Narada', type: 'sage', size: 15, filter: 'purana', yuga: 'eternal', sanskrit: 'नारद', epithets: ['Devarshi', 'Cosmic Wanderer', 'Trilokacharya'], desc: 'The wandering celestial sage who travels the three worlds with his veena, chanting "Narayan." A divine provocateur who plants seeds of conflict and devotion — he inspired the Ramayana, guided Prahlada, and stands as the prototype of the journalist-sage.', source: 'Mahābhārata · Vishnu Purāṇa · Nārada Purāṇa' },
-  { id: 'vishwamitra', label: 'Vishwamitra', type: 'sage', size: 15, filter: 'ramayana', yuga: 'treta', sanskrit: 'विश्वामित्र', epithets: ['Kaushika', 'Brahmarshi', 'Gayatri Seer'], desc: "A warrior king who through the most grueling austerities in history transformed himself from Kshatriya to Brahmarshi, surpassing the sage Vasishtha. He trained Rama and Lakshmana in divine weapons and is the seer of the Gayatri mantra.", source: 'Vālmīki Rāmāyaṇa · Mahābhārata · Bāla Kānda' },
-  { id: 'vasishtha', label: 'Vasishtha', type: 'sage', size: 14, filter: 'ramayana', yuga: 'treta', sanskrit: 'वसिष्ठ', epithets: ['Brahmarshi', 'Raj Guru of Ayodhya'], desc: "The most celebrated of the seven primordial sages and family guru of Ayodhya's solar dynasty. His eternal rivalry with Vishwamitra defines one of the great arcs of Vedic literature. His divine cow Nandini could fulfill any wish.", source: 'Vālmīki Rāmāyaṇa · Yoga Vasishtha · Adi Parva' },
-  { id: 'agastya', label: 'Agastya', type: 'sage', size: 14, filter: 'purana', yuga: 'treta', sanskrit: 'अगस्त्य', epithets: ['Pitcherman', 'Father of Tamil Literature'], desc: "The sage who drank the entire ocean to expose hidden demons, subdued the Vindhya mountains by asking them to bow and stay bowed, and brought Sanskrit learning to South India. He gave Rama the Aditya Hridayam before the final battle.", source: 'Rāmāyaṇa · Mahābhārata · Padma Purāṇa' },
-  { id: 'parashurama', label: 'Parashurama', type: 'deva', size: 16, filter: 'purana', yuga: 'treta', sanskrit: 'परशुराम', epithets: ['Sixth Avatar', 'Brahmin Warrior', 'Jamadagnya'], desc: "The sixth avatar of Vishnu — an immortal Brahmin-warrior who vowed to rid the world of the warrior caste and fulfilled that vow twenty-one times over after a king killed his father. He trained Bhishma, Drona, and Karna in advanced warfare.", source: 'Mahābhārata · Vishnu Purāṇa · Brahma Purāṇa' },
-  { id: 'durvasa', label: 'Durvasa', type: 'sage', size: 13, filter: 'purana', yuga: 'eternal', sanskrit: 'दुर्वासा', epithets: ['Hot-tempered Sage', 'Shiva incarnation'], desc: "The most feared sage in the three worlds — a partial incarnation of Shiva whose blessings were matched by the terror of his curses. He gave Kunti the mantra for divine children, cursed Shakuntala to be forgotten, and sent a demon to chase Ambarisha across the cosmos.", source: 'Mahābhārata · Bhāgavata Purāṇa · Vishnu Purāṇa' },
-  { id: 'hiranyakashipu', label: 'Hiranyakashipu', type: 'asura', size: 17, filter: 'purana', yuga: 'satya', sanskrit: 'हिरण्यकशिपु', epithets: ['King of Asuras'], desc: "The demon king who received a boon making him immune to death by day or night, inside or outside, on earth or sky. He declared himself God and forbade Vishnu worship — but his own son Prahlada refused. Vishnu manifested as the man-lion Narasimha at dusk to destroy him.", source: 'Bhāgavata Purāṇa · Vishnu Purāṇa' },
-  { id: 'prahlada', label: 'Prahlada', type: 'hero', size: 14, filter: 'purana', yuga: 'satya', sanskrit: 'प्रह्लाद', epithets: ["Maha-Bhakta", "Vishnu's Beloved"], desc: "The child-devotee of Vishnu born to the demon king, thrown from mountains, set upon by elephants, immersed in boiling oil, made to sit in a bonfire — yet unshaken in devotion. His story is the archetype of divine grace protecting pure faith.", source: 'Bhāgavata Purāṇa · Narasimha Purāṇa' },
-  { id: 'mahishasura', label: 'Mahishasura', type: 'asura', size: 16, filter: 'purana', yuga: 'satya', sanskrit: 'महिषासुर', epithets: ['Buffalo Demon'], desc: "The shape-shifting buffalo demon who conquered the three worlds after receiving a boon that no man or god could kill him. The gods united their divine energies to create Durga specifically to defeat him. His defeat is celebrated every year at Navaratri.", source: 'Devi Māhātmya · Markandeya Purāṇa' },
-  { id: 'bali', label: 'King Bali', type: 'asura', size: 14, filter: 'purana', yuga: 'treta', sanskrit: 'बलि', epithets: ['Mahabali', 'Virtuous Asura King'], desc: "The most righteous demon king whose just rule made the gods envious. Vishnu as the dwarf Vamana asked for three paces of land, expanded to cover the universe in two steps, then pushed Bali to the underworld — but granted him immortality as a mark of divine respect.", source: 'Bhāgavata Purāṇa · Vamana Purāṇa' },
-  { id: 'tarakasura', label: 'Tarakasura', type: 'asura', size: 14, filter: 'purana', yuga: 'satya', sanskrit: 'तारकासुर', epithets: ['Demon of Obstacles'], desc: "The demon who could only be killed by Shiva's son — ensuring seeming invincibility while Shiva remained in celibate meditation after Sati's death. The gods engineered the birth of Kartikeya specifically to destroy him, making him the unwitting catalyst of a divine love story.", source: 'Skanda Purāṇa · Shiva Purāṇa' },
-  { id: 'kumbhakarna', label: 'Kumbhakarna', type: 'asura', size: 14, filter: 'ramayana', yuga: 'treta', sanskrit: 'कुम्भकर्ण', epithets: ["The Giant Sleeper", "Ravana's Brother"], desc: "Ravana's giant brother who asked Brahma for \"Indrapada\" (Indra's throne) but received \"Nidravati\" (eternal sleep) instead. Though he advised Ravana to return Sita, he fought for his brother out of loyalty and was slain by Rama.", source: 'Vālmīki Rāmāyaṇa · Yuddha Kānda' },
-  { id: 'vritra', label: 'Vritra', type: 'asura', size: 13, filter: 'vedic', yuga: 'satya', sanskrit: 'वृत्र', epithets: ['The Enveloper', 'Drought Serpent'], desc: "The primordial serpentine demon of drought who swallowed all the world's waters. The sage Dadhichi sacrificed himself so his spine could be forged into Indra's Vajra — the thunderbolt that finally shattered Vritra and released the rivers.", source: 'Rig Veda · Mahābhārata · Bhāgavata Purāṇa' },
-  { id: 'shishupala', label: 'Shishupala', type: 'asura', size: 12, filter: 'mahabharata', yuga: 'dvapara', sanskrit: 'शिशुपाल', epithets: ['King of Chedi', 'Jaya reborn'], desc: "King of Chedi born with three eyes and four arms. Krishna promised his mother to forgive him one hundred offenses. At Yudhishthira's Rajasuya yajna, Shishupala exhausted his hundred pardons with insults — and was killed by the Sudarshana Chakra.", source: 'Mahābhārata · Sabha Parva' },
-  { id: 'garuda', label: 'Garuda', type: 'celestial', size: 15, filter: 'purana', yuga: 'eternal', sanskrit: 'गरुड़', epithets: ['King of Birds', 'Vainateya', 'Nagantaka'], desc: "The magnificent eagle-king and vehicle of Vishnu. Born of sage Kashyapa and Vinata, Garuda is the eternal enemy of the Nagas. His quest to steal the nectar of immortality to free his enslaved mother from the serpents is one of the cosmos's great origin stories.", source: 'Mahābhārata · Garuda Purāṇa · Vishnu Purāṇa' },
-  { id: 'nandi', label: 'Nandi', type: 'celestial', size: 12, filter: 'purana', yuga: 'eternal', sanskrit: 'नन्दी', epithets: ["Shiva's Bull", 'Gatekeeper of Kailash'], desc: "The sacred bull and chief gatekeeper of Kailash, Shiva's most devoted attendant. Nandi guards Shiva's threshold and is said to still sit listening for Shiva's voice through sacred stones. He cursed Ravana's Lanka when Ravana insulted him.", source: 'Shiva Purāṇa · Skanda Purāṇa' },
-  { id: 'menaka', label: 'Menaka', type: 'celestial', size: 12, filter: 'purana', yuga: 'eternal', sanskrit: 'मेनका', epithets: ['Chief Apsara', "Vishwamitra's beloved"], desc: "The most beautiful apsara, sent by Indra to break Vishwamitra's penance. She succeeded, bearing him the daughter Shakuntala — then departed back to heaven, abandoning both lover and child. Her story is heaven's most calculating act of self-preservation.", source: 'Mahābhārata · Adi Parva' },
-  { id: 'urvashi', label: 'Urvashi', type: 'celestial', size: 11, filter: 'purana', yuga: 'eternal', sanskrit: 'उर्वशी', epithets: ['Jewel of Apsaras'], desc: "The most celebrated apsara, born from Vishnu's thigh. She cursed Arjuna to live as a eunuch for a year when he rejected her advances — a curse that became a blessing by providing perfect cover for the Pandavas' year of disguise.", source: 'Mahābhārata · Vana Parva' },
-  { id: 'shakuntala', label: 'Shakuntala', type: 'hero', size: 12, filter: 'mahabharata', yuga: 'dvapara', sanskrit: 'शकुन्तला', epithets: ['Forest Girl', "Bharata's mother"], desc: "Daughter of Menaka and Vishwamitra, raised by sage Kanva. King Dushyanta married her in the forest then forgot her due to Durvasa's curse. Her son Bharata gave his name to the land of Bharatavarsha — the original name of India.", source: 'Mahābhārata · Adi Parva · Abhijnanashakuntalam' },
-  { id: 'narasimha', label: 'Narasimha', type: 'deva', size: 16, filter: 'purana', yuga: 'satya', sanskrit: 'नरसिंह', epithets: ['Man-Lion', 'Fourth Avatar', 'Ugra Narasimha'], desc: "The half-man, half-lion fourth avatar of Vishnu who emerged at dusk from inside a palace pillar — at a threshold, neither inside nor outside — to destroy Hiranyakashipu without violating his boon. Even the gods feared his cosmic rage; only Prahlada's touch could calm him.", source: 'Bhāgavata Purāṇa · Narasimha Purāṇa' },
-  { id: 'drona', label: 'Drona', type: 'sage', size: 16, filter: 'mahabharata', yuga: 'dvapara', sanskrit: 'द्रोण', epithets: ['Dronacharya', 'Acharya', "Bharadvaja's son"], desc: "The Brahmin who mastered all military arts and became royal preceptor to both Pandavas and Kauravas. He demanded Ekalavya's thumb — one of mythology's most disturbing acts of institutional privilege. He was killed in war after being paralyzed by the false news of his son's death.", source: 'Mahābhārata · Drona Parva · Adi Parva' },
+  { id: 'vishwamitra', label: 'Vishwamitra', type: 'sage', size: 15, filter: 'ramayana', yuga: 'treta', sanskrit: 'विश्वामित्र', epithets: ['Kaushika', 'Brahmarshi', 'Gayatri Seer'], desc: "A warrior king who transformed himself from Kshatriya to Brahmarshi through grueling austerities. He trained Rama and Lakshmana and is the seer of the Gayatri mantra.", source: 'Vālmīki Rāmāyaṇa · Mahābhārata · Bāla Kānda' },
+  { id: 'vasishtha', label: 'Vasishtha', type: 'sage', size: 14, filter: 'ramayana', yuga: 'treta', sanskrit: 'वसिष्ठ', epithets: ['Brahmarshi', 'Raj Guru of Ayodhya'], desc: "The celebrated sage and family guru of Ayodhya's solar dynasty. His rivalry with Vishwamitra defines an arc of Vedic literature. His divine cow Nandini could fulfill any wish.", source: 'Vālmīki Rāmāyaṇa · Yoga Vasishtha · Adi Parva' },
+  { id: 'agastya', label: 'Agastya', type: 'sage', size: 14, filter: 'purana', yuga: 'treta', sanskrit: 'अगस्त्य', epithets: ['Pitcherman', 'Father of Tamil Literature'], desc: "The sage who drank the ocean to expose demons and subdued the Vindhya mountains. He gave Rama the Aditya Hridayam before the final battle with Ravana.", source: 'Rāmāyaṇa · Mahābhārata · Padma Purāṇa' },
+  { id: 'parashurama', label: 'Parashurama', type: 'avatar', size: 16, filter: 'purana', yuga: 'treta', sanskrit: 'परशुराम', epithets: ['Sixth Avatar', 'Brahmin Warrior', 'Jamadagnya', 'Chiranjivi'], desc: "The sixth avatar of Vishnu and a Chiranjivi. An immortal Brahmin-warrior who remains on earth in penance on Mount Mahendra, waiting to train the final avatar Kalki.", source: 'Mahābhārata · Vishnu Purāṇa · Bhāgavata Purāṇa' },
+  { id: 'durvasa', label: 'Durvasa', type: 'sage', size: 13, filter: 'purana', yuga: 'eternal', sanskrit: 'दुर्वासा', epithets: ['Hot-tempered Sage', 'Shiva incarnation'], desc: "The most feared sage in the three worlds — a partial incarnation of Shiva whose curses were as powerful as his blessings. He gave Kunti her divine mantra.", source: 'Mahābhārata · Bhāgavata Purāṇa · Vishnu Purāṇa' },
+  { id: 'hiranyakashipu', label: 'Hiranyakashipu', type: 'asura', size: 17, filter: 'purana', yuga: 'satya', sanskrit: 'हिरण्यकशिपु', epithets: ['King of Asuras'], desc: "The demon king who declared himself God and forbade Vishnu worship. He was destroyed by the fourth avatar Narasimha to protect the child-devotee Prahlada.", source: 'Bhāgavata Purāṇa · Vishnu Purāṇa' },
+  { id: 'prahlada', label: 'Prahlada', type: 'hero', size: 14, filter: 'purana', yuga: 'satya', sanskrit: 'प्रह्लाद', epithets: ["Maha-Bhakta", "Vishnu's Beloved"], desc: "The child-devotee of Vishnu who remained unshaken in faith despite his father Hiranyakashipu's persecution. He represents the archetype of pure devotion.", source: 'Bhāgavata Purāṇa · Narasimha Purāṇa' },
+  { id: 'mahishasura', label: 'Mahishasura', type: 'asura', size: 16, filter: 'purana', yuga: 'satya', sanskrit: 'महिषासुर', epithets: ['Buffalo Demon'], desc: "The shape-shifting buffalo demon who conquered the three worlds after receiving a boon from Brahma. He was finally defeated by the warrior goddess Durga.", source: 'Devi Māhātmya · Markandeya Purāṇa' },
+  { id: 'bali', label: 'King Bali', type: 'asura', size: 14, filter: 'purana', yuga: 'treta', sanskrit: 'बलि', epithets: ['Mahabali', 'Virtuous Asura King'], desc: "The righteous demon king who ruled the three worlds. Vishnu as Vamana pushed him to the netherworld but granted him immortality as a mark of respect.", source: 'Bhāgavata Purāṇa · Vamana Purāṇa' },
+  { id: 'tarakasura', label: 'Tarakasura', type: 'asura', size: 14, filter: 'purana', yuga: 'satya', sanskrit: 'तारकासुर', epithets: ['Demon of Obstacles'], desc: "The demon who could only be killed by Shiva's son. He was finally destroyed by Kartikeya, the god of war born from Shiva's divine seed.", source: 'Skanda Purāṇa · Shiva Purāṇa' },
+  { id: 'kumbhakarna', label: 'Kumbhakarna', type: 'asura', size: 14, filter: 'ramayana', yuga: 'treta', sanskrit: 'कुम्भकर्ण', epithets: ["The Giant Sleeper", "Ravana's Brother"], desc: "Ravana's giant brother who slept for six months at a time. Though righteous at heart, he fought for his family and was slain by Rama.", source: 'Vālmīki Rāmāyaṇa · Yuddha Kānda' },
+  { id: 'vritra', label: 'Vritra', type: 'asura', size: 13, filter: 'vedic', yuga: 'satya', sanskrit: 'वृत्र', epithets: ['The Enveloper', 'Drought Serpent'], desc: "The primordial serpentine demon of drought who swallowed the world's waters. He was shattered by Indra's Vajra thunderbolt to release the rivers.", source: 'Rig Veda · Mahābhārata · Bhāgavata Purāṇa' },
+  { id: 'shishupala', label: 'Shishupala', type: 'asura', size: 12, filter: 'mahabharata', yuga: 'dvapara', sanskrit: 'शिशुपाल', epithets: ['King of Chedi', 'Jaya reborn'], desc: "King of Chedi who exhausted a hundred pardons from Krishna before being slain by the Sudarshana Chakra at Yudhishthira's coronation.", source: 'Mahābhārata · Sabha Parva' },
+  { id: 'garuda', label: 'Garuda', type: 'celestial', size: 15, filter: 'purana', yuga: 'eternal', sanskrit: 'गरुड़', epithets: ['King of Birds', 'Nagantaka'], desc: "The divine eagle and vehicle of Vishnu. Born of sage Kashyapa and Vinata, he is the eternal enemy of the Nagas and the thief of Amrita.", source: 'Mahābhārata · Garuda Purāṇa · Vishnu Purāṇa' },
+  { id: 'nandi', label: 'Nandi', type: 'celestial', size: 12, filter: 'purana', yuga: 'eternal', sanskrit: 'नन्दी', epithets: ["Shiva's Bull", 'Gatekeeper of Kailash'], desc: "The sacred bull and chief attendant of Shiva. He guards the threshold of Kailash and is the primary listener of Shiva's cosmic wisdom.", source: 'Shiva Purāṇa · Skanda Purāṇa' },
+  { id: 'menaka', label: 'Menaka', type: 'celestial', size: 12, filter: 'purana', yuga: 'eternal', sanskrit: 'मेनका', epithets: ['Chief Apsara'], desc: "The most beautiful apsara sent by Indra to break Vishwamitra's tapas. She succeeded and bore Shakuntala before departing back to heaven.", source: 'Mahābhārata · Adi Parva' },
+  { id: 'urvashi', label: 'Urvashi', type: 'celestial', size: 11, filter: 'purana', yuga: 'eternal', sanskrit: 'उर्वशी', epithets: ['Jewel of Apsaras'], desc: "The celebrated apsara born from Vishnu's thigh. She cursed Arjuna to be a eunuch, which became a vital cover for the Pandavas' year of disguise.", source: 'Mahābhārata · Vana Parva' },
+  { id: 'shakuntala', label: 'Shakuntala', type: 'hero', size: 12, filter: 'mahabharata', yuga: 'dvapara', sanskrit: 'शकुन्तला', epithets: ['Forest Girl', "Bharata's mother"], desc: "Daughter of Menaka and Vishwamitra, raised by sage Kanva. Her marriage to King Dushyanta and the birth of Bharata gave India its original name.", source: 'Mahābhārata · Adi Parva · Abhijnanashakuntalam' },
+  { id: 'narasimha', label: 'Narasimha', type: 'avatar', size: 16, filter: 'purana', yuga: 'satya', sanskrit: 'नरसिंह', epithets: ['Man-Lion', 'Fourth Avatar'], desc: "The half-man, half-lion fourth avatar of Vishnu who emerged from a palace pillar at dusk to destroy Hiranyakashipu and restore dharma.", source: 'Bhāgavata Purāṇa · Narasimha Purāṇa' },
+  { id: 'drona', label: 'Drona', type: 'sage', size: 16, filter: 'mahabharata', yuga: 'dvapara', sanskrit: 'द्रोण', epithets: ['Dronacharya', 'Royal Preceptor'], desc: "The Brahmin master of warfare who trained the Kuru princes. His demand for Ekalavya's thumb remains the epics' most controversial act of institutional power.", source: 'Mahābhārata · Drona Parva · Adi Parva' },
+  // Dashavatara Expansion
+  { id: 'matsya', label: 'Matsya', type: 'avatar', size: 15, filter: 'purana', yuga: 'satya', sanskrit: 'मत्स्य', epithets: ['The Fish Avatar', 'First Avatar'], desc: "Vishnu's first avatar, a fish who saved Manu and the seven sages from the cosmic deluge. He guided the ship containing all life to safety.", source: 'Matsya Purāṇa · Bhāgavatam' },
+  { id: 'kurma', label: 'Kurma', type: 'avatar', size: 15, filter: 'purana', yuga: 'satya', sanskrit: 'कूर्म', epithets: ['The Tortoise Avatar', 'Second Avatar'], desc: "The second avatar, a tortoise who supported Mount Mandara on his back during the Churning of the Ocean to prevent it from sinking into the abyss.", source: 'Kurma Purāṇa · Vishnu Purāṇa' },
+  { id: 'varaha', label: 'Varaha', type: 'avatar', size: 15, filter: 'purana', yuga: 'satya', sanskrit: 'वराह', epithets: ['The Boar Avatar', 'Third Avatar'], desc: "The third avatar, a cosmic boar who lifted the Earth (Bhudevi) from the bottom of the primordial ocean where the demon Hiranyaksha had hidden her.", source: 'Varaha Purāṇa · Bhāgavata Purāṇa' },
+  { id: 'vamana', label: 'Vamana', type: 'avatar', size: 15, filter: 'purana', yuga: 'treta', sanskrit: 'वामन', epithets: ['The Dwarf Avatar', 'Fifth Avatar'], desc: "The fifth avatar who appeared as a young Brahmin dwarf to reclaim the three worlds from the righteous asura King Bali in three mystical paces.", source: 'Vamana Purāṇa · Bhāgavata Purāṇa' },
+  { id: 'balarama', label: 'Balarama', type: 'avatar', size: 16, filter: 'purana', yuga: 'dvapara', sanskrit: 'बलराम', epithets: ['Haladhara', 'Sankarshana', 'Eighth Avatar'], desc: "Elder brother of Krishna and incarnation of the serpent Shesha. A master of the mace and plow, representing pure strength and divine support.", source: 'Mahābhārata · Bhāgavata Purāṇa' },
+  { id: 'kalki', label: 'Kalki', type: 'avatar', size: 18, filter: 'purana', yuga: 'kali', sanskrit: 'कलियुग', epithets: ['The Final Avatar'], desc: "The future tenth avatar who will appear at the turn of the cosmic cycle on a white horse to destroy darkness and herald the return of Satya Yuga.", source: 'Kalki Purāṇa · Vishnu Purāṇa' },
+  // Devi expansion
+  { id: 'mahakali', label: 'Mahakali', type: 'devi', size: 22, filter: 'purana', yuga: 'eternal', sanskrit: 'महाकाली', epithets: ['Supreme Dark Goddess'], desc: "The cosmic form of Kali representing Time that consumes all creation. She is the primordial energy that existed before the universe and will remain after.", source: 'Devi Māhātmya · Kālikā Purāṇa' },
+  { id: 'chamunda', label: 'Chamunda', type: 'devi', size: 17, filter: 'purana', yuga: 'eternal', sanskrit: 'चामुण्डा', epithets: ['Slayer of Chanda and Munda'], desc: "The fierce dark goddess who emerged from Durga's brow to destroy the demon generals. She represents the terrifying power that annihilates internal enemies like ego.", source: 'Devi Māhātmya · Markandeya Purāṇa' },
+  { id: 'tripura_sundari', label: 'Tripura Sundari', type: 'devi', size: 19, filter: 'purana', yuga: 'eternal', sanskrit: 'त्रिपुर सुन्दरी', epithets: ['Lalita', 'Empress of the Three Worlds'], desc: "The supreme goddess of Sri Vidya. She represents the highest beauty and cosmic intelligence presiding over the waking, dreaming, and deep sleep states.", source: 'Lalitā Sahasranāma · Brahmāṇḍa Purāṇa' },
+  // Chiranjivi & Others
+  { id: 'ashwatthama', label: 'Ashwatthama', type: 'hero', size: 14, filter: 'mahabharata', yuga: 'eternal', sanskrit: 'अश्वत्थामा', epithets: ["Drona's Son", "The Cursed Immortal"], desc: "A great warrior and a Chiranjivi. Cursed by Krishna after the war to wander the earth with an unhealing wound, shunned by humans until the end of time.", source: 'Mahābhārata · Sauptika Parva' },
+  { id: 'kripacharya', label: 'Kripacharya', type: 'sage', size: 13, filter: 'mahabharata', yuga: 'eternal', sanskrit: 'कृपाचार्य', epithets: ['Royal Tutor', 'Chiranjivi'], desc: "One of the seven immortals and a surviving master of the Kurukshetra war. He remains on earth as a silent witness and teacher for future generations.", source: 'Mahābhārata · Adi Parva' },
+  { id: 'markandeya', label: 'Markandeya', type: 'sage', size: 14, filter: 'purana', yuga: 'eternal', sanskrit: 'मार्कण्डेय', epithets: ['Death-conquering Sage', 'Chiranjivi'], desc: "The sage who conquered death by clinging to the Shiva Linga. He is a Chiranjivi who has witnessed the rise and fall of multiple cosmic cycles.", source: 'Markandeya Purāṇa · Bhāgavata Purāṇa' },
+  { id: 'shuka', label: 'Shuka', type: 'sage', size: 14, filter: 'purana', yuga: 'dvapara', sanskrit: 'शुक', epithets: ['Enlightened One', 'Vyasa-putra'], desc: "The enlightened son of Vyasa who narrated the Bhagavatam. He was born with divine knowledge and represents the highest level of spiritual attainment.", source: 'Bhāgavata Purāṇa · Devi Bhāgavata' },
+  { id: 'savitri', label: 'Savitri', type: 'devi', size: 13, filter: 'purana', yuga: 'treta', sanskrit: 'सावित्री', epithets: ['The Chaste One'], desc: "The princess who outwitted Yama through her wisdom and devotion, successfully reclaiming her husband Satyavan from the clutches of Death.", source: 'Mahābhārata · Vana Parva' },
+  { id: 'hidimba', label: 'Hidimba', type: 'asura', size: 12, filter: 'mahabharata', yuga: 'dvapara', sanskrit: 'हिडिम्बा', epithets: ["Bhima's Wife"], desc: "The forest rakshasi who married Bhima and bore him Ghatotkacha. She represents the ancient integration of tribal culture into the epic fabric.", source: 'Mahābhārata · Adi Parva' },
 ];
 
-// ── All 100+ relationships migrated from mythology-graph.html prototype ──
+// ── All 200+ relationships ──
 const relationships = [
   { source: 'brahma', target: 'vishnu', label: 'Trinity', type: 'divine' },
   { source: 'vishnu', target: 'shiva', label: 'Trinity', type: 'divine' },
@@ -92,13 +110,23 @@ const relationships = [
   { source: 'shiva', target: 'kartikeya', label: 'Father', type: 'family' },
   { source: 'parvati', target: 'ganesha', label: 'Mother', type: 'family' },
   { source: 'parvati', target: 'kartikeya', label: 'Mother', type: 'family' },
-  { source: 'parvati', target: 'durga', label: 'Manifestation', type: 'divine' },
+  { source: 'parvati', target: 'durga', label: 'Manifestation of', type: 'divine' },
   { source: 'durga', target: 'kali', label: 'Born from', type: 'divine' },
-  { source: 'vishnu', target: 'rama', label: 'Avatar', type: 'divine' },
-  { source: 'vishnu', target: 'krishna', label: 'Avatar', type: 'divine' },
-  { source: 'vishnu', target: 'narasimha', label: 'Avatar', type: 'divine' },
-  { source: 'vishnu', target: 'parashurama', label: 'Avatar', type: 'divine' },
+  { source: 'durga', target: 'chamunda', label: 'Form of', type: 'divine' },
+  { source: 'durga', target: 'mahakali', label: 'Supreme Form', type: 'divine' },
+  { source: 'durga', target: 'tripura_sundari', label: 'Cosmic Form', type: 'divine' },
+  { source: 'vishnu', target: 'matsya', label: 'Manifestation of', type: 'manifestation' },
+  { source: 'vishnu', target: 'kurma', label: 'Manifestation of', type: 'manifestation' },
+  { source: 'vishnu', target: 'varaha', label: 'Manifestation of', type: 'manifestation' },
+  { source: 'vishnu', target: 'narasimha', label: 'Manifestation of', type: 'manifestation' },
+  { source: 'vishnu', target: 'vamana', label: 'Manifestation of', type: 'manifestation' },
+  { source: 'vishnu', target: 'parashurama', label: 'Manifestation of', type: 'manifestation' },
+  { source: 'vishnu', target: 'rama', label: 'Manifestation of', type: 'manifestation' },
+  { source: 'vishnu', target: 'krishna', label: 'Manifestation of', type: 'manifestation' },
+  { source: 'vishnu', target: 'balarama', label: 'Manifestation of', type: 'manifestation' },
+  { source: 'vishnu', target: 'kalki', label: 'Manifestation of', type: 'manifestation' },
   { source: 'vishnu', target: 'bali', label: 'Vamana defeats', type: 'conflict' },
+  { source: 'varaha', target: 'hiranyakashipu', label: 'Brother of Hiranyaksha', type: 'conflict' },
   { source: 'vishnu', target: 'garuda', label: 'Vehicle', type: 'divine' },
   { source: 'shiva', target: 'nandi', label: 'Vehicle', type: 'divine' },
   { source: 'lakshmi', target: 'sita', label: 'Avatar', type: 'divine' },
@@ -119,7 +147,7 @@ const relationships = [
   { source: 'rama', target: 'ravana', label: 'Enemies', type: 'conflict' },
   { source: 'rama', target: 'kumbhakarna', label: 'Slays', type: 'conflict' },
   { source: 'ravana', target: 'sita', label: 'Abducts', type: 'conflict' },
-  { source: 'ravana', target: 'shiva', label: 'Supreme Devotee', type: 'divine' },
+  { source: 'ravana', target: 'shiva', label: 'Supreme Devotee of', type: 'divine' },
   { source: 'ravana', target: 'vibhishana', label: 'Brother', type: 'family' },
   { source: 'ravana', target: 'kumbhakarna', label: 'Brother', type: 'family' },
   { source: 'ravana', target: 'mandodari', label: 'Husband', type: 'family' },
@@ -141,9 +169,10 @@ const relationships = [
   { source: 'vishwamitra', target: 'shakuntala', label: 'Father', type: 'family' },
   { source: 'urvashi', target: 'arjuna', label: 'Curses', type: 'conflict' },
   { source: 'krishna', target: 'arjuna', label: 'Charioteer', type: 'divine' },
-  { source: 'arjuna', target: 'krishna', label: 'Devotee & Friend', type: 'alliance' },
+  { source: 'krishna', target: 'balarama', label: 'Brother', type: 'family' },
+  { source: 'arjuna', target: 'krishna', label: 'Devotee & Friend of', type: 'alliance' },
   { source: 'krishna', target: 'radha', label: 'Divine Love', type: 'family' },
-  { source: 'krishna', target: 'draupadi', label: 'Divine Protector', type: 'alliance' },
+  { source: 'krishna', target: 'draupadi', label: 'Divine Protector of', type: 'alliance' },
   { source: 'krishna', target: 'shishupala', label: 'Slays', type: 'conflict' },
   { source: 'arjuna', target: 'karna', label: 'Rivals', type: 'conflict' },
   { source: 'arjuna', target: 'draupadi', label: 'Husband', type: 'family' },
@@ -153,6 +182,7 @@ const relationships = [
   { source: 'arjuna', target: 'nakula', label: 'Brother', type: 'family' },
   { source: 'arjuna', target: 'sahadeva', label: 'Brother', type: 'family' },
   { source: 'bhima', target: 'draupadi', label: 'Husband', type: 'family' },
+  { source: 'bhima', target: 'hidimba', label: 'Husband', type: 'family' },
   { source: 'bhima', target: 'duryodhana', label: 'Enemies', type: 'conflict' },
   { source: 'yudhishthira', target: 'yama', label: 'Son of', type: 'family' },
   { source: 'yudhishthira', target: 'draupadi', label: 'Husband', type: 'family' },
@@ -164,14 +194,15 @@ const relationships = [
   { source: 'yudhishthira', target: 'kunti', label: 'Son of', type: 'family' },
   { source: 'arjuna', target: 'kunti', label: 'Son of', type: 'family' },
   { source: 'bhima', target: 'kunti', label: 'Son of', type: 'family' },
-  { source: 'drona', target: 'ashvatthama', label: 'Father', type: 'family' },
-  { source: 'ashvatthama', target: 'arjuna', label: 'Enemies', type: 'conflict' },
+  { source: 'drona', target: 'ashwatthama', label: 'Father', type: 'family' },
+  { source: 'ashwatthama', target: 'arjuna', label: 'Enemies', type: 'conflict' },
   { source: 'drona', target: 'duryodhana', label: 'Fights for', type: 'alliance' },
   { source: 'drona', target: 'ekalavya', label: 'Demanded thumb', type: 'guru' },
   { source: 'arjuna', target: 'bhishma', label: 'Defeats', type: 'conflict' },
   { source: 'bhishma', target: 'duryodhana', label: 'Fights for', type: 'alliance' },
   { source: 'vyasa', target: 'yudhishthira', label: 'Grandfather', type: 'family' },
   { source: 'vyasa', target: 'dhritarashtra', label: 'Father', type: 'family' },
+  { source: 'vyasa', target: 'shuka', label: 'Father', type: 'family' },
   { source: 'ganesha', target: 'vyasa', label: 'Scribe for', type: 'divine' },
   { source: 'dhritarashtra', target: 'duryodhana', label: 'Father', type: 'family' },
   { source: 'dhritarashtra', target: 'gandhari', label: 'Husband', type: 'family' },
@@ -190,11 +221,18 @@ const relationships = [
   { source: 'indra', target: 'vritra', label: 'Slays', type: 'conflict' },
   { source: 'vishwakarma', target: 'kubera', label: 'Built Lanka for', type: 'divine' },
   { source: 'vishwakarma', target: 'krishna', label: 'Built Dwarka for', type: 'divine' },
+  { source: 'yama', target: 'savitri', label: 'Wagered with', type: 'conflict' },
+  { source: 'shiva', target: 'markandeya', label: 'Saved from Yama', type: 'divine' },
 ];
 
 async function seed() {
   try {
-    await mongoose.connect(process.env.MONGO_URI);
+    const mongoUri = process.env.MONGO_URI;
+    if (!mongoUri) {
+      throw new Error('MONGO_URI is not defined in environment variables');
+    }
+
+    await mongoose.connect(mongoUri);
     console.log('MongoDB connected for seeding...');
 
     await Character.deleteMany({});
@@ -206,6 +244,7 @@ async function seed() {
     console.log(`✅ Seeded ${characters.length} characters`);
     console.log(`✅ Seeded ${relationships.length} relationships`);
     console.log('Seeding complete. Disconnecting...');
+    
     await mongoose.disconnect();
     process.exit(0);
   } catch (err) {

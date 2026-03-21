@@ -8,6 +8,7 @@ const COLORS = {
   asura: '#c45c5c',      // Destroy
   sage: '#5cb88a',       // Sacred
   celestial: '#9a6ed4',  // Celestial
+  avatar: '#ffab00',     // Divine Saffron
 };
 
 function Graph({ data, onSelectNode, onHoverNode, selectedNodeId, searchQuery }) {

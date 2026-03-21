@@ -13,6 +13,7 @@
   --sacred:     #5cb88a;
   --destroy:    #c45c5c;
   --celestial:  #9a6ed4;
+  --avatar:     #ffab00;
   --text:       #e8d5a3;
   --text-dim:   #7a6840;
   --border:     rgba(212,151,58,.22);
@@ -798,6 +799,7 @@ button { font-family: inherit; }
 .related-chip--deva  { border-left: 2px solid rgba(212,151,58,0.5); }
 .related-chip--devi  { border-left: 2px solid rgba(180,140,200,0.5); }
 .related-chip--hero  { border-left: 2px solid rgba(100,160,220,0.5); }
+.related-chip--avatar { border-left: 2px solid rgba(255,171,0,0.5); }
 .related-chip--sage  { border-left: 2px solid rgba(100,200,160,0.5); }
 .related-chip--asura { border-left: 2px solid rgba(200,80,80,0.5); }
 .related-chip--celestial { border-left: 2px solid rgba(150,200,255,0.5); }

@@ -7,6 +7,7 @@ const COLORS = {
   asura: '#c45c5c',
   sage: '#5cb88a',
   celestial: '#9a6ed4',
+  avatar: '#ffab00',
 };
 
 // Returns the correct label from the perspective of currentNodeId
@@ -62,6 +63,7 @@ function getEffectiveLabel(link, currentNodeId, otherNode) {
     'Vehicle':          'Rider',
     'Devoted to':       'Devotee',
     'Manifestation':    'Manifested into',
+    'Manifestation of': 'Divine Source',
     'Born from':        'Source',
     'Reborn as':        'Previous life',
     'Scribe for':       'Author',

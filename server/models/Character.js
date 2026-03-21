@@ -6,7 +6,7 @@ const CharacterSchema = new mongoose.Schema({
   sanskrit: { type: String },
   type: {
     type: String,
-    enum: ['deva', 'devi', 'hero', 'sage', 'asura', 'celestial'],
+    enum: ['deva', 'devi', 'hero', 'sage', 'asura', 'celestial', 'avatar'],
     required: true,
   },
   size:   { type: Number, default: 14 },

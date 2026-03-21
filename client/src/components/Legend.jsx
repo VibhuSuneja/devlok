@@ -7,6 +7,7 @@ const COLORS = {
   asura: '#c45c5c',
   sage: '#5cb88a',
   celestial: '#9a6ed4',
+  avatar: '#ffab00',
 };
 
 function Legend() {
