@@ -7,7 +7,7 @@
     },
     {
       "source": "/sys-logs/:path*",
-      "destination": "https://us.i.posthog.com/6:path*"
+      "destination": "https://us.i.posthog.com/:path*"
     },
     {
       "source": "/sys-logs/decide/:path*",
