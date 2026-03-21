@@ -6,6 +6,7 @@ import CharacterPage from './pages/CharacterPage.jsx';
 import LoginPage from './pages/LoginPage.jsx';
 import AdminPanel from './pages/AdminPanel.jsx';
 import ConceptPage from './pages/ConceptPage.jsx';
+import OrientationBanner from './components/OrientationLock.jsx';
 import { useAuth } from './hooks/useAuth.js';
 
 const ProtectedRoute = ({ children }) => {
@@ -18,6 +19,7 @@ function App() {
   return (
     <Router>
       <AuthProvider>
+        <OrientationBanner />
         <Routes>
           <Route path="/" element={<GraphPage />} />
           <Route path="/character/:id" element={<CharacterPage />} />
