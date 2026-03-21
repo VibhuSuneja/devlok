@@ -802,14 +802,14 @@ button { font-family: inherit; }
 .related-chip--asura { border-left: 2px solid rgba(200,80,80,0.5); }
 .related-chip--celestial { border-left: 2px solid rgba(150,200,255,0.5); }
 
-/* ── Share Section ── */
-.share-section {
+/* ── Concept Actions Section ── */
+.concept-actions {
   margin-top: 2.5rem;
   padding-top: 1.5rem;
   border-top: 1px solid var(--border);
 }
 
-.share-heading {
+.concept-actions-heading {
   font-family: 'Cinzel Decorative', serif;
   font-size: 0.58rem;
   letter-spacing: 0.3em;
@@ -818,13 +818,13 @@ button { font-family: inherit; }
   margin: 0 0 1rem;
 }
 
-.share-buttons {
+.concept-actions-grid {
   display: flex;
   gap: 12px;
   flex-wrap: wrap;
 }
 
-.share-btn {
+.action-btn {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -839,21 +839,21 @@ button { font-family: inherit; }
   transition: border-color 0.2s, color 0.2s, background 0.2s;
 }
 
-.share-btn:hover:not(:disabled) {
+.action-btn:hover:not(:disabled) {
   border-color: var(--amber);
   color: var(--amber);
   background: rgba(212,151,58,0.06);
 }
 
-.share-btn:disabled {
+.action-btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
 
-.share-btn--instagram:hover:not(:disabled) { border-color: #e1306c; color: #e1306c; }
-.share-btn--twitter:hover:not(:disabled)   { border-color: #1da1f2; color: #1da1f2; }
+.action-btn--ig:hover:not(:disabled) { border-color: #e1306c; color: #e1306c; }
+.action-btn--x:hover:not(:disabled)   { border-color: #1da1f2; color: #1da1f2; }
 
-.share-spinner {
+.action-spinner {
   display: inline-block;
   width: 14px;
   height: 14px;
@@ -867,7 +867,7 @@ button { font-family: inherit; }
   to { transform: rotate(360deg); }
 }
 
-.share-error {
+.action-error {
   margin-top: 0.75rem;
   font-size: 0.82rem;
   color: #e07070;
@@ -937,6 +937,6 @@ button { font-family: inherit; }
   .concept-main   { padding: 1.5rem 1rem 2rem; }
   .concept-header-title { display: none; }
   .concept-title  { font-size: 1.3rem; }
-  .share-buttons  { flex-direction: column; }
+  .concept-actions-grid  { flex-direction: column; }
 }
 

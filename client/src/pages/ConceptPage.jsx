@@ -50,17 +50,17 @@ function RelatedCharacterChip({ char }) {
 
 function ShareButtons({ concept, sharing, onShare }) {
   return (
-    <div className="share-section">
-      <p className="share-heading">Share this concept</p>
-      <div className="share-buttons">
+    <div className="concept-actions">
+      <p className="concept-actions-heading">Share this concept</p>
+      <div className="concept-actions-grid">
         <button
-          className="share-btn share-btn--instagram"
+          className="action-btn action-btn--ig"
           onClick={() => onShare('square')}
           disabled={sharing}
           aria-label="Share as Instagram card"
         >
           {sharing === 'square' ? (
-            <span className="share-spinner" />
+            <span className="action-spinner" />
           ) : (
             <>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -73,13 +73,13 @@ function ShareButtons({ concept, sharing, onShare }) {
           )}
         </button>
         <button
-          className="share-btn share-btn--twitter"
+          className="action-btn action-btn--x"
           onClick={() => onShare('landscape')}
           disabled={sharing}
           aria-label="Share as Twitter card"
         >
           {sharing === 'landscape' ? (
-            <span className="share-spinner" />
+            <span className="action-spinner" />
           ) : (
             <>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
@@ -174,7 +174,7 @@ export default function ConceptPage() {
         )}
 
         {/* Share */}
-        {shareError && <p className="share-error">{shareError}</p>}
+        {shareError && <p className="action-error">{shareError}</p>}
         <ShareButtons concept={concept} sharing={sharing} onShare={handleShare} />
 
         {/* Tomorrow teaser */}
