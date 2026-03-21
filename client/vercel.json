@@ -13,10 +13,11 @@
       "destination": "https://us.i.posthog.com/decide/:path*"
     },
     {
-      "source": "/((?!api|ingest|static|favicon.ico|_next).*)",
+      "source": "/((?!api/v1/compute|api|static|favicon.ico|_next).*)",
       "destination": "/index.html"
     }
   ]
 }
+
 
 
