@@ -5,8 +5,8 @@ import { shareOrDownload } from '../utils/generateShareCard';
 import concepts from '../data/concepts.json';
 import posthog from 'posthog-js';
 
-// Devlok launch date — change this to your actual launch date
-const LAUNCH_DATE = new Date('2025-01-01T00:00:00Z');
+// Devlok official go-live date — Starts the concept sequence from Day 1
+const LAUNCH_DATE = new Date('2026-03-21T00:00:00Z');
 
 function getDayIndex() {
   const now = new Date();
