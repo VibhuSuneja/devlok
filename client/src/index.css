@@ -551,3 +551,362 @@ button { font-family: inherit; }
   color: var(--text-dim);
   margin-top: -10px;
 }
+
+/* ═══════════════════════════════════════════════════════════
+   CONCEPT OF THE DAY — /today page
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── Page Scaffold ── */
+.concept-page {
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--void);
+  color: var(--text);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  position: relative;
+  overflow-x: hidden;
+}
+
+.concept-page::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse 80% 50% at 50% 20%, rgba(212,151,58,0.06), transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Header ── */
+.concept-header {
+  width: 100%;
+  max-width: 760px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 1.5rem;
+  position: relative;
+  z-index: 1;
+  border-bottom: 1px solid var(--border);
+}
+
+.concept-header-center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.concept-header-title {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 0.68rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--amber);
+  opacity: 0.8;
+}
+
+.concept-back-link {
+  font-size: 0.82rem;
+  color: var(--text-dim);
+  text-decoration: none;
+  letter-spacing: 0.08em;
+  transition: color 0.2s;
+}
+
+.concept-back-link:hover {
+  color: var(--amber);
+}
+
+/* ── Streak Badge ── */
+.streak-badge {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(212,151,58,0.10);
+  border: 1px solid rgba(212,151,58,0.28);
+  padding: 4px 10px;
+  font-size: 0.8rem;
+  color: var(--amber);
+  letter-spacing: 0.05em;
+}
+
+.streak-fire { font-size: 1rem; }
+.streak-count { font-weight: 700; font-size: 1rem; }
+.streak-label { font-size: 0.72rem; color: var(--text-dim); }
+
+/* ── Main Card ── */
+.concept-main {
+  width: 100%;
+  max-width: 720px;
+  padding: 2.5rem 2rem 3rem;
+  position: relative;
+  z-index: 1;
+  flex: 1;
+}
+
+/* ── Category Label ── */
+.concept-category-label {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--amber);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 1.2rem;
+}
+
+.concept-category-glyph {
+  opacity: 0.5;
+}
+
+/* ── Title ── */
+.concept-title {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(1.4rem, 3.5vw, 2.1rem);
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.35;
+  margin: 0 0 1.5rem;
+  letter-spacing: 0.02em;
+}
+
+/* ── Dividers ── */
+.concept-divider {
+  width: 100%;
+  height: 1px;
+  background: var(--border);
+  margin: 1.5rem 0;
+}
+
+.concept-divider--short {
+  width: 40%;
+}
+
+/* ── Hook ── */
+.concept-hook {
+  font-size: clamp(1.05rem, 2.5vw, 1.25rem);
+  font-style: italic;
+  line-height: 1.7;
+  color: var(--text);
+  margin: 0 0 0.5rem;
+  letter-spacing: 0.02em;
+}
+
+/* ── Essay ── */
+.concept-essay {
+  font-size: clamp(0.95rem, 2vw, 1.08rem);
+  line-height: 1.85;
+  color: var(--text);
+  letter-spacing: 0.015em;
+}
+
+.concept-essay p {
+  margin: 0 0 1.3rem;
+}
+
+.concept-essay p:last-child {
+  margin-bottom: 0;
+}
+
+/* ── Related Characters ── */
+.related-characters {
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+}
+
+.related-characters__heading {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 0.58rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin: 0 0 1rem;
+}
+
+.related-characters__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.related-chip {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 8px 16px;
+  border: 1px solid var(--border);
+  text-decoration: none;
+  transition: border-color 0.2s, background 0.2s;
+  cursor: pointer;
+}
+
+.related-chip:hover {
+  border-color: var(--amber);
+  background: rgba(212,151,58,0.06);
+}
+
+.related-chip__name {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 0.72rem;
+  color: var(--amber);
+  letter-spacing: 0.08em;
+}
+
+.related-chip__sanskrit {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  margin-top: 2px;
+}
+
+/* Type-specific border accents */
+.related-chip--deva  { border-left: 2px solid rgba(212,151,58,0.5); }
+.related-chip--devi  { border-left: 2px solid rgba(180,140,200,0.5); }
+.related-chip--hero  { border-left: 2px solid rgba(100,160,220,0.5); }
+.related-chip--sage  { border-left: 2px solid rgba(100,200,160,0.5); }
+.related-chip--asura { border-left: 2px solid rgba(200,80,80,0.5); }
+.related-chip--celestial { border-left: 2px solid rgba(150,200,255,0.5); }
+
+/* ── Share Section ── */
+.share-section {
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+}
+
+.share-heading {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 0.58rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin: 0 0 1rem;
+}
+
+.share-buttons {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.share-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+}
+
+.share-btn:hover:not(:disabled) {
+  border-color: var(--amber);
+  color: var(--amber);
+  background: rgba(212,151,58,0.06);
+}
+
+.share-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.share-btn--instagram:hover:not(:disabled) { border-color: #e1306c; color: #e1306c; }
+.share-btn--twitter:hover:not(:disabled)   { border-color: #1da1f2; color: #1da1f2; }
+
+.share-spinner {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(212,151,58,0.3);
+  border-top-color: var(--amber);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.share-error {
+  margin-top: 0.75rem;
+  font-size: 0.82rem;
+  color: #e07070;
+}
+
+/* ── Tomorrow Teaser ── */
+.tomorrow-teaser {
+  margin-top: 2.5rem;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: rgba(212,151,58,0.03);
+}
+
+.tomorrow-teaser__label {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 0.55rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--amber);
+  opacity: 0.6;
+}
+
+.tomorrow-teaser__text {
+  font-size: 0.92rem;
+  color: var(--text-dim);
+  font-style: italic;
+  letter-spacing: 0.02em;
+}
+
+/* ── Footer ── */
+.concept-footer {
+  width: 100%;
+  max-width: 720px;
+  padding: 1.5rem 2rem;
+  border-top: 1px solid var(--border);
+  position: relative;
+  z-index: 1;
+}
+
+.concept-footer-link {
+  font-size: 0.82rem;
+  color: var(--text-dim);
+  text-decoration: none;
+  letter-spacing: 0.06em;
+  transition: color 0.2s;
+}
+
+.concept-footer-link:hover {
+  color: var(--amber);
+}
+
+/* ── Error state ── */
+.concept-page--error {
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+  font-size: 1rem;
+  color: var(--text-dim);
+}
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+  .concept-header { padding: 1rem; }
+  .concept-main   { padding: 1.5rem 1rem 2rem; }
+  .concept-header-title { display: none; }
+  .concept-title  { font-size: 1.3rem; }
+  .share-buttons  { flex-direction: column; }
+}
+
