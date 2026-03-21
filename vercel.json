@@ -14,9 +14,8 @@
     },
     {
       "source": "/((?!api|ingest|static|favicon.ico|_next).*)",
-      "destination": "/index.html"
+      "destination": "/client/dist/index.html"
     }
   ]
 }
-
 
