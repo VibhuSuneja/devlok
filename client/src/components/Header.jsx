@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import SearchBar from './SearchBar.jsx';
 import FilterBar from './FilterBar.jsx';
 
-function Header({ typeFilter, setTypeFilter, searchQuery, setSearchQuery }) {
+function Header({ typeFilter, setTypeFilter, linkFilter, setLinkFilter, searchQuery, setSearchQuery }) {
   return (
     <header className="header">
       <div className="brand">

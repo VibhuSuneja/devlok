@@ -39,9 +39,9 @@ function CategoryLabel({ category }) {
 function RelatedCharacterChip({ char }) {
   return (
     <Link
-      to={`/character/${char.id}`}
+      to={`/?focus=${char.id}`}
       className={`related-chip related-chip--${char.type}`}
-      aria-label={`View ${char.label}`}
+      aria-label={`View ${char.label} in Graph`}
     >
       <span className="related-chip__name">{char.label}</span>
       <span className="related-chip__sanskrit">{char.sanskrit}</span>
