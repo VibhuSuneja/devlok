@@ -11,7 +11,7 @@ const COLORS = {
   avatar: '#ffab00',     // Divine Saffron
 };
 
-function Graph({ data, onSelectNode, onHoverNode, selectedNodeId, searchQuery }) {
+function Graph({ data, onSelectNode, onHoverNode, selectedNodeId, searchQuery, linkFilter, activeArcNodes }) {
   const svgRef = useRef(null);
   const simulationRef = useRef(null);
   const gRef = useRef(null);
@@ -198,14 +198,42 @@ function Graph({ data, onSelectNode, onHoverNode, selectedNodeId, searchQuery })
     const q = (searchQuery || '').toLowerCase().trim();
     d3.select(gRef.current).selectAll('.node-group')
       .style('opacity', d => {
-        if (!q) return 1;
+        if (activeArcNodes) {
+          return activeArcNodes.includes(d.id) ? 1 : 0.05;
+        }
+        if (!q) {
+          // If relationship filter is on, only show nodes connected by that link type
+          if (linkFilter !== 'all') {
+            const hasLink = data.links.some(l => 
+              l.type === linkFilter && (l.source.id === d.id || l.target.id === d.id)
+            );
+            return hasLink ? 1 : 0.08;
+          }
+          return 1;
+        }
         const match = d.label.toLowerCase().includes(q) ||
           (d.epithets||[]).some(e => e.toLowerCase().includes(q)) ||
           (d.desc||'').toLowerCase().includes(q) ||
           (d.sanskrit||'').toLowerCase().includes(q);
         return match ? 1 : 0.08;
       });
-  }, [searchQuery]);
+
+    d3.select(gRef.current).selectAll('.link')
+      .style('opacity', l => {
+        if (activeArcNodes) {
+          return (activeArcNodes.includes(l.source.id) && activeArcNodes.includes(l.target.id)) ? 0.8 : 0.02;
+        }
+        if (linkFilter === 'all') return null;
+        return l.type === linkFilter ? 1 : 0.03;
+      })
+      .style('stroke-width', l => {
+        if (activeArcNodes) {
+          return (activeArcNodes.includes(l.source.id) && activeArcNodes.includes(l.target.id)) ? 2 : 1;
+        }
+        if (linkFilter === 'all') return 1.5;
+        return l.type === linkFilter ? 2.5 : 1;
+      });
+  }, [searchQuery, linkFilter, data.links, activeArcNodes]);
 
   return (
     <div className="graph-container">

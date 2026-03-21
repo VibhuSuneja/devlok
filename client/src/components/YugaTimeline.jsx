@@ -1,4 +1,5 @@
 import React from 'react';
+import posthog from 'posthog-js';
 
 const YUGAS = [
   { id: 'all', name: 'All Yugas', sub: 'Complete Cosmos', yrs: 'Eternal' },
@@ -18,7 +19,10 @@ function YugaTimeline({ activeYuga, setYuga }) {
             <div 
               key={y.id} 
               className={`yuga-seg ${activeYuga === y.id ? 'active' : ''}`}
-              onClick={() => setYuga(y.id)}
+              onClick={() => {
+                setYuga(y.id);
+                posthog.capture('yuga_filter_used', { yuga: y.id });
+              }}
             >
               <span className="yuga-seg-name">{y.name}</span>
               <span className="yuga-seg-sub">{y.sub}</span>

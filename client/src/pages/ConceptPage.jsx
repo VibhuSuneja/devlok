@@ -1,8 +1,9 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useStreak } from '../hooks/useStreak';
 import { shareOrDownload } from '../utils/generateShareCard';
 import concepts from '../data/concepts.json';
+import posthog from 'posthog-js';
 
 // Devlok launch date — change this to your actual launch date
 const LAUNCH_DATE = new Date('2025-01-01T00:00:00Z');
@@ -102,7 +103,14 @@ export default function ConceptPage() {
   const dayIndex = useMemo(() => getDayIndex(), []);
   const concept = useMemo(() => concepts[dayIndex], [dayIndex]);
 
+  useEffect(() => {
+    if (concept) {
+      posthog.capture('concept_read', { concept_id: concept.id, title: concept.title });
+    }
+  }, [concept]);
+
   const handleShare = async (format) => {
+    posthog.capture('share_clicked', { concept_id: concept.id, format });
     setSharing(format);
     setShareError('');
     try {

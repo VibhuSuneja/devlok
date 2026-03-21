@@ -1,0 +1,38 @@
+[
+  {
+    "id": "kurukshetra",
+    "name": "Kurukshetra War",
+    "desc": "The pivotal battle between Dharma and Adharma that concluded the Dvapara Yuga.",
+    "nodes": [
+      "yudhishthira", "bhima", "arjuna", "nakula", "sahadeva", 
+      "duryodhana", "dhritarashtra", "gandhari", "bhishma", 
+      "drona", "karna", "krishna", "draupadi", "ashwatthama", "kripacharya"
+    ]
+  },
+  {
+    "id": "ramayana",
+    "name": "Ravana's Fall",
+    "desc": "The journey of the ideal king and his allies to destroy the ten-headed demon lord.",
+    "nodes": [
+      "rama", "sita", "lakshmana", "hanuman", "ravana", 
+      "vibhishana", "sugriva", "vali", "jatayu", "kumbhakarna", "mandodari"
+    ]
+  },
+  {
+    "id": "dashavatara",
+    "name": "Vishnu's Descent",
+    "desc": "The ten primary incarnations of Vishnu across all four cosmic ages.",
+    "nodes": [
+      "vishnu", "matsya", "kurma", "varaha", "narasimha", 
+      "vamana", "parashurama", "rama", "krishna", "balarama", "kalki"
+    ]
+  },
+  {
+    "id": "chiranjivi",
+    "name": "The Seven Immortals",
+    "desc": "Beings granted eternal life who continue to walk the earth through the Kali Yuga.",
+    "nodes": [
+      "ashwatthama", "kripacharya", "parashurama", "hanuman", "vibhishana", "vyasa", "bali", "markandeya"
+    ]
+  }
+]

@@ -14,7 +14,14 @@ function Header({ typeFilter, setTypeFilter, searchQuery, setSearchQuery }) {
       <div className="header-center">
         <SearchBar query={searchQuery} setQuery={setSearchQuery} />
         <div className="sep" />
-        <FilterBar filter={typeFilter} setFilter={setTypeFilter} />
+        <div className="filter-stack">
+          <FilterBar 
+            filter={typeFilter} 
+            setFilter={setTypeFilter} 
+            linkFilter={linkFilter} 
+            setLinkFilter={setLinkFilter} 
+          />
+        </div>
       </div>
 
       <div className="header-actions">

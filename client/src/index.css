@@ -104,8 +104,11 @@ header {
 .sep { width: 1px; height: 18px; background: var(--border); flex-shrink: 0; }
 
 /* Filter groups */
+.filter-stack { display: flex; flex-direction: column; gap: 4px; align-items: center; }
+.filter-manager { display: flex; flex-direction: column; gap: 4px; align-items: center; }
 .filter-group { display: flex; gap: 5px; align-items: center; }
-.filter-label { font-size: .57rem; letter-spacing: .18em; text-transform: uppercase; color: var(--text-dim); margin-right: 3px; }
+.filter-group--links { margin-top: 2px; }
+.filter-label { font-size: .52rem; letter-spacing: .15em; text-transform: uppercase; color: var(--text-dim); margin-right: 3px; min-width: 45px; text-align: right; }
 .filter-btn {
   background: transparent;
   border: 1px solid transparent;
@@ -119,6 +122,7 @@ header {
   transition: all .2s;
   color: var(--text-dim);
 }
+.filter-btn--small { padding: 1px 6px; font-size: .62rem; letter-spacing: .04em; }
 .filter-btn:hover { color: var(--amber); border-color: var(--amber-dim); }
 .filter-btn.active { color: var(--amber-glow); border-color: var(--amber); background: rgba(212,151,58,.10); }
 
@@ -217,6 +221,37 @@ header {
 .yuga-seg-name { font-family: 'Cinzel Decorative', serif; font-size: .62rem; color: var(--amber); display: block; margin-bottom: 1px; }
 .yuga-seg-sub { font-size: .56rem; color: var(--text-dim); letter-spacing: .09em; text-transform: uppercase; }
 .yuga-seg-yrs { font-size: .58rem; color: rgba(212,151,58,.45); font-style: italic; }
+
+/* ── ARC SELECTOR ── */
+.arc-selector {
+  position: fixed;
+  bottom: 80px; left: 50%;
+  transform: translateX(-50%);
+  z-index: 55;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  pointer-events: none;
+}
+.arc-label { font-size: .55rem; letter-spacing: .24em; text-transform: uppercase; color: var(--text-dim); opacity: .6; }
+.arc-btns { display: flex; gap: 8px; pointer-events: auto; }
+.arc-btn {
+  background: rgba(8,5,32,.9);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 4px 14px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: .72rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: all .3s;
+  backdrop-filter: blur(8px);
+}
+.arc-btn:hover { border-color: var(--amber); color: var(--text); }
+.arc-btn.active { background: rgba(212,151,58,.18); border-color: var(--amber-glow); color: var(--amber-glow); box-shadow: 0 0 15px rgba(240,184,74,.25); }
 
 /* ── DETAIL PANEL ── */
 .detail-panel {

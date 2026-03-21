@@ -10,6 +10,9 @@ import YugaTimeline from '../components/YugaTimeline.jsx';
 import NodeCounter from '../components/NodeCounter.jsx';
 import Tooltip from '../components/Tooltip.jsx';
 import IntroOverlay from '../components/IntroOverlay.jsx';
+import ArcSelector from '../components/ArcSelector.jsx';
+import storyArcs from '../data/storyArcs.json';
+import posthog from 'posthog-js';
 
 function GraphPage() {
   const [data, setData] = useState({ nodes: [], links: [] });
@@ -17,6 +20,8 @@ function GraphPage() {
   const [selectedNodeId, setSelectedNodeId] = useState(null);
   const [yugaFilter, setYugaFilter] = useState('all');
   const [typeFilter, setTypeFilter] = useState('all');
+  const [linkFilter, setLinkFilter] = useState('all');
+  const [activeArcId, setActiveArcId] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [tooltip, setTooltip] = useState({ visible: false, x: 0, y: 0, node: null });
   const [showIntro, setShowIntro] = useState(() => {
@@ -79,10 +84,18 @@ function GraphPage() {
     selectedNodeId ? data.links.filter(l => (l.source?.id || l.source) === selectedNodeId || (l.target?.id || l.target) === selectedNodeId) : [],
   [data.links, selectedNodeId]);
 
+  const activeArcNodes = useMemo(() => {
+    if (!activeArcId) return null;
+    return storyArcs.find(a => a.id === activeArcId)?.nodes || null;
+  }, [activeArcId]);
+
   const handleSelectNode = useCallback((id) => {
     if (unselectTimerRef.current) {
       clearTimeout(unselectTimerRef.current);
       unselectTimerRef.current = null;
+    }
+    if (id) {
+      posthog.capture('node_clicked', { node_id: id });
     }
     setSelectedNodeId(id);
     setIsPanelOpen(!!id);
@@ -116,6 +129,8 @@ function GraphPage() {
       <Header 
         typeFilter={typeFilter} 
         setTypeFilter={setTypeFilter} 
+        linkFilter={linkFilter}
+        setLinkFilter={setLinkFilter}
         searchQuery={searchQuery} 
         setSearchQuery={setSearchQuery} 
       />
@@ -126,9 +141,12 @@ function GraphPage() {
         onHoverNode={setTooltip}
         selectedNodeId={selectedNodeId}
         searchQuery={searchQuery}
+        linkFilter={linkFilter}
+        activeArcNodes={activeArcNodes}
       />
 
       <Legend />
+      <ArcSelector activeArcId={activeArcId} setActiveArcId={setActiveArcId} />
       <NodeCounter count={filteredData.nodes.length} />
 
       <YugaTimeline 
