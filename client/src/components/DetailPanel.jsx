@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { AuthContext } from '../context/AuthContext.jsx';
+import { useBookmarks } from '../hooks/useBookmarks.js';
 
 const COLORS = {
   deva: '#d4973a',
@@ -89,12 +91,27 @@ function getEffectiveLabel(link, currentNodeId, otherNode) {
 
 function DetailPanel({ node, links, allNodes, onClose, onSelectNode }) {
   const [copied, setCopied] = React.useState(false);
+  const [showLoginHint, setShowLoginHint] = React.useState(false);
+  const { isLoggedIn } = useContext(AuthContext);
+  const { isBookmarked, toggleBookmark } = useBookmarks();
+
+  const bookmarked = node ? isBookmarked(node.id) : false;
   
   const handleShare = () => {
     if (!node) return;
     navigator.clipboard.writeText(`${window.location.origin}/character/${node.id}`);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+  };
+
+  const handleBookmark = async () => {
+    if (!node) return;
+    if (!isLoggedIn) {
+      setShowLoginHint(true);
+      setTimeout(() => setShowLoginHint(false), 2500);
+      return;
+    }
+    await toggleBookmark(node.id);
   };
 
   return (
@@ -108,13 +125,26 @@ function DetailPanel({ node, links, allNodes, onClose, onSelectNode }) {
             <div className="panel-type-badge" style={{ color: COLORS[node.type] }}> {node.type} </div>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.2rem' }}>
               <h2 className="panel-name" style={{ margin: 0 }}>{node.label}</h2>
-              <button 
-                className="filter-btn" 
-                style={{ borderColor: '#d4973a', color: '#d4973a', fontSize: '0.75rem', padding: '0.2rem 0.6rem', letterSpacing: '1px', textTransform: 'uppercase', background: 'transparent', cursor: 'pointer', borderRadius: '4px' }}
-                onClick={handleShare}
-              >
-                {copied ? 'Copied!' : '↗ Share'}
-              </button>
+              <div style={{ display: 'flex', gap: '0.4rem', alignItems: 'center', position: 'relative' }}>
+                {showLoginHint && (
+                  <span className="bookmark-login-hint">Sign in to bookmark</span>
+                )}
+                <button
+                  className={`bookmark-btn ${bookmarked ? 'bookmarked' : ''}`}
+                  onClick={handleBookmark}
+                  title={isLoggedIn ? (bookmarked ? 'Remove bookmark' : 'Bookmark this being') : 'Sign in to bookmark'}
+                  aria-label={bookmarked ? 'Remove bookmark' : 'Bookmark'}
+                >
+                  {bookmarked ? '★' : '☆'}
+                </button>
+                <button 
+                  className="filter-btn" 
+                  style={{ borderColor: '#d4973a', color: '#d4973a', fontSize: '0.75rem', padding: '0.2rem 0.6rem', letterSpacing: '1px', textTransform: 'uppercase', background: 'transparent', cursor: 'pointer', borderRadius: '4px' }}
+                  onClick={handleShare}
+                >
+                  {copied ? 'Copied!' : '↗ Share'}
+                </button>
+              </div>
             </div>
             <div className="panel-sanskrit">{node.sanskrit}</div>
             

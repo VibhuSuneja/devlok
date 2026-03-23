@@ -4,6 +4,9 @@ import { useStreak } from '../hooks/useStreak';
 import { shareOrDownload } from '../utils/generateShareCard';
 import concepts from '../data/concepts.json';
 import posthog from 'posthog-js';
+import axios from '../api/axios.js';
+import { AuthContext } from '../context/AuthContext.jsx';
+import { useContext } from 'react';
 
 // Devlok official go-live date — Starts the concept sequence from Day 1
 const LAUNCH_DATE = new Date('2026-03-21T00:00:00Z');
@@ -96,6 +99,7 @@ function ShareButtons({ concept, sharing, onShare }) {
 }
 
 export default function ConceptPage() {
+  const { user, updateUser } = useContext(AuthContext);
   const { streak } = useStreak();
   const [sharing, setSharing] = useState(null); // 'square' | 'landscape' | null
   const [shareError, setShareError] = useState('');
@@ -103,11 +107,28 @@ export default function ConceptPage() {
   const dayIndex = useMemo(() => getDayIndex(), []);
   const concept = useMemo(() => concepts[dayIndex], [dayIndex]);
 
+  const hasAwarded = React.useRef(false);
+
   useEffect(() => {
-    if (concept) {
-      posthog.capture('concept_read', { concept_id: concept.id, title: concept.title });
+    if (!concept) return;
+    posthog.capture('concept_read', { concept_id: concept.id, title: concept.title });
+
+    // Award Shraddha only once per page load, only if logged in
+    if (user && dayIndex !== undefined && !hasAwarded.current) {
+      hasAwarded.current = true;
+      axios.put('/users/concepts-read', { conceptId: dayIndex })
+        .then(res => {
+          if (res.data.awarded > 0) {
+            updateUser({
+              shraddha: res.data.shraddha,
+              conceptsRead: res.data.conceptsRead
+            });
+          }
+        })
+        .catch(err => console.error('Shraddha award error:', err));
     }
-  }, [concept]);
+  }, [concept, dayIndex]); // intentionally excludes user/updateUser — ref guards re-execution
+
 
   const handleShare = async (format) => {
     posthog.capture('share_clicked', { concept_id: concept.id, format });

@@ -1091,3 +1091,625 @@ button { font-family: inherit; }
   .concept-actions-grid  { flex-direction: column; }
 }
 
+
+/* ══════════════════════════════════════════════════════════════
+   PHASE 3A — USER ACCOUNTS, BOOKMARKS, PROFILE
+   ══════════════════════════════════════════════════════════════ */
+
+/* ── Bookmark Button (DetailPanel) ─────────────────────────────── */
+.bookmark-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: color 0.2s, transform 0.2s, border-color 0.2s;
+  padding: 3px 7px;
+  border-radius: 2px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+.bookmark-btn:hover {
+  color: var(--amber);
+  border-color: var(--amber-dim);
+  transform: scale(1.15);
+}
+.bookmark-btn.bookmarked {
+  color: var(--amber-glow);
+  border-color: var(--amber);
+  text-shadow: 0 0 10px rgba(240,184,74,.5);
+}
+
+/* Login hint tooltip that appears when unauthenticated user clicks ☆ */
+.bookmark-login-hint {
+  position: absolute;
+  right: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-right: 8px;
+  background: rgba(8,5,32,.97);
+  border: 1px solid var(--border);
+  color: var(--amber);
+  font-size: .62rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  white-space: nowrap;
+  border-radius: 2px;
+  pointer-events: none;
+  animation: fadeInLeft .2s ease;
+}
+@keyframes fadeInLeft {
+  from { opacity: 0; transform: translateY(-50%) translateX(8px); }
+  to   { opacity: 1; transform: translateY(-50%) translateX(0); }
+}
+
+/* ── Header Auth Elements ──────────────────────────────────────── */
+/* Sign in text link (when logged out) */
+.signin-link {
+  font-size: .62rem;
+  color: var(--text-dim);
+  text-decoration: none;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  padding: 4px 8px;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  transition: all .2s;
+}
+.signin-link:hover {
+  color: var(--amber);
+  border-color: var(--amber-dim);
+}
+
+/* User avatar circle (when logged in) */
+.user-avatar-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+.user-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(212,151,58,.15);
+  border: 1px solid var(--amber-dim);
+  color: var(--amber-glow);
+  font-family: 'Cinzel Decorative', serif;
+  font-size: .6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all .25s;
+  letter-spacing: .05em;
+}
+.user-avatar:hover {
+  background: rgba(212,151,58,.25);
+  border-color: var(--amber);
+  box-shadow: 0 0 14px rgba(240,184,74,.3);
+}
+
+/* ── Signup Page ───────────────────────────────────────────────── */
+/* Reuses .login-page, .login-card, .form-* — only add extras */
+.login-brand {
+  text-align: center;
+  margin-bottom: 28px;
+}
+.login-om {
+  font-size: 1.8rem;
+  margin-bottom: 8px;
+  opacity: .7;
+}
+.login-subtitle {
+  font-size: .68rem;
+  color: var(--text-dim);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+.login-form { display: flex; flex-direction: column; gap: 14px; }
+.form-group { display: flex; flex-direction: column; gap: 5px; }
+.login-link { color: var(--amber); transition: color .2s; }
+.login-link:hover { color: var(--amber-glow); }
+.signup-link {
+  text-align: center;
+  font-size: .75rem;
+  color: var(--text-dim);
+  margin-top: 18px;
+}
+.terms-note {
+  text-align: center;
+  font-size: .64rem;
+  color: rgba(122,104,64,.6);
+  margin-top: 14px;
+  font-style: italic;
+  line-height: 1.5;
+}
+
+/* ── Profile Page ──────────────────────────────────────────────── */
+/* Profile page needs body overflow to scroll — override the fixed body */
+.profile-page {
+  min-height: 100vh;
+  background: var(--void);
+  color: var(--text);
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 4rem;
+  position: relative;
+  z-index: 1;
+  overflow-y: auto;
+}
+
+/* Fix body so profile page scrolls */
+body:has(.profile-page),
+body:has(.signup-page-body) {
+  overflow: auto !important;
+  height: auto !important;
+}
+
+.profile-back {
+  display: inline-block;
+  font-size: .68rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  text-decoration: none;
+  margin-bottom: 2rem;
+  transition: color .2s;
+}
+.profile-back:hover { color: var(--amber); }
+
+.profile-header {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border);
+}
+.profile-avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: rgba(212,151,58,.12);
+  border: 1px solid var(--amber-dim);
+  color: var(--amber-glow);
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.profile-header-info { display: flex; flex-direction: column; gap: 3px; }
+.profile-name {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: var(--amber-glow);
+}
+.profile-email { font-size: .8rem; color: var(--text-dim); font-style: italic; }
+
+/* Shraddha badge */
+.shraddha-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+  font-size: .72rem;
+  letter-spacing: .08em;
+}
+.shraddha-icon { color: var(--amber-glow); font-size: .8rem; }
+.shraddha-points { color: var(--amber-glow); font-weight: 600; }
+.shraddha-rank {
+  color: var(--text-dim);
+  font-size: .64rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border: 1px solid var(--amber-dim);
+  border-radius: 10px;
+  font-style: italic;
+}
+
+/* Profile sections */
+.profile-section {
+  margin-bottom: 2.5rem;
+}
+.profile-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+.profile-section-title {
+  font-size: .6rem;
+  letter-spacing: .24em;
+  text-transform: uppercase;
+  color: var(--amber);
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgba(212,151,58,.14);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.profile-count {
+  color: var(--text-dim);
+  font-size: .6rem;
+  font-weight: normal;
+}
+.view-constellation-link {
+  font-size: .65rem;
+  color: var(--amber);
+  letter-spacing: .08em;
+  text-decoration: none;
+  transition: color .2s;
+}
+.view-constellation-link:hover { color: var(--amber-glow); }
+
+/* Bookmark grid */
+.bookmark-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.character-card-mini {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 10px 14px;
+  background: rgba(212,151,58,.04);
+  border: 1px solid;
+  border-radius: 2px;
+  transition: all .25s;
+  text-decoration: none;
+  min-width: 110px;
+  position: relative;
+}
+.character-card-mini:hover {
+  background: rgba(212,151,58,.09);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,0,0,.5);
+}
+.char-mini-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  display: block;
+  margin-bottom: 3px;
+}
+.char-mini-sanskrit {
+  font-size: .82rem;
+  color: var(--text-dim);
+  font-style: italic;
+  line-height: 1.2;
+}
+.char-mini-label {
+  font-size: .88rem;
+  color: var(--text);
+  font-weight: 500;
+}
+.char-mini-type {
+  font-size: .55rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+/* Reading progress bar */
+.reading-progress-bar {
+  height: 3px;
+  background: rgba(212,151,58,.1);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 6px;
+}
+.reading-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--amber-dim), var(--amber-glow));
+  border-radius: 2px;
+  transition: width .8s cubic-bezier(.16,1,.3,1);
+}
+.reading-progress-label {
+  font-size: .72rem;
+  color: var(--text-dim);
+  font-style: italic;
+}
+
+/* Empty state */
+.profile-empty { text-align: center; padding: 1.5rem 0; }
+.profile-empty-text { font-size: .95rem; color: var(--text-dim); margin-bottom: 6px; }
+.profile-empty-sub { font-size: .78rem; color: rgba(122,104,64,.6); font-style: italic; margin-bottom: 1rem; }
+.profile-explore-btn {
+  display: inline-block;
+  padding: 8px 20px;
+  border: 1px solid var(--amber-dim);
+  color: var(--amber-glow);
+  font-size: .7rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 2px;
+  transition: all .25s;
+}
+.profile-explore-btn:hover {
+  background: rgba(212,151,58,.1);
+  border-color: var(--amber);
+}
+
+.profile-loading { font-size: .82rem; color: var(--text-dim); font-style: italic; }
+
+/* Shraddha breakdown table */
+.shraddha-table {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.shraddha-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 16px;
+  font-size: .82rem;
+  border-bottom: 1px solid rgba(212,151,58,.07);
+  transition: background .2s;
+}
+.shraddha-row:last-child { border-bottom: none; }
+.shraddha-row:hover { background: rgba(212,151,58,.04); }
+.shraddha-reward {
+  color: var(--amber-glow);
+  font-weight: 600;
+  font-family: 'Cinzel Decorative', serif;
+  font-size: .75rem;
+}
+
+/* Profile footer */
+.profile-footer {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+  text-align: center;
+}
+.profile-logout-btn {
+  background: transparent;
+  border: 1px solid rgba(196,92,92,.3);
+  color: rgba(196,92,92,.65);
+  padding: 8px 22px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: .72rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: all .2s;
+}
+.profile-logout-btn:hover {
+  border-color: var(--destroy);
+  color: var(--destroy);
+  background: rgba(196,92,92,.07);
+}
+
+/* ── Mobile tweaks for Profile ─────────────────────────────────── */
+@media (max-width: 600px) {
+  .profile-page { padding: 1.5rem 1rem 3rem; }
+  .profile-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+  .bookmark-grid { gap: 8px; }
+  .character-card-mini { min-width: calc(50% - 4px); }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   🌌 CONSTELLATION PAGE — CINEMATIC REDESIGN
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.constellation-root {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background: #00000f;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Animated star-field canvas */
+.constellation-starfield {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Nebula glow blobs */
+.constellation-nebula {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.08;
+  pointer-events: none;
+  z-index: 2;
+  animation: nebulaFloat 18s ease-in-out infinite alternate;
+  width: 700px;
+  height: 700px;
+  top: -200px;
+  left: -150px;
+  background: radial-gradient(circle, #d4973a 0%, #c45c8a 50%, transparent 80%);
+}
+.constellation-nebula--2 {
+  top: auto; left: auto;
+  bottom: -200px; right: -150px;
+  background: radial-gradient(circle, #5c8ac4 0%, #9a6ed4 50%, transparent 80%);
+  animation-delay: -9s;
+}
+@keyframes nebulaFloat {
+  from { transform: scale(1) translate(0, 0); opacity: 0.07; }
+  to   { transform: scale(1.3) translate(40px, 30px); opacity: 0.12; }
+}
+
+/* Floating Sanskrit glyphs */
+.constellation-glyphs {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  overflow: hidden;
+}
+.constellation-glyph {
+  position: absolute;
+  bottom: -60px;
+  color: #d4973a;
+  font-family: 'Noto Serif Devanagari', 'Noto Serif', serif;
+  animation: glyphRise linear infinite;
+  white-space: nowrap;
+  user-select: none;
+}
+@keyframes glyphRise {
+  0%   { transform: translateY(0) rotate(0deg);         opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 0.6; }
+  100% { transform: translateY(-120vh) rotate(20deg);   opacity: 0; }
+}
+
+/* ── HUD top bar ── */
+.constellation-hud {
+  position: relative;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2.5rem;
+  height: 80px;
+  flex-shrink: 0;
+  background: linear-gradient(to bottom, rgba(0,0,10,.97) 0%, rgba(0,0,10,.6) 70%, transparent 100%);
+  border-bottom: 1px solid rgba(212,151,58,.1);
+  animation: hudSlideDown .8s cubic-bezier(0.23,1,0.32,1) both;
+}
+@keyframes hudSlideDown {
+  from { transform: translateY(-80px); opacity: 0; }
+  to   { transform: translateY(0);     opacity: 1; }
+}
+
+.constellation-hud-back {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: rgba(212,151,58,.6);
+  text-decoration: none;
+  font-family: 'Cinzel', serif;
+  font-size: 0.75rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  transition: color .25s, transform .25s;
+}
+.constellation-hud-back:hover { color: var(--gold); transform: translateX(-4px); }
+.constellation-hud-back-arrow { font-size: 1.1rem; line-height: 1; }
+
+.constellation-hud-center {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  text-align: center;
+}
+.constellation-hud-glyph {
+  color: var(--gold);
+  font-size: 1rem;
+  opacity: .5;
+  animation: goldPulse 3s ease-in-out infinite;
+}
+@keyframes goldPulse {
+  0%, 100% { opacity: .35; transform: scale(1); }
+  50%       { opacity: .8;  transform: scale(1.2); }
+}
+.constellation-hud-title {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--gold);
+  margin: 0;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-shadow: 0 0 30px rgba(212,151,58,.4);
+}
+.constellation-hud-subtitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: .85rem;
+  font-style: italic;
+  color: rgba(212,151,58,.55);
+  margin: 2px 0 0;
+  letter-spacing: 1px;
+}
+
+.constellation-hud-stats { display: flex; gap: .75rem; }
+.constellation-stat-pill {
+  background: rgba(212,151,58,.07);
+  border: 1px solid rgba(212,151,58,.18);
+  border-radius: 99px;
+  padding: 6px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 56px;
+  transition: background .2s;
+}
+.constellation-stat-pill:hover { background: rgba(212,151,58,.13); }
+.constellation-stat-num {
+  font-family: 'Cinzel', serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--gold);
+  line-height: 1;
+}
+.constellation-stat-label {
+  font-size: .6rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: rgba(212,151,58,.45);
+  margin-top: 2px;
+}
+
+/* Graph area */
+.constellation-graph-wrap {
+  position: relative;
+  z-index: 10;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* Sanskrit footer bar */
+.constellation-footer-bar {
+  position: relative;
+  z-index: 50;
+  height: 36px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(to top, rgba(0,0,10,.97) 0%, rgba(0,0,10,.5) 70%, transparent 100%);
+  border-top: 1px solid rgba(212,151,58,.07);
+  overflow: hidden;
+}
+.constellation-footer-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: .72rem;
+  letter-spacing: 3px;
+  color: rgba(212,151,58,.28);
+  text-transform: uppercase;
+  white-space: nowrap;
+  animation: marqueeDrift 30s linear infinite;
+}
+@keyframes marqueeDrift {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-30%); }
+}
+
+/* Responsive */
+@media (max-width: 700px) {
+  .constellation-hud { padding: 0 1rem; height: 64px; }
+  .constellation-hud-title { font-size: .85rem; letter-spacing: 1px; }
+  .constellation-hud-subtitle { display: none; }
+  .constellation-hud-stats { gap: .4rem; }
+  .constellation-stat-pill { min-width: 44px; padding: 5px 10px; }
+}
+

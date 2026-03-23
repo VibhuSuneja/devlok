@@ -2,10 +2,14 @@ import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 
 const UserSchema = new mongoose.Schema({
-  name:     { type: String, required: true },
-  email:    { type: String, required: true, unique: true },
-  password: { type: String, required: true },
-  role:     { type: String, enum: ['admin'], default: 'admin' },
+  name:         { type: String, required: true },
+  email:        { type: String, required: true, unique: true },
+  password:     { type: String, required: true },
+  role:         { type: String, enum: ['admin', 'user'], default: 'user' },
+  bookmarks:    [{ type: String }],         // array of character IDs e.g. ['karna', 'shiva']
+  conceptsRead: [{ type: Number }],         // array of concept date_index values
+  shraddha:     { type: Number, default: 0 },
+  joinedAt:     { type: Date, default: Date.now },
 }, { timestamps: true });
 
 UserSchema.pre('save', async function (next) {

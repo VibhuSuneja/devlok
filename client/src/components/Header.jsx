@@ -1,9 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import SearchBar from './SearchBar.jsx';
 import FilterBar from './FilterBar.jsx';
+import { AuthContext } from '../context/AuthContext.jsx';
 
 function Header({ typeFilter, setTypeFilter, linkFilter, setLinkFilter, searchQuery, setSearchQuery }) {
+  const { user, isAdmin, isLoggedIn } = useContext(AuthContext);
+
+  // Generate initials from user name (up to 2 chars)
+  const initials = user?.name
+    ? user.name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase()
+    : '';
+
   return (
     <header className="header">
       <div className="brand">
@@ -26,7 +34,20 @@ function Header({ typeFilter, setTypeFilter, linkFilter, setLinkFilter, searchQu
 
       <div className="header-actions">
         <Link to="/today" className="today-link">🔥 Daily Concept</Link>
-        <Link to="/admin" className="admin-link">Access Core</Link>
+
+        {/* Admin-only link */}
+        {isAdmin && (
+          <Link to="/admin" className="admin-link">Access Core</Link>
+        )}
+
+        {/* Auth state — logged in: avatar + profile link; out: sign in */}
+        {isLoggedIn ? (
+          <Link to="/profile" className="user-avatar-link" title={`${user.name} · ${user.shraddha || 0} Shraddha`}>
+            <span className="user-avatar">{initials}</span>
+          </Link>
+        ) : (
+          <Link to="/signup" className="signin-link">Sign in</Link>
+        )}
       </div>
     </header>
   );

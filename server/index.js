@@ -8,6 +8,7 @@ import characterRoutes from './routes/characters.js';
 import relationshipRoutes from './routes/relationships.js';
 import graphRoutes from './routes/graph.js';
 import paymentRoutes from './routes/payments.js';
+import userRoutes from './routes/users.js';
 
 const app = express();
 
@@ -19,6 +20,7 @@ const allowedOrigins = [
   process.env.CLIENT_URL,
   process.env.CLIENT_URL?.endsWith('/') ? process.env.CLIENT_URL.slice(0, -1) : process.env.CLIENT_URL + '/',
   'http://localhost:5173',
+  'http://localhost:5174',
   'https://devlok-three.vercel.app/'
 ].filter(Boolean);
 
@@ -41,6 +43,7 @@ app.use('/api/characters', characterRoutes);
 app.use('/api/relationships', relationshipRoutes);
 app.use('/api/graph', graphRoutes);
 app.use('/api/payments', paymentRoutes);
+app.use('/api/users', userRoutes);
 
 // Health check
 app.get('/', (req, res) => res.json({ message: 'Devlok API running 🕉' }));
