@@ -28,7 +28,7 @@ export default function SignupPage() {
     try {
       setLoading(true);
       await signup(form.name, form.email, form.password);
-      navigate('/');
+      navigate('/profile');
     } catch (err) {
       setError(err?.response?.data?.message || 'Signup failed. Please try again.');
     } finally {

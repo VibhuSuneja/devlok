@@ -27,7 +27,7 @@ const NODE_COLORS = {
   sage: '#5cb88a', asura: '#c45c5c', celestial: '#9a6ed4',
 };
 
-const TOTAL_CONCEPTS = 30; // current total — update as concepts grow
+const TOTAL_CONCEPTS = 30; // TODO: update this when concepts.json grows beyond 30
 
 export default function ProfilePage() {
   const { user, logout, updateUser } = useContext(AuthContext);
@@ -78,7 +78,7 @@ export default function ProfilePage() {
       {/* ── Shraddha progress to next rank ── */}
       {rankNext && (
         <div className="profile-section">
-          <h2 className="profile-section-title">Path to {RANKS[RANKS.findIndex(r => r.min > (user.shraddha || 0))]?.label || 'Chiranjivi'}</h2>
+          <h2 className="profile-section-title">Path to {RANKS.find(r => r.min > (user.shraddha || 0))?.label || 'Chiranjivi'}</h2>
           <div className="reading-progress-bar">
             <div className="reading-progress-fill" style={{ width: `${rankProgress}%` }} />
           </div>

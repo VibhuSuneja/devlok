@@ -9,7 +9,7 @@ import { AuthContext } from '../context/AuthContext.jsx';
 import { useContext } from 'react';
 
 // Devlok official go-live date — Starts the concept sequence from Day 1
-const LAUNCH_DATE = new Date('2026-03-21T00:00:00Z');
+const LAUNCH_DATE = new Date('2026-03-24T00:00:00Z');
 
 function getDayIndex() {
   const now = new Date();

@@ -6,12 +6,12 @@
       "destination": "https://us.i.posthog.com/static/:path*"
     },
     {
-      "source": "/sys-logs/:path*",
-      "destination": "https://us.i.posthog.com/:path*"
-    },
-    {
       "source": "/sys-logs/decide/:path*",
       "destination": "https://us.i.posthog.com/decide/:path*"
+    },
+    {
+      "source": "/sys-logs/:path*",
+      "destination": "https://us.i.posthog.com/:path*"
     },
     {
       "source": "/((?!sys-logs|static|favicon.ico|_next).*)",

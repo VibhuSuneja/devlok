@@ -16,12 +16,13 @@ const app = express();
 connectDB();
 
 // Middleware
+const rawOrigin = process.env.CLIENT_URL?.replace(/\/$/, '');
+
 const allowedOrigins = [
-  process.env.CLIENT_URL,
-  process.env.CLIENT_URL?.endsWith('/') ? process.env.CLIENT_URL.slice(0, -1) : process.env.CLIENT_URL + '/',
+  rawOrigin,
   'http://localhost:5173',
   'http://localhost:5174',
-  'https://devlok-three.vercel.app/'
+  'https://devlok-three.vercel.app',
 ].filter(Boolean);
 
 app.use(cors({
