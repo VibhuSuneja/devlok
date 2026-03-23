@@ -1,16 +1,14 @@
 import React, { useState } from 'react';
-
-const SHANKH_URL = '/sounds/shankh.mp3'; // PLACE YOUR SHANKA MP3 FILE IN client/public/sounds/shankh.mp3
+import { useSound } from '../hooks/useSound.js';
 
 function IntroOverlay({ onEnter }) {
   const [hidden, setHidden] = useState(false);
+  const { playSound } = useSound();
 
   const handleEnter = () => {
-    const audio = new Audio(SHANKH_URL);
-    audio.play().catch(err => console.log('Audio playback blocked:', err));
-    
+    playSound('shankh');
     setHidden(true);
-    setTimeout(onEnter, 800); // Wait for transition
+    setTimeout(onEnter, 800);
   };
 
   return (
@@ -33,3 +31,4 @@ function IntroOverlay({ onEnter }) {
 }
 
 export default IntroOverlay;
+

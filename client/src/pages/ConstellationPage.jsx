@@ -5,6 +5,7 @@ import Graph from '../components/Graph.jsx';
 import Loader from '../components/Loader.jsx';
 import DetailPanel from '../components/DetailPanel.jsx';
 import Tooltip from '../components/Tooltip.jsx';
+import { useSound } from '../hooks/useSound.js';
 import posthog from 'posthog-js';
 
 // ── Animated star canvas ───────────────────────────────────────────────────────
@@ -96,6 +97,7 @@ function FloatingGlyphs({ count = 12 }) {
 // ── Main Page ─────────────────────────────────────────────────────────────────
 export default function ConstellationPage() {
   const [data, setData] = useState({ nodes: [], links: [] });
+  const { playSound } = useSound();
   const [loading, setLoading] = useState(true);
   const [selectedNodeId, setSelectedNodeId] = useState(null);
   const [tooltip, setTooltip] = useState({ visible: false, x: 0, y: 0, node: null });
@@ -112,7 +114,12 @@ export default function ConstellationPage() {
     axios.get('/graph')
       .then(res => setData(res.data))
       .catch(err => console.error('Fetch error:', err))
-      .finally(() => setLoading(false));
+      .finally(() => {
+        setLoading(false);
+        // Play the OM pulse once the constellation reveals itself
+        setTimeout(() => playSound('constellation'), 400);
+      });
+
     return () => {
       if (unselectTimerRef.current) clearTimeout(unselectTimerRef.current);
     };

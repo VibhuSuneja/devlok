@@ -1498,7 +1498,200 @@ body:has(.signup-page-body) {
   .profile-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
   .bookmark-grid { gap: 8px; }
   .character-card-mini { min-width: calc(50% - 4px); }
+  .profile-section-header { flex-direction: column; align-items: flex-start; gap: 6px; }
+  .shraddha-badge { flex-wrap: wrap; gap: 6px; }
+  .profile-avatar { width: 52px; height: 52px; font-size: 1.3rem; }
+  .profile-name { font-size: 1.5rem; }
 }
+
+/* ── Mobile tweaks for Signup ───────────────────────────────────── */
+@media (max-width: 480px) {
+  .signup-page { padding: 2rem 1.2rem; }
+  .signup-card { padding: 2rem 1.5rem; }
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   CHARACTER PAGE — premium standalone view
+   ════════════════════════════════════════════════════════════════════════ */
+.char-page-root {
+  min-height: 100vh;
+  background: var(--void, #08080c);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Mini top header */
+.char-page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  height: 60px;
+  background: rgba(8, 8, 12, 0.92);
+  border-bottom: 1px solid rgba(212, 151, 58, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  backdrop-filter: blur(12px);
+}
+.char-page-back {
+  font-family: 'Cinzel', serif;
+  font-size: 0.72rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(212, 151, 58, 0.6);
+  text-decoration: none;
+  transition: color 0.2s, transform 0.2s;
+}
+.char-page-back:hover { color: var(--gold); transform: translateX(-3px); }
+.char-page-header-title {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 0.7rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(212, 151, 58, 0.3);
+}
+.char-page-header-actions { display: flex; align-items: center; gap: 1rem; }
+
+/* Body */
+.char-page-body {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1.5rem 4rem;
+  position: relative;
+}
+.char-page-glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Card */
+.char-page-card {
+  position: relative;
+  z-index: 1;
+  max-width: 640px;
+  width: 100%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+.char-page-sanskrit {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(2.2rem, 6vw, 3.5rem);
+  margin: 0 0 0.4rem;
+  line-height: 1.1;
+}
+.char-page-label {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 300;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #e8d5a3;
+  margin: 0 0 1.5rem;
+}
+.char-page-badges {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+.char-page-badge {
+  font-family: 'Cinzel', serif;
+  font-size: 0.7rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  border: 1px solid;
+  padding: 5px 14px;
+  border-radius: 99px;
+}
+.char-page-epithets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+.char-page-divider {
+  width: 200px;
+  height: 1px;
+  margin: 0.5rem auto 1.75rem;
+  opacity: 0.6;
+}
+.char-page-desc {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 1.15rem;
+  line-height: 1.85;
+  color: #e8d5a3;
+  margin: 0 0 1.5rem;
+}
+.char-page-source {
+  font-size: 0.75rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: rgba(212, 151, 58, 0.35);
+  margin: 0 0 2.5rem;
+}
+
+/* Action buttons */
+.char-page-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 0.5rem;
+}
+.char-page-bookmark-btn,
+.char-page-explore-btn,
+.char-page-share-btn {
+  font-family: 'Cinzel', serif;
+  font-size: 0.72rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  border: 1px solid;
+  border-radius: 4px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: all 0.25s;
+}
+.char-page-bookmark-btn:hover { opacity: 0.85; transform: translateY(-2px); }
+.char-page-explore-btn:hover { opacity: 0.85; transform: translateY(-2px); }
+.char-page-share-btn:hover   { opacity: 0.85; transform: translateY(-2px); }
+.char-page-bookmark-btn:disabled { opacity: 0.5; cursor: wait; }
+
+/* Login hint below actions */
+.char-page-login-hint {
+  margin-top: 1.2rem;
+  font-size: 0.8rem;
+  color: rgba(212, 151, 58, 0.5);
+  font-style: italic;
+}
+.char-page-login-hint a {
+  color: var(--gold);
+  text-decoration: underline;
+}
+
+/* ── Mobile CharacterPage ────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .char-page-header { padding: 0 1rem; }
+  .char-page-header-title { display: none; }
+  .char-page-body { padding: 2rem 1rem 3rem; }
+  .char-page-desc { font-size: 1rem; }
+  .char-page-actions { gap: 0.5rem; }
+  .char-page-bookmark-btn,
+  .char-page-explore-btn,
+  .char-page-share-btn { padding: 9px 14px; font-size: 0.65rem; }
+}
+
+
 
 /* ═══════════════════════════════════════════════════════════════════════════
    🌌 CONSTELLATION PAGE — CINEMATIC REDESIGN

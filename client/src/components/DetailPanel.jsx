@@ -1,6 +1,7 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 import { AuthContext } from '../context/AuthContext.jsx';
 import { useBookmarks } from '../hooks/useBookmarks.js';
+import { useSound } from '../hooks/useSound.js';
 
 const COLORS = {
   deva: '#d4973a',
@@ -94,6 +95,17 @@ function DetailPanel({ node, links, allNodes, onClose, onSelectNode }) {
   const [showLoginHint, setShowLoginHint] = React.useState(false);
   const { isLoggedIn } = useContext(AuthContext);
   const { isBookmarked, toggleBookmark } = useBookmarks();
+  const { playSound } = useSound();
+  const prevNodeId = useRef(null);
+
+  // Play bell when a new node opens
+  useEffect(() => {
+    if (node && node.id !== prevNodeId.current) {
+      prevNodeId.current = node.id;
+      playSound('node_click');
+    }
+    if (!node) prevNodeId.current = null;
+  }, [node, playSound]);
 
   const bookmarked = node ? isBookmarked(node.id) : false;
   
@@ -111,7 +123,17 @@ function DetailPanel({ node, links, allNodes, onClose, onSelectNode }) {
       setTimeout(() => setShowLoginHint(false), 2500);
       return;
     }
-    await toggleBookmark(node.id);
+    const wasBookmarked = bookmarked;
+    const result = await toggleBookmark(node.id);
+    if (result?.success) {
+      if (!wasBookmarked) {
+        playSound('bookmark');
+        // Small delay then play shraddha chime for points
+        setTimeout(() => playSound('shraddha'), 300);
+      } else {
+        playSound('unbookmark');
+      }
+    }
   };
 
   return (
