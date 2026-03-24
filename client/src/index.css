@@ -350,20 +350,55 @@ header {
 .counter-number { font-family: 'Cinzel Decorative', serif; font-size: 2rem; color: rgba(212,151,58,.12); line-height: 1; }
 .counter-label { font-size: .56rem; letter-spacing: .26em; text-transform: uppercase; color: var(--text-dim); }
 
-/* ── DATASET LINK ── */
-.dataset-link {
-  display: block;
-  font-size: .52rem;
-  letter-spacing: .18em;
+/* ── DATASET CONTROLS ── */
+.dataset-controls {
+  margin-top: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: flex-end;
+  font-size: .56rem;
+  letter-spacing: .15em;
   text-transform: uppercase;
-  color: rgba(122,104,64,.45);
+  background: rgba(212,151,58,0.04);
+  padding: 6px 14px;
+  border: 1px solid rgba(212,151,58,0.1);
+  border-radius: 4px;
+  backdrop-filter: blur(4px);
+  transition: all 0.3s;
+}
+.dataset-controls:hover {
+  background: rgba(212,151,58,0.08);
+  border-color: rgba(212,151,58,0.25);
+  box-shadow: 0 0 20px rgba(0,0,0,0.4);
+}
+.dataset-prefix { 
+  color: var(--amber-glow); 
+  font-weight: 700; 
+  text-shadow: 0 0 10px rgba(240,184,74,.3);
+  margin-right: 2px;
+}
+.dataset-link {
+  color: var(--text-dim);
   text-decoration: none;
-  transition: color .3s, opacity .3s;
-  pointer-events: auto;
-  margin-top: 8px; /* Push it below label */
+  transition: all 0.2s;
+  padding: 2px 4px;
+  border-bottom: 1px solid transparent;
 }
 .dataset-link:hover {
-  color: var(--amber-dim);
+  color: var(--text);
+  border-bottom-color: var(--amber);
+}
+.dataset-sep { opacity: .2; }
+.dataset-license {
+  margin-left: 6px;
+  padding: 1px 5px;
+  background: rgba(212,151,58,0.1);
+  border: 1px solid rgba(212,151,58,0.2);
+  color: var(--amber);
+  border-radius: 2px;
+  font-size: .45rem;
+  letter-spacing: .05em;
 }
 
 /* ── LOADER ── */
