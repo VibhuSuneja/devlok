@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useRef } from 'react';
 import { AuthContext } from '../context/AuthContext.jsx';
 import { useBookmarks } from '../hooks/useBookmarks.js';
 import { useSound } from '../hooks/useSound.js';
+import SubmitCorrectionForm from './SubmitCorrectionForm.jsx';
 
 const COLORS = {
   deva: '#d4973a',
@@ -93,6 +94,9 @@ function getEffectiveLabel(link, currentNodeId, otherNode) {
 function DetailPanel({ node, links, allNodes, onClose, onSelectNode }) {
   const [copied, setCopied] = React.useState(false);
   const [showLoginHint, setShowLoginHint] = React.useState(false);
+  const [isCorrecting, setIsCorrecting] = React.useState(false);
+  const [correctionSuccess, setCorrectionSuccess] = React.useState(false);
+  
   const { isLoggedIn } = useContext(AuthContext);
   const { isBookmarked, toggleBookmark } = useBookmarks();
   const { playSound } = useSound();
@@ -102,6 +106,8 @@ function DetailPanel({ node, links, allNodes, onClose, onSelectNode }) {
   useEffect(() => {
     if (node && node.id !== prevNodeId.current) {
       prevNodeId.current = node.id;
+      setIsCorrecting(false);
+      setCorrectionSuccess(false);
       playSound('node_click');
     }
     if (!node) prevNodeId.current = null;
@@ -214,6 +220,29 @@ function DetailPanel({ node, links, allNodes, onClose, onSelectNode }) {
                   );
                 })}
               </div>
+            </div>
+
+            <div className="panel-section contribution-section">
+              {correctionSuccess ? (
+                <div className="correction-success-msg">
+                  <span className="success-icon">✨</span>
+                  <p>Suggestion submitted! You earned +50 Shraddha.</p>
+                  <p>Our scholars will review your contribution.</p>
+                </div>
+              ) : isCorrecting ? (
+                <SubmitCorrectionForm 
+                  node={node} 
+                  onCancel={() => setIsCorrecting(false)} 
+                  onSuccess={() => setCorrectionSuccess(true)} 
+                />
+              ) : (
+                <button 
+                  className="btn-suggest-correction"
+                  onClick={() => isLoggedIn ? setIsCorrecting(true) : setShowLoginHint(true)}
+                >
+                  ✎ Suggest a correction
+                </button>
+              )}
             </div>
           </div>
         </>
