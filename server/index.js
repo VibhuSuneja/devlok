@@ -9,6 +9,7 @@ import relationshipRoutes from './routes/relationships.js';
 import graphRoutes from './routes/graph.js';
 import paymentRoutes from './routes/payments.js';
 import userRoutes from './routes/users.js';
+import exportRoutes from './routes/export.js';
 
 const app = express();
 
@@ -45,6 +46,7 @@ app.use('/api/relationships', relationshipRoutes);
 app.use('/api/graph', graphRoutes);
 app.use('/api/payments', paymentRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/export', exportRoutes);  // Public open data export
 
 // Health check
 app.get('/', (req, res) => res.json({ message: 'Devlok API running 🕉' }));
