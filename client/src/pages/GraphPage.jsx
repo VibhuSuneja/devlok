@@ -149,15 +149,6 @@ function GraphPage() {
       <ArcSelector activeArcId={activeArcId} setActiveArcId={setActiveArcId} />
       <NodeCounter count={filteredData.nodes.length} />
 
-      <a
-        href={`${import.meta.env.VITE_API_URL.replace('/api', '')}/api/export/graph.json`}
-        className="dataset-link"
-        title="Download the complete Devlok dataset (JSON) — CC BY 4.0"
-        download="devlok-graph.json"
-      >
-        ↓ Dataset · CC BY 4.0
-      </a>
-
       <YugaTimeline 
         activeYuga={yugaFilter} 
         setYuga={setYugaFilter} 
