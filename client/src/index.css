@@ -3118,3 +3118,187 @@ body:has(.gurukul-page) {
 
 @keyframes badge-pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.5); box-shadow: 0 0 6px #5cb88a; } }
 
+
+/* -- GURUKUL BANNER -- */
+.gurukul-banner-wrapper {
+  position: fixed;
+  top: 60px; /* Below standard header height */
+  left: 0; right: 0;
+  z-index: 150;
+  display: flex;
+  justify-content: center;
+  padding: 0 20px;
+  pointer-events: none;
+  animation: banner-slide-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes banner-slide-in {
+  from { transform: translateY(-100%); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.gurukul-banner {
+  pointer-events: auto;
+  background: #1a1510;
+  border: 1px solid rgba(212, 151, 58, 0.3);
+  border-top: none;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  font-size: 0.75rem;
+  color: #fff;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+  position: relative;
+  overflow: hidden;
+  transition: background 0.3s;
+}
+
+.gurukul-banner:hover { background: #241e16; }
+
+.banner-shimmer {
+  position: absolute;
+  top: 0; left: -100%;
+  width: 50%; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--amber), transparent);
+  animation: banner-shimmer-run 4s infinite linear;
+}
+
+@keyframes banner-shimmer-run {
+  0% { left: -100%; }
+  30%, 100% { left: 200%; }
+}
+
+.banner-fire { animation: popup-flicker 2s infinite; }
+.banner-text { letter-spacing: 0.02em; }
+.banner-count { color: var(--amber); font-weight: 700; margin-left: 4px; }
+.banner-cta { 
+  color: var(--amber); 
+  font-weight: 800; 
+  text-transform: uppercase; 
+  font-size: 0.65rem; 
+  letter-spacing: 0.1em;
+  padding-left: 8px;
+  border-left: 1px solid rgba(255,255,255,0.1);
+}
+
+.banner-close {
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.3);
+  font-size: 1.1rem;
+  cursor: pointer;
+  padding: 0 4px;
+  transition: color 0.2s;
+}
+
+.banner-close:hover { color: #fff; }
+
+/* -- GURUKUL PROMO CARD (Profile) -- */
+.gurukul-promo-card {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(212, 151, 58, 0.15);
+  border-left: 4px solid #d4973a;
+  padding: 24px;
+  margin: 24px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.gurukul-promo-card.success {
+  text-align: center;
+  background: rgba(92, 184, 138, 0.05);
+  border-color: rgba(92, 184, 138, 0.3);
+}
+
+.promo-success-icon { font-size: 3rem; color: #5cb88a; margin-bottom: 12px; }
+
+.promo-badge {
+  position: absolute;
+  top: 0; right: 0;
+  background: rgba(212, 151, 58, 0.1);
+  color: var(--amber);
+  font-size: 0.55rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  padding: 4px 12px;
+  font-weight: 700;
+}
+
+.promo-header { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; }
+.promo-fire-icon { font-size: 1.8rem; filter: drop-shadow(0 0 8px var(--amber)); }
+.promo-title { font-family: "Cinzel Decorative", serif; font-size: 1.25rem; color: #fff; margin: 0; }
+.promo-sub { font-size: 0.75rem; color: var(--text-dim); margin: 0; }
+
+.promo-curriculum {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.curriculum-item {
+  display: flex;
+  flex-direction: column;
+  background: rgba(0,0,0,0.2);
+  padding: 8px 12px;
+  border-left: 2px solid #ccc;
+}
+
+.item-sanskrit { font-family: "Cinzel Decorative", serif; font-size: 0.65rem; color: #fff; }
+.item-eng { font-size: 0.55rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.1em; }
+
+.promo-progress-section { margin-bottom: 20px; }
+.promo-progress-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.promo-progress-bar { height: 4px; background: rgba(255,255,255,0.05); border-radius: 2px; }
+.promo-progress-fill { height: 100%; background: var(--amber); box-shadow: 0 0 10px var(--amber); border-radius: 2px; }
+
+.promo-form { display: flex; gap: 12px; margin-bottom: 16px; }
+.promo-input {
+  flex-grow: 1;
+  background: rgba(0,0,0,0.3);
+  border: 1px solid var(--border);
+  padding: 10px 16px;
+  color: #fff;
+  font-size: 0.85rem;
+}
+
+.promo-btn {
+  background: var(--amber);
+  color: #000;
+  border: none;
+  padding: 0 24px;
+  font-weight: 700;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: transform 0.2s, background 0.2s;
+}
+
+.promo-btn:hover { background: var(--amber-glow); transform: translateY(-2px); }
+.promo-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.promo-reward-hint {
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.reward-star { color: var(--amber); }
+
+@media (max-width: 600px) {
+  .promo-curriculum { grid-template-columns: repeat(2, 1fr); }
+  .banner-text { display: none; }
+  .banner-content { padding: 4px; }
+}
+

@@ -12,6 +12,7 @@ import Tooltip from '../components/Tooltip.jsx';
 import IntroOverlay from '../components/IntroOverlay.jsx';
 import ArcSelector from '../components/ArcSelector.jsx';
 import GurukulLauncher from '../components/GurukulLauncher.jsx';
+import GurkulBanner from '../components/GurkulBanner.jsx';
 import storyArcs from '../data/storyArcs.json';
 import posthog from 'posthog-js';
 
@@ -135,6 +136,8 @@ function GraphPage() {
         searchQuery={searchQuery} 
         setSearchQuery={setSearchQuery} 
       />
+
+      <GurkulBanner />
 
       <Graph 
         data={filteredData} 

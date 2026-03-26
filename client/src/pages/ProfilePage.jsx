@@ -4,6 +4,8 @@ import { AuthContext } from '../context/AuthContext.jsx';
 import axios from '../api/axios.js';
 
 // ── Shraddha ranks (mirror server) ───────────────────────────────────────────
+import GurkulPromoCard from '../components/GurkulPromoCard.jsx';
+
 const RANKS = [
   { min: 0,    label: 'Curious Seeker',       next: 100 },
   { min: 100,  label: 'Student of the Epics', next: 300 },
@@ -27,7 +29,7 @@ const NODE_COLORS = {
   sage: '#5cb88a', asura: '#c45c5c', celestial: '#9a6ed4',
 };
 
-const TOTAL_CONCEPTS = 30; // TODO: update this when concepts.json grows beyond 30
+const TOTAL_CONCEPTS = 90; // Updated for Phase 3E expansion target
 
 export default function ProfilePage() {
   const { user, logout, updateUser } = useContext(AuthContext);
@@ -126,6 +128,8 @@ export default function ProfilePage() {
           </div>
         )}
       </div>
+
+      <GurkulPromoCard />
 
       {/* ── Concepts Read ── */}
       <div className="profile-section">
