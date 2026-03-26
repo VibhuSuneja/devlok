@@ -5,6 +5,7 @@ import GraphPage from './pages/GraphPage.jsx';
 import CharacterPage from './pages/CharacterPage.jsx';
 import LoginPage from './pages/LoginPage.jsx';
 import AdminPanel from './pages/AdminPanel.jsx';
+import GurkulPage from './pages/GurkulPage.jsx';
 import ConceptPage from './pages/ConceptPage.jsx';
 import SignupPage from './pages/SignupPage.jsx';
 import ProfilePage from './pages/ProfilePage.jsx';
@@ -37,6 +38,7 @@ function App() {
           <Route path="/" element={<GraphPage />} />
           <Route path="/character/:id" element={<CharacterPage />} />
           <Route path="/today" element={<ConceptPage />} />
+          <Route path="/gurukul" element={<GurkulPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
           <Route 

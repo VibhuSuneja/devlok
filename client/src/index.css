@@ -2087,3 +2087,1034 @@ body:has(.signup-page-body) {
   .constellation-stat-pill { min-width: 44px; padding: 5px 10px; }
 }
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   GURUKUL — SACRED MANUSCRIPT × EDITORIAL LUXURY
+   Append this entire block to the bottom of client/src/index.css
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Page scaffold ── */
+.gurukul-page {
+  min-height: 100vh;
+  background: var(--void);
+  color: var(--text);
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Allow scroll on gurukul page */
+body:has(.gurukul-page) {
+  overflow: auto !important;
+  height: auto !important;
+}
+
+/* ── Nav ── */
+.gurukul-nav {
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  height: 56px;
+  background: rgba(4, 2, 15, 0.92);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(16px);
+}
+
+.gurukul-nav-back,
+.gurukul-nav-action {
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.gurukul-nav-back:hover,
+.gurukul-nav-action:hover { color: var(--amber); }
+.gurukul-nav-label {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 0.62rem;
+  letter-spacing: 0.22em;
+  color: var(--amber);
+  opacity: 0.7;
+  text-transform: uppercase;
+}
+
+/* ── Hero ── */
+.gurukul-hero {
+  position: relative;
+  z-index: 1;
+  min-height: 92vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 5rem 1.5rem 4rem;
+  overflow: hidden;
+}
+
+/* Central radial glow */
+.gurukul-hero::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 700px;
+  height: 700px;
+  background: radial-gradient(circle, rgba(212,151,58,0.07) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.gurukul-hero-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 2.5rem;
+  opacity: 0.85;
+  animation: gurukul-fade-up 0.8s ease both;
+}
+.gurukul-fire-glyph { font-size: 0.9rem; }
+
+.gurukul-hero-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  margin: 0 0 0.5rem;
+  animation: gurukul-fade-up 0.9s 0.1s ease both;
+}
+.gurukul-title-line-1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: clamp(2rem, 6vw, 4.5rem);
+  font-weight: 300;
+  color: rgba(232, 213, 163, 0.55);
+  line-height: 1;
+  letter-spacing: 0.15em;
+}
+.gurukul-title-line-2 {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(3.5rem, 12vw, 9rem);
+  font-weight: 700;
+  line-height: 0.92;
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, #f0b84a 0%, #d4973a 40%, #a06820 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: none;
+  filter: drop-shadow(0 0 40px rgba(212,151,58,0.35));
+}
+
+.gurukul-hero-sanskrit {
+  font-size: clamp(1.2rem, 3vw, 2rem);
+  color: rgba(212, 151, 58, 0.3);
+  font-style: italic;
+  letter-spacing: 0.1em;
+  margin: 0.5rem 0 2rem;
+  animation: gurukul-fade-up 1s 0.2s ease both;
+}
+
+.gurukul-hero-tagline {
+  max-width: 640px;
+  font-size: clamp(1rem, 2.2vw, 1.22rem);
+  line-height: 1.8;
+  color: rgba(232, 213, 163, 0.78);
+  font-style: italic;
+  font-weight: 300;
+  margin: 0 auto 2.5rem;
+  animation: gurukul-fade-up 1s 0.3s ease both;
+}
+
+.gurukul-hero-cta-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 3rem;
+  animation: gurukul-fade-up 1s 0.4s ease both;
+}
+.gurukul-cta-sub {
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  letter-spacing: 0.1em;
+}
+
+/* ── Primary CTA button ── */
+.gurukul-cta-primary {
+  background: linear-gradient(135deg, rgba(212,151,58,0.18), rgba(212,151,58,0.08));
+  border: 1px solid var(--amber);
+  color: var(--amber-glow);
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 14px 36px;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+.gurukul-cta-primary::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(212,151,58,0.15), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.gurukul-cta-primary:hover {
+  box-shadow: 0 0 40px rgba(212, 151, 58, 0.3), 0 0 80px rgba(212, 151, 58, 0.12);
+  transform: translateY(-2px);
+  letter-spacing: 0.22em;
+}
+.gurukul-cta-primary:hover::before { opacity: 1; }
+
+/* ── Progress bar ── */
+.gurukul-progress-wrap {
+  width: 100%;
+  max-width: 480px;
+  animation: gurukul-fade-up 1s 0.5s ease both;
+}
+.gurukul-progress-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  letter-spacing: 0.08em;
+  margin-bottom: 8px;
+}
+.gurukul-progress-track {
+  position: relative;
+  height: 4px;
+  background: rgba(212, 151, 58, 0.1);
+  border-radius: 2px;
+  overflow: visible;
+}
+.gurukul-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--amber-dim), var(--amber-glow));
+  border-radius: 2px;
+  transition: width 1s ease;
+  box-shadow: 0 0 10px rgba(212, 151, 58, 0.5);
+}
+.gurukul-progress-flame {
+  position: absolute;
+  top: -8px;
+  font-size: 0.85rem;
+  transform: translateX(-50%);
+  filter: drop-shadow(0 0 6px orange);
+  transition: left 1s ease;
+}
+
+/* ── Manifesto ── */
+.gurukul-manifesto {
+  position: relative;
+  z-index: 1;
+  padding: 6rem 1.5rem;
+  display: flex;
+  justify-content: center;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: rgba(8, 5, 32, 0.4);
+}
+.gurukul-manifesto-inner {
+  max-width: 680px;
+}
+.gurukul-manifesto-drop {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-family: 'Cinzel Decorative', serif;
+  line-height: 1.2;
+  color: var(--amber-glow);
+  margin-bottom: 2rem;
+}
+.gurukul-manifesto-drop span {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+  font-weight: 300;
+  font-style: italic;
+  color: var(--text);
+  vertical-align: middle;
+}
+.gurukul-manifesto-body {
+  font-size: clamp(1rem, 2vw, 1.15rem);
+  line-height: 1.9;
+  color: rgba(232, 213, 163, 0.82);
+  margin-bottom: 1.4rem;
+  font-style: italic;
+  font-weight: 300;
+}
+.gurukul-manifesto-pivot {
+  font-family: 'Cinzel Decorative', serif;
+  font-style: normal;
+  font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+  color: var(--amber-glow);
+  text-align: center;
+  margin: 2.5rem 0;
+  letter-spacing: 0.1em;
+}
+
+/* ── Section headers ── */
+.gurukul-section-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+.gurukul-section-title {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+  color: var(--amber-glow);
+  letter-spacing: 0.06em;
+  margin: 0 0 0.5rem;
+}
+.gurukul-section-sub {
+  font-size: 0.92rem;
+  color: var(--text-dim);
+  font-style: italic;
+  margin: 0;
+}
+
+/* ── Curriculum ── */
+.gurukul-curriculum {
+  position: relative;
+  z-index: 1;
+  padding: 6rem 1.5rem;
+  max-width: 960px;
+  margin: 0 auto;
+}
+.gurukul-weeks-nav {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  margin-bottom: 0;
+  border: 1px solid var(--border);
+}
+.gurukul-week-tab {
+  background: rgba(4, 2, 15, 0.8);
+  border: none;
+  padding: 1.25rem 1rem;
+  cursor: pointer;
+  transition: all 0.25s;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: flex-start;
+  border-right: 1px solid var(--border);
+  color: var(--text-dim);
+}
+.gurukul-week-tab:last-child { border-right: none; }
+.gurukul-week-tab:hover { background: rgba(212,151,58,0.05); color: var(--text); }
+.gurukul-week-tab.active {
+  background: var(--week-accent, rgba(212,151,58,0.1));
+  color: var(--text);
+  border-bottom: 2px solid var(--week-color, var(--amber));
+}
+.gurukul-week-tab-num {
+  font-size: 0.58rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  opacity: 0.6;
+}
+.gurukul-week-tab-title {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  line-height: 1.3;
+  color: inherit;
+}
+.gurukul-week-tab.active .gurukul-week-tab-title {
+  color: var(--week-color, var(--amber));
+}
+
+.gurukul-week-panel {
+  background: var(--week-accent, rgba(212,151,58,0.06));
+  border: 1px solid rgba(212,151,58,0.15);
+  border-top: none;
+  padding: 2.5rem;
+  animation: gurukul-tab-in 0.3s ease both;
+}
+@keyframes gurukul-tab-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.gurukul-week-panel-header { margin-bottom: 1.5rem; }
+.gurukul-week-num {
+  font-size: 0.6rem;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin: 0 0 4px;
+}
+.gurukul-week-title {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  margin: 0 0 4px;
+  letter-spacing: 0.04em;
+}
+.gurukul-week-sanskrit {
+  font-size: 1.5rem;
+  color: var(--week-color, var(--amber));
+  opacity: 0.4;
+  margin: 0 0 4px;
+}
+.gurukul-week-subtitle {
+  font-size: 0.95rem;
+  color: var(--text-dim);
+  font-style: italic;
+  margin: 0;
+}
+
+.gurukul-week-topics {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.gurukul-week-topic {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: rgba(232, 213, 163, 0.85);
+}
+.gurukul-topic-bullet {
+  flex-shrink: 0;
+  margin-top: 2px;
+  font-size: 0.7rem;
+}
+.gurukul-week-footer {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+.gurukul-week-tag {
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  padding: 3px 10px;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+}
+
+/* ── Offering grid ── */
+.gurukul-offering {
+  position: relative;
+  z-index: 1;
+  padding: 6rem 1.5rem;
+  max-width: 960px;
+  margin: 0 auto;
+}
+.gurukul-offering-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  border: 1px solid var(--border);
+}
+.gurukul-offering-card {
+  background: rgba(4, 2, 15, 0.6);
+  padding: 1.75rem 1.5rem;
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  transition: background 0.25s;
+}
+.gurukul-offering-card:hover { background: rgba(212,151,58,0.05); }
+.gurukul-offering-card:nth-child(3n) { border-right: none; }
+.gurukul-offering-card:nth-last-child(-n+3) { border-bottom: none; }
+.gurukul-offering-icon {
+  display: block;
+  font-size: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+.gurukul-offering-title {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 0.78rem;
+  color: var(--amber-glow);
+  letter-spacing: 0.08em;
+  margin: 0 0 0.5rem;
+}
+.gurukul-offering-desc {
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  line-height: 1.65;
+  margin: 0;
+  font-style: italic;
+}
+
+/* ── Testimonials ── */
+.gurukul-testimonials {
+  position: relative;
+  z-index: 1;
+  padding: 6rem 1.5rem;
+  background: rgba(8, 5, 32, 0.4);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.gurukul-testimonials .gurukul-section-header { max-width: 960px; margin: 0 auto 3rem; }
+.gurukul-testimonials-grid {
+  max-width: 960px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+.gurukul-testimonial {
+  margin: 0;
+  padding: 1.75rem;
+  border: 1px solid var(--border);
+  background: rgba(4, 2, 15, 0.6);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.gurukul-testimonial-quote {
+  font-size: 0.95rem;
+  line-height: 1.75;
+  font-style: italic;
+  color: var(--text);
+  margin: 0;
+}
+.gurukul-testimonial-who {
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--amber);
+  opacity: 0.65;
+}
+
+/* ── Waitlist Form ── */
+.gurukul-form-section {
+  position: relative;
+  z-index: 1;
+  padding: 6rem 1.5rem;
+  max-width: 960px;
+  margin: 0 auto;
+}
+.gurukul-form-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: start;
+}
+.gurukul-form-title {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  color: var(--amber-glow);
+  letter-spacing: 0.04em;
+  margin: 0 0 1rem;
+  line-height: 1.3;
+}
+.gurukul-form-subtitle {
+  font-size: 0.95rem;
+  color: var(--text-dim);
+  line-height: 1.7;
+  font-style: italic;
+  margin: 0 0 1.5rem;
+}
+.gurukul-form-price-block {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  padding: 1rem 1.25rem;
+  border: 1px solid rgba(212,151,58,0.3);
+  background: rgba(212,151,58,0.05);
+  border-radius: 2px;
+}
+.gurukul-price {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 2.5rem;
+  color: var(--amber-glow);
+  line-height: 1;
+}
+.gurukul-price-period {
+  font-size: 0.82rem;
+  color: var(--text-dim);
+  letter-spacing: 0.08em;
+}
+.gurukul-form-promises {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  font-size: 0.82rem;
+  color: var(--text-dim);
+  line-height: 1.5;
+}
+.gurukul-form-promises li { color: rgba(232,213,163,0.6); }
+
+.gurukul-form {
+  background: rgba(8, 5, 32, 0.7);
+  border: 1px solid var(--border);
+  padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  backdrop-filter: blur(12px);
+}
+.gurukul-form-field { display: flex; flex-direction: column; gap: 6px; }
+.gurukul-field-label {
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--amber);
+  opacity: 0.75;
+}
+.gurukul-field-input {
+  background: rgba(212,151,58,0.04);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 10px 14px;
+  color: var(--text);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s, background 0.2s;
+}
+.gurukul-field-input::placeholder { color: var(--text-dim); font-style: italic; }
+.gurukul-field-input:focus {
+  border-color: rgba(212,151,58,0.5);
+  background: rgba(212,151,58,0.08);
+}
+
+.gurukul-form-msg {
+  font-size: 0.82rem;
+  padding: 8px 12px;
+  border-radius: 2px;
+}
+.gurukul-form-msg--info {
+  color: var(--amber);
+  background: rgba(212,151,58,0.08);
+  border: 1px solid rgba(212,151,58,0.25);
+}
+.gurukul-form-msg--error {
+  color: var(--destroy);
+  background: rgba(196,92,92,0.08);
+  border: 1px solid rgba(196,92,92,0.25);
+}
+
+.gurukul-submit-btn {
+  background: linear-gradient(135deg, rgba(212,151,58,0.2), rgba(212,151,58,0.08));
+  border: 1px solid var(--amber);
+  color: var(--amber-glow);
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 13px 24px;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.gurukul-submit-btn:hover:not(:disabled) {
+  background: rgba(212,151,58,0.18);
+  box-shadow: 0 0 30px rgba(212,151,58,0.25);
+  transform: translateY(-1px);
+}
+.gurukul-submit-btn:disabled { opacity: 0.6; cursor: wait; }
+.gurukul-btn-arrow { transition: transform 0.2s; }
+.gurukul-submit-btn:hover .gurukul-btn-arrow { transform: translateX(4px); }
+.gurukul-btn-loading { font-style: italic; }
+
+.gurukul-form-disclaimer {
+  font-size: 0.7rem;
+  color: rgba(122,104,64,0.6);
+  text-align: center;
+  font-style: italic;
+  margin: 0;
+}
+
+/* ── Success card ── */
+.gurukul-success-card {
+  background: rgba(8, 5, 32, 0.7);
+  border: 1px solid rgba(212,151,58,0.35);
+  padding: 2.5rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  animation: gurukul-fade-up 0.5s ease both;
+}
+.gurukul-success-glyph {
+  font-size: 2.5rem;
+  filter: drop-shadow(0 0 20px rgba(212,151,58,0.6));
+}
+.gurukul-success-title {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 1.3rem;
+  color: var(--amber-glow);
+  letter-spacing: 0.06em;
+  margin: 0;
+}
+.gurukul-success-body {
+  font-size: 0.92rem;
+  color: var(--text);
+  line-height: 1.7;
+  font-style: italic;
+  margin: 0;
+}
+.gurukul-success-sub {
+  font-size: 0.78rem;
+  color: var(--amber);
+  opacity: 0.7;
+  margin: 0;
+}
+.gurukul-success-link {
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  text-decoration: none;
+  letter-spacing: 0.1em;
+  transition: color 0.2s;
+  margin-top: 0.5rem;
+}
+.gurukul-success-link:hover { color: var(--amber); }
+
+/* ── FAQ ── */
+.gurukul-faq {
+  position: relative;
+  z-index: 1;
+  padding: 6rem 1.5rem;
+  max-width: 720px;
+  margin: 0 auto;
+}
+.gurukul-faq-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border: 1px solid var(--border);
+}
+.gurukul-faq-item {
+  border-bottom: 1px solid var(--border);
+  transition: background 0.2s;
+}
+.gurukul-faq-item:last-child { border-bottom: none; }
+.gurukul-faq-item[open] { background: rgba(212,151,58,0.04); }
+.gurukul-faq-q {
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem 1.5rem;
+  cursor: pointer;
+  font-size: 0.92rem;
+  color: var(--text);
+  line-height: 1.5;
+  user-select: none;
+  transition: color 0.2s;
+}
+.gurukul-faq-q:hover { color: var(--amber-glow); }
+.gurukul-faq-arrow {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 1.2rem;
+  color: var(--amber);
+  flex-shrink: 0;
+  transition: transform 0.2s;
+  line-height: 1;
+}
+.gurukul-faq-item[open] .gurukul-faq-arrow { transform: rotate(45deg); }
+.gurukul-faq-q::-webkit-details-marker { display: none; }
+.gurukul-faq-a {
+  padding: 0 1.5rem 1.25rem;
+  font-size: 0.88rem;
+  color: var(--text-dim);
+  line-height: 1.75;
+  font-style: italic;
+  margin: 0;
+}
+
+/* ── Final CTA ── */
+.gurukul-final-cta {
+  position: relative;
+  z-index: 1;
+  padding: 8rem 1.5rem;
+  text-align: center;
+  border-top: 1px solid var(--border);
+  background: linear-gradient(180deg, rgba(8,5,32,0.5) 0%, rgba(4,2,15,0.95) 100%);
+}
+.gurukul-final-inner { max-width: 560px; margin: 0 auto; }
+.gurukul-final-om {
+  font-size: 3rem;
+  color: rgba(212,151,58,0.3);
+  margin: 0 0 1.5rem;
+  filter: drop-shadow(0 0 20px rgba(212,151,58,0.3));
+  animation: gurukul-om-pulse 4s ease-in-out infinite;
+}
+@keyframes gurukul-om-pulse {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50%       { opacity: 0.55; transform: scale(1.08); }
+}
+.gurukul-final-title {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(1.2rem, 3vw, 1.8rem);
+  color: var(--amber-glow);
+  margin: 0 0 1rem;
+  letter-spacing: 0.04em;
+}
+.gurukul-final-sub {
+  font-size: 0.95rem;
+  color: var(--text-dim);
+  font-style: italic;
+  line-height: 1.75;
+  margin: 0 0 2.5rem;
+}
+
+/* ── Footer ── */
+.gurukul-footer {
+  position: relative;
+  z-index: 1;
+  padding: 1.5rem;
+  text-align: center;
+  border-top: 1px solid var(--border);
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  letter-spacing: 0.1em;
+}
+.gurukul-footer-link {
+  color: var(--amber);
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+.gurukul-footer-link:hover { opacity: 0.7; }
+
+/* ── Fade-up entrance animation ── */
+@keyframes gurukul-fade-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Mobile ── */
+@media (max-width: 768px) {
+  .gurukul-hero { padding: 3rem 1.25rem 3rem; min-height: 85vh; }
+  .gurukul-manifesto { padding: 4rem 1.25rem; }
+  .gurukul-curriculum,
+  .gurukul-offering,
+  .gurukul-faq,
+  .gurukul-form-section { padding: 4rem 1.25rem; }
+  .gurukul-testimonials { padding: 4rem 1.25rem; }
+
+  .gurukul-weeks-nav { grid-template-columns: repeat(2, 1fr); }
+  .gurukul-week-tab { border-bottom: 1px solid var(--border); }
+
+  .gurukul-offering-grid { grid-template-columns: 1fr; }
+  .gurukul-offering-card:nth-child(3n) { border-right: none; }
+  .gurukul-offering-card { border-bottom: 1px solid var(--border); border-right: none; }
+  .gurukul-offering-card:last-child { border-bottom: none; }
+
+  .gurukul-testimonials-grid { grid-template-columns: 1fr; }
+
+  .gurukul-form-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+
+  .gurukul-title-line-2 { font-size: clamp(3rem, 18vw, 5rem); }
+  .gurukul-final-cta { padding: 5rem 1.25rem; }
+}
+
+@media (max-width: 480px) {
+  .gurukul-weeks-nav { grid-template-columns: 1fr 1fr; }
+  .gurukul-form { padding: 1.75rem 1.25rem; }
+  .gurukul-nav { padding: 0 1.25rem; }
+}
+
+
+
+
+
+/* -- GURUKUL POPUP (Seekers Call) -- */
+.gurukul-popup-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 500;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(20px) scale(0.95);
+  transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.gurukul-popup-container.entrance {
+  pointer-events: auto;
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.gurukul-popup-card {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  min-width: 320px;
+  max-width: 420px;
+  padding: 16px 20px;
+  background: rgba(12, 10, 8, 0.55);
+  backdrop-filter: blur(24px);
+  border: 1px solid rgba(212, 151, 58, 0.25);
+  border-left: 4px solid #d4973a;
+  text-decoration: none;
+  position: relative;
+  box-shadow: 0 12px 48px rgba(0,0,0,0.6);
+  transition: all 0.4s ease;
+  overflow: hidden;
+}
+
+.gurukul-popup-card:hover {
+  background: rgba(40, 30, 20, 0.65);
+  border-color: rgba(212, 151, 58, 0.6);
+  transform: translateY(-4px);
+  box-shadow: 0 16px 64px rgba(212, 151, 58, 0.12);
+}
+
+.gurukul-popup-close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.2);
+  font-size: 1.25rem;
+  cursor: pointer;
+  z-index: 10;
+  transition: color 0.3s;
+  line-height: 1;
+}
+
+.gurukul-popup-close:hover {
+  color: #fff;
+}
+
+.gurukul-popup-fire {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.popup-flame {
+  font-size: 1.8rem;
+  z-index: 2;
+  filter: drop-shadow(0 0 12px rgba(212, 151, 58, 0.8));
+  animation: popup-flicker 2s infinite ease-in-out;
+}
+
+@keyframes popup-flicker {
+  0%, 100% { transform: scale(1); filter: drop-shadow(0 0 12px rgba(212, 151, 58, 0.8)); }
+  50% { transform: scale(1.1); filter: drop-shadow(0 0 18px rgba(240,184,74,1)); }
+}
+
+.popup-glow {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(212, 151, 58, 0.4) 0%, transparent 70%);
+  animation: popup-pulse 3s infinite;
+}
+
+@keyframes popup-pulse {
+  0% { transform: scale(0.8); opacity: 0.3; }
+  50% { transform: scale(1.4); opacity: 0.6; }
+  100% { transform: scale(0.8); opacity: 0.3; }
+}
+
+.popup-ember {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: #d4973a;
+  border-radius: 50%;
+  opacity: 0;
+  bottom: 0;
+  animation: ember-fly 4s infinite linear;
+}
+
+.popup-ember:nth-child(2n) { animation-delay: 1.5s; left: 30%; }
+.popup-ember:nth-child(3n) { animation-delay: 2.5s; left: 60%; }
+
+@keyframes ember-fly {
+  0% { transform: translateY(0); opacity: 0; }
+  20% { opacity: 0.8; }
+  100% { transform: translateY(-60px) translateX(10px); opacity: 0; }
+}
+
+.gurukul-popup-content {
+  flex-grow: 1;
+}
+
+.gurukul-popup-eyebrow {
+  font-size: 0.6rem;
+  color: var(--amber-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  margin-bottom: 4px;
+}
+
+.gurukul-popup-title {
+  font-family: "Cinzel Decorative", serif;
+  font-size: 1.15rem;
+  color: #fff;
+  margin-bottom: 4px;
+}
+
+.gurukul-popup-tagline {
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.gurukul-popup-cta {
+  display: block;
+  margin-top: 6px;
+  color: var(--sacred);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.65rem;
+}
+
+.gurukul-popup-badge {
+  background: rgba(92,184,138,0.1);
+  border: 1px solid rgba(92,184,138,0.2);
+  color: #5cb88a;
+  font-size: 0.55rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-weight: 800;
+  padding: 3px 8px;
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+}
+
+.badge-dot {
+  display: inline-block;
+  width: 4px;
+  height: 4px;
+  background: #5cb88a;
+  border-radius: 50%;
+  margin-right: 4px;
+  vertical-align: middle;
+  animation: badge-pulse 1.5s infinite;
+}
+
+@keyframes badge-pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.5); box-shadow: 0 0 6px #5cb88a; } }
+

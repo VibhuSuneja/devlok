@@ -9,6 +9,7 @@ function AdminPanel() {
   const [characters, setCharacters] = useState([]);
   const [relationships, setRelationships] = useState([]);
   const [submissions, setSubmissions] = useState([]);
+  const [gurkulWaitlist, setGurkulWaitlist] = useState([]);
   const [loading, setLoading] = useState(true);
   const [characterModal, setCharacterModal] = useState({ open: false, data: null });
   const [relationshipModal, setRelationshipModal] = useState({ open: false, data: null });
@@ -17,14 +18,16 @@ function AdminPanel() {
   const fetchData = async () => {
     try {
       setLoading(true);
-      const [charRes, relRes, subRes] = await Promise.all([
+      const [charRes, relRes, subRes, waitlistRes] = await Promise.all([
         axios.get('/characters'),
         axios.get('/relationships'),
-        axios.get('/submissions', { headers: { Authorization: `Bearer ${localStorage.getItem('devlok_token')}` } })
+        axios.get('/submissions', { headers: { Authorization: `Bearer ${localStorage.getItem('devlok_token')}` } }),
+        axios.get('/gurukul/waitlist', { headers: { Authorization: `Bearer ${localStorage.getItem('devlok_token')}` } })
       ]);
       setCharacters(charRes.data);
       setRelationships(relRes.data);
       setSubmissions(subRes.data);
+      setGurkulWaitlist(waitlistRes.data?.entries || []);
     } catch (err) {
       console.error('Fetch error:', err);
     } finally {
@@ -72,6 +75,9 @@ function AdminPanel() {
           <button className={`btn btn-cancel ${activeTab === 'connections' ? 'active-tab' : ''}`} onClick={() => setActiveTab('connections')} style={{borderColor: activeTab === 'connections' ? 'var(--amber)' : ''}}>Connections</button>
           <button className={`btn btn-cancel ${activeTab === 'submissions' ? 'active-tab' : ''}`} onClick={() => setActiveTab('submissions')} style={{borderColor: activeTab === 'submissions' ? 'var(--amber)' : ''}}>
             Queue {submissions.length > 0 && `(${submissions.length})`}
+          </button>
+          <button className={`btn btn-cancel ${activeTab === 'gurukul' ? 'active-tab' : ''}`} onClick={() => setActiveTab('gurukul')} style={{borderColor: activeTab === 'gurukul' ? 'var(--sacred)' : ''}}>
+            Gurukul {gurkulWaitlist.length > 0 && `(${gurkulWaitlist.length})`}
           </button>
         </div>
         <div style={{ display: 'flex', gap: '15px' }}>
@@ -220,6 +226,81 @@ function AdminPanel() {
           </>
         )}
 
+        {activeTab === 'gurukul' && (
+          <>
+            <div className="admin-section-header">
+              <h2 className="admin-section-title">GURUKUL WAITLIST ({gurkulWaitlist.length} / 20)</h2>
+              <div style={{
+                background: 'rgba(92,184,138,0.1)',
+                border: '1px solid rgba(92,184,138,0.3)',
+                padding: '6px 16px',
+                fontSize: '0.78rem',
+                color: 'var(--sacred)',
+                borderRadius: '2px'
+              }}>
+                {Math.round((Math.min(gurkulWaitlist.length, 20) / 20) * 100)}% to launch
+              </div>
+            </div>
+
+            {/* Progress bar */}
+            <div style={{ marginBottom: '24px', background: 'rgba(92,184,138,0.06)', border: '1px solid rgba(92,184,138,0.15)', padding: '16px 20px', borderRadius: '2px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.7rem', color: 'var(--text-dim)', marginBottom: '8px' }}>
+                <span>{Math.min(gurkulWaitlist.length, 20)} of 20 seekers joined</span>
+                <span>{Math.max(0, 20 - gurkulWaitlist.length)} remaining to open cohort</span>
+              </div>
+              <div style={{ height: '4px', background: 'rgba(92,184,138,0.1)', borderRadius: '2px', overflow: 'hidden' }}>
+                <div style={{
+                  height: '100%',
+                  width: `${Math.round((Math.min(gurkulWaitlist.length, 20) / 20) * 100)}%`,
+                  background: 'linear-gradient(90deg, #3a9a6a, #5cb88a)',
+                  transition: 'width 0.8s ease',
+                  boxShadow: '0 0 10px rgba(92,184,138,0.5)'
+                }} />
+              </div>
+            </div>
+
+            {gurkulWaitlist.length === 0 ? (
+              <p style={{ color: 'var(--text-dim)', fontStyle: 'italic' }}>No waitlist entries yet. Share the /gurukul link to start collecting signups.</p>
+            ) : (
+              <table className="admin-table">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Email</th>
+                    <th>Name</th>
+                    <th>Source</th>
+                    <th>Date</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {gurkulWaitlist.map((entry, i) => (
+                    <tr key={entry._id}>
+                      <td style={{ color: 'var(--amber-dim)', fontFamily: '"Cinzel Decorative", serif', fontSize: '0.75rem' }}>{i + 1}</td>
+                      <td style={{ color: 'var(--text)', fontWeight: 500 }}>{entry.email}</td>
+                      <td style={{ color: 'var(--text-dim)' }}>{entry.name || '—'}</td>
+                      <td style={{ color: 'var(--text-dim)', fontSize: '0.75rem' }}>{entry.source}</td>
+                      <td style={{ color: 'var(--text-dim)', fontSize: '0.75rem' }}>{new Date(entry.createdAt).toLocaleDateString()}</td>
+                      <td>
+                        <button className="btn btn-danger" style={{ fontSize: '0.7rem', padding: '4px 10px' }} onClick={async () => {
+                          if (window.confirm(`Remove ${entry.email} from waitlist?`)) {
+                            try {
+                              await axios.delete(`/gurukul/waitlist/${entry._id}`, { headers: { Authorization: `Bearer ${localStorage.getItem('devlok_token')}` } });
+                              fetchData();
+                            } catch (e) {
+                              console.error(e);
+                              alert('Failed to delete');
+                            }
+                          }
+                        }}>Remove</button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+          </>
+        )}
       </div>
 
       <CharacterModal 
