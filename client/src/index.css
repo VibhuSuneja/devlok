@@ -3302,3 +3302,504 @@ body:has(.gurukul-page) {
   .banner-content { padding: 4px; }
 }
 
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   GURUKUL PHASE 3D STEP 2 — PAYMENT + GATED CONTENT STYLES
+   Append this block to the bottom of client/src/index.css
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Milestone badge (hero — shown when waitlist is full) ────────────────── */
+.gurukul-milestone-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 6px 18px;
+  background: rgba(92, 184, 138, 0.12);
+  border: 1px solid rgba(92, 184, 138, 0.4);
+  color: #5cb88a;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  border-radius: 2px;
+  margin-top: 1rem;
+  animation: gurukul-fade-up 0.6s ease both;
+}
+
+/* ── Payment block ────────────────────────────────────────────────────────── */
+.gurukul-payment-block {
+  background: rgba(8, 5, 32, 0.75);
+  border: 1px solid rgba(212, 151, 58, 0.3);
+  padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  backdrop-filter: blur(12px);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle gold glow top-right */
+.gurukul-payment-block::before {
+  content: '';
+  position: absolute;
+  top: -30px; right: -30px;
+  width: 120px; height: 120px;
+  background: radial-gradient(circle, rgba(212,151,58,0.1) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.gurukul-payment-block--owned {
+  border-color: rgba(92, 184, 138, 0.35);
+  text-align: center;
+  align-items: center;
+}
+.gurukul-payment-block--owned::before {
+  background: radial-gradient(circle, rgba(92,184,138,0.08) 0%, transparent 70%);
+}
+
+.gurukul-payment-success-icon {
+  font-size: 2.5rem;
+  filter: drop-shadow(0 0 20px rgba(212,151,58,0.6));
+}
+.gurukul-payment-success-title {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 1.2rem;
+  color: var(--amber-glow);
+  margin: 0;
+  letter-spacing: 0.04em;
+}
+.gurukul-payment-success-body {
+  font-size: 0.88rem;
+  color: var(--text-dim);
+  font-style: italic;
+  line-height: 1.65;
+  margin: 0;
+}
+.gurukul-payment-week-links {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 0.5rem;
+}
+.gurukul-week-link {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--amber);
+  text-decoration: none;
+  padding: 6px 14px;
+  border: 1px solid rgba(212,151,58,0.35);
+  border-radius: 2px;
+  transition: all 0.2s;
+  background: rgba(212,151,58,0.06);
+}
+.gurukul-week-link:hover {
+  background: rgba(212,151,58,0.15);
+  border-color: var(--amber);
+  box-shadow: 0 0 12px rgba(212,151,58,0.2);
+}
+
+.gurukul-payment-price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+.gurukul-payment-price {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 2.8rem;
+  color: var(--amber-glow);
+  line-height: 1;
+  text-shadow: 0 0 30px rgba(212,151,58,0.3);
+}
+.gurukul-payment-price-meta {
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  letter-spacing: 0.08em;
+}
+
+.gurukul-payment-includes {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: rgba(232, 213, 163, 0.75);
+  line-height: 1.5;
+  border-top: 1px solid rgba(212,151,58,0.12);
+  border-bottom: 1px solid rgba(212,151,58,0.12);
+  padding: 1rem 0;
+}
+
+.gurukul-payment-error {
+  font-size: 0.82rem;
+  color: var(--destroy);
+  background: rgba(196,92,92,0.08);
+  border: 1px solid rgba(196,92,92,0.25);
+  padding: 8px 12px;
+  border-radius: 2px;
+}
+
+/* ── Pay button ── */
+.gurukul-pay-btn {
+  background: linear-gradient(135deg, rgba(212,151,58,0.25), rgba(212,151,58,0.1));
+  border: 1px solid var(--amber);
+  color: var(--amber-glow);
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 0.88rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 15px 28px;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+.gurukul-pay-btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(212,151,58,0.15), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.gurukul-pay-btn:hover:not(:disabled) {
+  box-shadow: 0 0 40px rgba(212,151,58,0.35), 0 0 80px rgba(212,151,58,0.12);
+  transform: translateY(-2px);
+  letter-spacing: 0.2em;
+}
+.gurukul-pay-btn:hover:not(:disabled)::after { opacity: 1; }
+.gurukul-pay-btn:disabled { opacity: 0.6; cursor: wait; }
+
+.gurukul-pay-btn-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+}
+.gurukul-pay-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(212,151,58,0.3);
+  border-top-color: var(--amber-glow);
+  border-radius: 50%;
+  animation: gurukul-spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+@keyframes gurukul-spin {
+  to { transform: rotate(360deg); }
+}
+
+.gurukul-payment-signin-hint {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  text-align: center;
+  margin: -0.25rem 0 0;
+}
+.gurukul-payment-signin-hint a {
+  color: var(--amber);
+  text-decoration: none;
+}
+.gurukul-payment-signin-hint a:hover { opacity: 0.8; }
+
+.gurukul-payment-guarantee {
+  font-size: 0.68rem;
+  color: rgba(122,104,64,0.5);
+  text-align: center;
+  font-style: italic;
+  margin: 0;
+}
+
+/* ── Gate page (non-enrolled user hits /gurukul/week/:n) ──────────────────── */
+.gurukul-gate-page {
+  position: fixed;
+  inset: 0;
+  background: var(--void);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+.gurukul-gate-inner {
+  max-width: 420px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+.gurukul-gate-om {
+  font-size: 2.5rem;
+  margin: 0;
+  opacity: 0.4;
+}
+.gurukul-gate-title {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 1.3rem;
+  color: var(--amber-glow);
+  margin: 0;
+  letter-spacing: 0.04em;
+}
+.gurukul-gate-body {
+  font-size: 0.9rem;
+  color: var(--text-dim);
+  font-style: italic;
+  line-height: 1.7;
+  margin: 0;
+}
+.gurukul-gate-cta {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 0.78rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--amber-glow);
+  text-decoration: none;
+  padding: 12px 28px;
+  border: 1px solid var(--amber);
+  border-radius: 2px;
+  background: rgba(212,151,58,0.1);
+  transition: all 0.25s;
+  margin-top: 0.5rem;
+}
+.gurukul-gate-cta:hover {
+  background: rgba(212,151,58,0.2);
+  box-shadow: 0 0 20px rgba(212,151,58,0.25);
+}
+.gurukul-gate-back {
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  text-decoration: none;
+  letter-spacing: 0.1em;
+  transition: color 0.2s;
+}
+.gurukul-gate-back:hover { color: var(--amber); }
+
+/* ── Week content page ──────────────────────────────────────────────────────── */
+.gurukul-week-page {
+  min-height: 100vh;
+  background: var(--void);
+  color: var(--text);
+  font-family: 'Cormorant Garamond', Georgia, serif;
+}
+body:has(.gurukul-week-page) {
+  overflow: auto !important;
+  height: auto !important;
+}
+
+.gurukul-week-hero {
+  padding: 5rem 1.5rem 4rem;
+  background: var(--week-accent, rgba(212,151,58,0.06));
+  border-bottom: 1px solid rgba(212,151,58,0.15);
+  position: relative;
+  overflow: hidden;
+}
+.gurukul-week-hero::before {
+  content: '';
+  position: absolute;
+  top: -60px; right: -60px;
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, var(--week-color, rgba(212,151,58,1)) 0%, transparent 70%);
+  opacity: 0.06;
+  pointer-events: none;
+}
+.gurukul-week-hero-inner {
+  max-width: 720px;
+  margin: 0 auto;
+}
+.gurukul-week-hero-eyebrow {
+  font-size: 0.65rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin: 0 0 0.75rem;
+}
+.gurukul-week-hero-title {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(2rem, 6vw, 3.5rem);
+  margin: 0 0 0.25rem;
+  letter-spacing: 0.03em;
+}
+.gurukul-week-hero-sanskrit {
+  font-size: 1.6rem;
+  opacity: 0.3;
+  font-style: italic;
+  margin: 0 0 1rem;
+  color: var(--week-color, var(--amber));
+}
+.gurukul-week-hero-intro {
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: rgba(232,213,163,0.8);
+  font-style: italic;
+  font-weight: 300;
+  margin: 0 0 2rem;
+  max-width: 600px;
+}
+.gurukul-week-nav-pills {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.gurukul-week-nav-pill {
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  text-decoration: none;
+  padding: 4px 12px;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  transition: all 0.2s;
+}
+.gurukul-week-nav-pill:hover { color: var(--text); border-color: rgba(212,151,58,0.35); }
+.gurukul-week-nav-pill.active {
+  color: var(--week-color, var(--amber));
+  border-color: var(--week-color, var(--amber));
+  background: rgba(212,151,58,0.07);
+}
+
+/* Essay list */
+.gurukul-week-content { padding: 4rem 1.5rem; }
+.gurukul-week-content-inner { max-width: 720px; margin: 0 auto; }
+.gurukul-week-content-heading {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 1rem;
+  color: var(--amber);
+  letter-spacing: 0.1em;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 0 0 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border);
+}
+.gurukul-week-content-count {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.78rem;
+  color: var(--text-dim);
+  font-weight: normal;
+  letter-spacing: 0.1em;
+}
+
+.gurukul-essay-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border: 1px solid var(--border);
+  margin-bottom: 2rem;
+}
+.gurukul-essay-item {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 1.1rem 1.25rem;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.2s;
+  cursor: pointer;
+}
+.gurukul-essay-item:last-child { border-bottom: none; }
+.gurukul-essay-item:hover { background: rgba(212,151,58,0.04); }
+.gurukul-essay-item.coming-soon { opacity: 0.45; cursor: default; }
+.gurukul-essay-item.coming-soon:hover { background: transparent; }
+
+.gurukul-essay-num {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 1.1rem;
+  min-width: 36px;
+  flex-shrink: 0;
+  opacity: 0.7;
+}
+.gurukul-essay-content { flex: 1; min-width: 0; }
+.gurukul-essay-title {
+  font-size: 0.95rem;
+  color: var(--text);
+  margin: 0 0 3px;
+  line-height: 1.4;
+}
+.gurukul-essay-status-label {
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin: 0;
+}
+.gurukul-essay-item.available .gurukul-essay-status-label { color: var(--week-color, var(--amber)); }
+
+.gurukul-essay-action { flex-shrink: 0; }
+.gurukul-essay-read-badge {
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  color: var(--week-color, var(--amber));
+  text-transform: uppercase;
+}
+.gurukul-essay-soon-badge {
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+}
+
+/* Live session block */
+.gurukul-live-block {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  padding: 1.25rem;
+  border: 1px solid;
+  border-radius: 2px;
+  background: rgba(4,2,15,0.5);
+  margin-bottom: 2.5rem;
+}
+.gurukul-live-icon { font-size: 1.5rem; flex-shrink: 0; }
+.gurukul-live-title {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 0.82rem;
+  color: var(--amber-glow);
+  letter-spacing: 0.06em;
+  margin: 0 0 0.4rem;
+}
+.gurukul-live-body {
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  font-style: italic;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Bottom nav */
+.gurukul-week-bottom-nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.gurukul-week-nav-btn {
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  color: var(--text-dim);
+  text-decoration: none;
+  padding: 8px 16px;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  transition: all 0.2s;
+}
+.gurukul-week-nav-btn:hover { color: var(--text); border-color: rgba(212,151,58,0.3); }
+.gurukul-week-nav-btn--next { margin-left: auto; }
+
+/* Mobile */
+@media (max-width: 600px) {
+  .gurukul-week-hero { padding: 3rem 1.25rem 2.5rem; }
+  .gurukul-week-content { padding: 2.5rem 1.25rem; }
+  .gurukul-payment-block { padding: 1.75rem 1.25rem; }
+  .gurukul-pay-btn { font-size: 0.78rem; padding: 13px 20px; }
+  .gurukul-week-bottom-nav { flex-direction: column; }
+  .gurukul-week-nav-btn--next { margin-left: 0; }
+}

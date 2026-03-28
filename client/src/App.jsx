@@ -11,6 +11,7 @@ import SignupPage from './pages/SignupPage.jsx';
 import ProfilePage from './pages/ProfilePage.jsx';
 import ConstellationPage from './pages/ConstellationPage.jsx';
 import OrientationBanner from './components/OrientationLock.jsx';
+import GurkulWeekPage from './pages/GurkulWeekPage.jsx';
 import { useAuth } from './hooks/useAuth.js';
 
 // Any logged-in user (admin or regular)
@@ -39,6 +40,7 @@ function App() {
           <Route path="/character/:id" element={<CharacterPage />} />
           <Route path="/today" element={<ConceptPage />} />
           <Route path="/gurukul" element={<GurkulPage />} />
+          <Route path="/gurukul/week/:n" element={<GurkulWeekPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
           <Route 

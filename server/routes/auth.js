@@ -1,3 +1,7 @@
+// server/routes/auth.js
+// FULL FILE — replaces existing server/routes/auth.js
+// Change: gurukul field added to all user response objects
+
 import express from 'express';
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
@@ -9,8 +13,24 @@ const router = express.Router();
 const signToken = (id) =>
   jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '30d' });
 
-// ── Admin-only registration (unchanged) ──────────────────────────────────────
-// POST /api/auth/register
+// Helper: consistent user shape across all auth endpoints
+function userShape(user) {
+  return {
+    id:           user._id,
+    name:         user.name,
+    email:        user.email,
+    role:         user.role,
+    bookmarks:    user.bookmarks    || [],
+    conceptsRead: user.conceptsRead || [],
+    shraddha:     user.shraddha     || 0,
+    shraddhaRank: getShraddhaRank(user.shraddha || 0),
+    gurukul:      user.gurukul      || false,   // ← NEW
+    gurkulPaidAt: user.gurkulPaidAt || null,     // ← NEW
+    joinedAt:     user.joinedAt,
+  };
+}
+
+// POST /api/auth/register — admin-only registration
 router.post('/register', async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -19,14 +39,13 @@ router.post('/register', async (req, res) => {
     const exists = await User.findOne({ email });
     if (exists) return res.status(400).json({ message: 'Email already in use' });
     const user = await User.create({ name, email, password, role: 'admin' });
-    res.status(201).json({ token: signToken(user._id), user: { id: user._id, name: user.name, email: user.email, role: user.role } });
+    res.status(201).json({ token: signToken(user._id), user: userShape(user) });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
 
-// ── Public user registration ─────────────────────────────────────────────────
-// POST /api/auth/register-user
+// POST /api/auth/register-user — public signup
 router.post('/register-user', async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -36,28 +55,13 @@ router.post('/register-user', async (req, res) => {
       return res.status(400).json({ message: 'Password must be at least 8 characters' });
     const exists = await User.findOne({ email });
     if (exists) return res.status(400).json({ message: 'Email already in use' });
-    // Role always 'user' — never admin via this route
     const user = await User.create({ name, email, password, role: 'user' });
-    res.status(201).json({
-      token: signToken(user._id),
-      user: {
-        id:           user._id,
-        name:         user.name,
-        email:        user.email,
-        role:         user.role,
-        bookmarks:    user.bookmarks,
-        conceptsRead: user.conceptsRead,
-        shraddha:     user.shraddha,
-        shraddhaRank: getShraddhaRank(user.shraddha),
-        joinedAt:     user.joinedAt,
-      },
-    });
+    res.status(201).json({ token: signToken(user._id), user: userShape(user) });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
 
-// ── Login (works for both admin and user) ────────────────────────────────────
 // POST /api/auth/login
 router.post('/login', async (req, res) => {
   try {
@@ -67,39 +71,15 @@ router.post('/login', async (req, res) => {
     const user = await User.findOne({ email });
     if (!user || !(await user.matchPassword(password)))
       return res.status(401).json({ message: 'Invalid credentials' });
-    res.json({
-      token: signToken(user._id),
-      user: {
-        id:           user._id,
-        name:         user.name,
-        email:        user.email,
-        role:         user.role,
-        bookmarks:    user.bookmarks    || [],
-        conceptsRead: user.conceptsRead || [],
-        shraddha:     user.shraddha     || 0,
-        shraddhaRank: getShraddhaRank(user.shraddha || 0),
-        joinedAt:     user.joinedAt,
-      },
-    });
+    res.json({ token: signToken(user._id), user: userShape(user) });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
 
-// ── GET /api/auth/me ─────────────────────────────────────────────────────────
+// GET /api/auth/me
 router.get('/me', protect, (req, res) => {
-  const u = req.user;
-  res.json({
-    id:           u._id,
-    name:         u.name,
-    email:        u.email,
-    role:         u.role,
-    bookmarks:    u.bookmarks    || [],
-    conceptsRead: u.conceptsRead || [],
-    shraddha:     u.shraddha     || 0,
-    shraddhaRank: getShraddhaRank(u.shraddha || 0),
-    joinedAt:     u.joinedAt,
-  });
+  res.json(userShape(req.user));
 });
 
 export default router;
