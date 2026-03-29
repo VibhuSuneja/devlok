@@ -6,7 +6,7 @@ const RelationshipSchema = new mongoose.Schema({
   label:  { type: String, required: true },
   type: {
     type: String,
-    enum: ['family', 'divine', 'conflict', 'guru', 'alliance', 'manifestation'],
+    enum: ['family', 'divine', 'conflict', 'guru', 'alliance', 'manifestation', 'darshana'],
     required: true,
   },
   createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },

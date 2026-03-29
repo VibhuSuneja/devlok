@@ -6,13 +6,13 @@ const CharacterSchema = new mongoose.Schema({
   sanskrit: { type: String },
   type: {
     type: String,
-    enum: ['deva', 'devi', 'hero', 'sage', 'asura', 'celestial', 'avatar'],
+    enum: ['deva', 'devi', 'hero', 'sage', 'asura', 'celestial', 'avatar', 'darshana'],
     required: true,
   },
   size:   { type: Number, default: 14 },
   filter: {
     type: String,
-    enum: ['mahabharata', 'ramayana', 'purana', 'vedic'],
+    enum: ['mahabharata', 'ramayana', 'purana', 'vedic', 'philosophical'],
     required: true,
   },
   yuga: {

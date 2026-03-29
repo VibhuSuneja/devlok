@@ -39,6 +39,9 @@ players.player('shankh').volume.value = -4;
 players.player('temple_bell').volume.value = -10;
 players.player('om').volume.value = -8;
 
+// Track first interaction to prevent ear fatigue
+let isFirstNodeClick = true;
+
 // Reusable UI Synthesizers (Harmonious Pentatonic/Fifth-based)
 const uiSynth = new Tone.PolySynth(Tone.Synth, {
   oscillator: { type: 'triangle' },
@@ -85,8 +88,17 @@ export function useSound() {
       const now = Tone.now();
       switch (key) {
         case 'node_click':
-          // Replaced synth with the REAL temple bell recording
-          players.player('temple_bell').start();
+          const bellPlayer = players.player('temple_bell');
+          if (bellPlayer.state === 'started') bellPlayer.stop();
+          
+          if (isFirstNodeClick) {
+            bellPlayer.volume.value = -10; // Full resonant strike
+            isFirstNodeClick = false;
+          } else {
+            bellPlayer.volume.value = -24; // Subtle ambient echo for subsequent clicks
+          }
+          
+          bellPlayer.start();
           break;
 
         case 'bookmark':

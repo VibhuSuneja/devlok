@@ -68,6 +68,7 @@ function CharacterModal({ isOpen, data, onClose, onSaved }) {
                 <option value="sage">SAGE</option>
                 <option value="celestial">CELESTIAL</option>
                 <option value="avatar">AVATAR</option>
+                <option value="darshana">DARSHANA</option>
               </select>
             </div>
             <div className="form-row">

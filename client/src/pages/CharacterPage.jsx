@@ -7,7 +7,7 @@ import { useBookmarks } from '../hooks/useBookmarks.js';
 const COLORS = {
   deva: '#d4973a', devi: '#c45c8a', hero: '#5c8ac4',
   sage: '#5cb88a', asura: '#c45c5c', celestial: '#9a6ed4',
-  avatar: '#ffab00'
+  avatar: '#ffab00', darshana: '#a0c4dc'
 };
 
 function CharacterPage() {

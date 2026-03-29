@@ -9,7 +9,17 @@ const COLORS = {
   sage: '#5cb88a',       // Sacred
   celestial: '#9a6ed4',  // Celestial
   avatar: '#ffab00',     // Divine Saffron
+  darshana: '#a0c4dc',   // Steel-blue ice — pure concept
 };
+
+// ── Octagon polygon points for a given radius, centered at origin ────────────
+function octagonPoints(r) {
+  const n = 8;
+  return Array.from({ length: n }, (_, i) => {
+    const angle = (2 * Math.PI * i / n) - (Math.PI / 8); // flat-top orientation
+    return `${r * Math.cos(angle)},${r * Math.sin(angle)}`;
+  }).join(' ');
+}
 
 function Graph({ data, onSelectNode, onHoverNode, selectedNodeId, searchQuery, linkFilter, activeArcNodes }) {
   const svgRef = useRef(null);
@@ -72,8 +82,9 @@ function Graph({ data, onSelectNode, onHoverNode, selectedNodeId, searchQuery, l
       .data(data.links)
       .join('line')
       .attr('class', 'link')
-      .attr('stroke', 'rgba(232,213,163,.15)')
-      .attr('stroke-width', 1.5)
+      .attr('stroke', l => l.type === 'darshana' ? 'rgba(160,196,220,.35)' : 'rgba(232,213,163,.15)')
+      .attr('stroke-width', l => l.type === 'darshana' ? 2 : 1.5)
+      .attr('stroke-dasharray', l => l.type === 'darshana' ? '6,3' : null)
       .attr('marker-end', 'url(#arrow)');
 
     const node = nodeGroup
@@ -82,7 +93,7 @@ function Graph({ data, onSelectNode, onHoverNode, selectedNodeId, searchQuery, l
       .join('g')
       .attr('class', 'node-group')
       .on('click', (e, d) => {
-        if (e.defaultPrevented) return; // Prevent selection if dragging
+        if (e.defaultPrevented) return;
         e.stopPropagation();
         onSelectNode(d.id);
       })
@@ -113,8 +124,11 @@ function Graph({ data, onSelectNode, onHoverNode, selectedNodeId, searchQuery, l
         .on('drag', dragged)
         .on('end', dragended));
 
-    // Outer glow ring
-    node.append('circle')
+    // ── Outer glow ring (circle for beings, octagon for darshana) ────────────
+    const regularNodes = node.filter(d => d.type !== 'darshana');
+    const darshanaNodes = node.filter(d => d.type === 'darshana');
+
+    regularNodes.append('circle')
       .attr('class', 'node-ring')
       .attr('r', d => d.size + 6)
       .attr('fill', 'none')
@@ -122,19 +136,37 @@ function Graph({ data, onSelectNode, onHoverNode, selectedNodeId, searchQuery, l
       .attr('stroke-width', 2)
       .style('filter', 'blur(3px)');
 
-    // Inner glow
-    node.append('circle')
+    darshanaNodes.append('polygon')
+      .attr('class', 'node-ring')
+      .attr('points', d => octagonPoints(d.size + 8))
+      .attr('fill', 'none')
+      .attr('stroke', COLORS.darshana)
+      .attr('stroke-width', 2)
+      .style('filter', 'blur(2px)');
+
+    // ── Inner glow ────────────────────────────────────────────────────────────
+    regularNodes.append('circle')
       .attr('r', d => d.size)
       .attr('fill', d => COLORS[d.type] || '#fff')
       .attr('opacity', .15);
 
-    // Main circle
-    node.append('circle')
+    darshanaNodes.append('polygon')
+      .attr('points', d => octagonPoints(d.size))
+      .attr('fill', COLORS.darshana)
+      .attr('opacity', .15);
+
+    // ── Main shape ────────────────────────────────────────────────────────────
+    regularNodes.append('circle')
       .attr('r', d => d.size * .6)
       .attr('fill', d => COLORS[d.type] || '#fff')
       .style('filter', 'drop-shadow(0 0 8px currentColor)');
 
-    // Character Label
+    darshanaNodes.append('polygon')
+      .attr('points', d => octagonPoints(d.size * .6))
+      .attr('fill', COLORS.darshana)
+      .style('filter', `drop-shadow(0 0 12px ${COLORS.darshana})`);
+
+    // ── Sanskrit/Label below node ─────────────────────────────────────────────
     node.append('text')
       .attr('class', 'node-label')
       .attr('dy', d => d.size + 16)
@@ -188,14 +220,34 @@ function Graph({ data, onSelectNode, onHoverNode, selectedNodeId, searchQuery, l
       .style('font-weight', d => d.id === selectedNodeId ? 'bold' : 'normal');
 
     d3.select(gRef.current).selectAll('.link')
-      .style('stroke', d => (d.source.id === selectedNodeId || d.target.id === selectedNodeId) ? 'rgba(212,151,58,.5)' : 'rgba(232,213,163,.15)')
-      .style('stroke-opacity', d => (d.source.id === selectedNodeId || d.target.id === selectedNodeId) ? 1 : .32)
-      .style('stroke-width', d => (d.source.id === selectedNodeId || d.target.id === selectedNodeId) ? 2.5 : 1.5);
+      .style('stroke', d => (d.source.id === selectedNodeId || d.target.id === selectedNodeId) ? 'rgba(212,151,58,.5)' : null)
+      .style('stroke-opacity', d => (d.source.id === selectedNodeId || d.target.id === selectedNodeId) ? 1 : null)
+      .style('stroke-width', d => (d.source.id === selectedNodeId || d.target.id === selectedNodeId) ? 2.5 : null);
   }, [selectedNodeId]);
 
   useEffect(() => {
     if (!gRef.current) return;
     const q = (searchQuery || '').toLowerCase().trim();
+
+    // First, find all nodes that match the query directly, and their neighbors
+    let matchedNodeIds = new Set();
+    if (q) {
+      data.nodes.forEach(d => {
+        const match = d.label.toLowerCase().includes(q) ||
+          (d.epithets||[]).some(e => e.toLowerCase().includes(q)) ||
+          (d.desc||'').toLowerCase().includes(q) ||
+          (d.sanskrit||'').toLowerCase().includes(q);
+        if (match) {
+          matchedNodeIds.add(d.id);
+          // Add 1st degree connections so they stay illuminated
+          data.links.forEach(l => {
+            if (l.source.id === d.id) matchedNodeIds.add(l.target.id);
+            if (l.target.id === d.id) matchedNodeIds.add(l.source.id);
+          });
+        }
+      });
+    }
+
     d3.select(gRef.current).selectAll('.node-group')
       .style('opacity', d => {
         if (activeArcNodes) {
@@ -211,11 +263,7 @@ function Graph({ data, onSelectNode, onHoverNode, selectedNodeId, searchQuery, l
           }
           return 1;
         }
-        const match = d.label.toLowerCase().includes(q) ||
-          (d.epithets||[]).some(e => e.toLowerCase().includes(q)) ||
-          (d.desc||'').toLowerCase().includes(q) ||
-          (d.sanskrit||'').toLowerCase().includes(q);
-        return match ? 1 : 0.08;
+        return matchedNodeIds.has(d.id) ? 1 : 0.08;
       });
 
     d3.select(gRef.current).selectAll('.link')
@@ -223,7 +271,12 @@ function Graph({ data, onSelectNode, onHoverNode, selectedNodeId, searchQuery, l
         if (activeArcNodes) {
           return (activeArcNodes.includes(l.source.id) && activeArcNodes.includes(l.target.id)) ? 0.8 : 0.02;
         }
-        if (linkFilter === 'all') return null;
+        if (linkFilter === 'all') {
+          if (q) {
+            return (matchedNodeIds.has(l.source.id) && matchedNodeIds.has(l.target.id)) ? 0.6 : 0.03;
+          }
+          return null;
+        }
         return l.type === linkFilter ? 1 : 0.03;
       })
       .style('stroke-width', l => {
@@ -233,7 +286,7 @@ function Graph({ data, onSelectNode, onHoverNode, selectedNodeId, searchQuery, l
         if (linkFilter === 'all') return 1.5;
         return l.type === linkFilter ? 2.5 : 1;
       });
-  }, [searchQuery, linkFilter, data.links, activeArcNodes]);
+  }, [searchQuery, linkFilter, data.links, data.nodes, activeArcNodes]);
 
   return (
     <div className="graph-container">

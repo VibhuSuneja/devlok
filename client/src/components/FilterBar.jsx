@@ -1,7 +1,7 @@
 import React from 'react';
 
-const TYPES = ['all', 'deva', 'devi', 'hero', 'asura', 'sage', 'celestial', 'avatar'];
-const LINK_TYPES = ['all', 'family', 'divine', 'conflict', 'guru', 'alliance', 'manifestation'];
+const TYPES = ['all', 'deva', 'devi', 'hero', 'asura', 'sage', 'celestial', 'avatar', 'darshana'];
+const LINK_TYPES = ['all', 'family', 'divine', 'conflict', 'guru', 'alliance', 'manifestation', 'darshana'];
 
 function FilterBar({ filter, setFilter, linkFilter, setLinkFilter }) {
   return (

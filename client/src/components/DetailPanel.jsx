@@ -12,6 +12,7 @@ const COLORS = {
   sage: '#5cb88a',
   celestial: '#9a6ed4',
   avatar: '#ffab00',
+  darshana: '#a0c4dc',
 };
 
 // Returns the correct label from the perspective of currentNodeId
@@ -154,17 +155,21 @@ function DetailPanel({ node, links, allNodes, onClose, onSelectNode }) {
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.2rem' }}>
               <h2 className="panel-name" style={{ margin: 0 }}>{node.label}</h2>
               <div style={{ display: 'flex', gap: '0.4rem', alignItems: 'center', position: 'relative' }}>
-                {showLoginHint && (
-                  <span className="bookmark-login-hint">Sign in to bookmark</span>
+                {node.type !== 'darshana' && (
+                  <>
+                    {showLoginHint && (
+                      <span className="bookmark-login-hint">Sign in to bookmark</span>
+                    )}
+                    <button
+                      className={`bookmark-btn ${bookmarked ? 'bookmarked' : ''}`}
+                      onClick={handleBookmark}
+                      title={isLoggedIn ? (bookmarked ? 'Remove bookmark' : 'Bookmark this being') : 'Sign in to bookmark'}
+                      aria-label={bookmarked ? 'Remove bookmark' : 'Bookmark'}
+                    >
+                      {bookmarked ? '★' : '☆'}
+                    </button>
+                  </>
                 )}
-                <button
-                  className={`bookmark-btn ${bookmarked ? 'bookmarked' : ''}`}
-                  onClick={handleBookmark}
-                  title={isLoggedIn ? (bookmarked ? 'Remove bookmark' : 'Bookmark this being') : 'Sign in to bookmark'}
-                  aria-label={bookmarked ? 'Remove bookmark' : 'Bookmark'}
-                >
-                  {bookmarked ? '★' : '☆'}
-                </button>
                 <button 
                   className="filter-btn" 
                   style={{ borderColor: '#d4973a', color: '#d4973a', fontSize: '0.75rem', padding: '0.2rem 0.6rem', letterSpacing: '1px', textTransform: 'uppercase', background: 'transparent', cursor: 'pointer', borderRadius: '4px' }}
@@ -187,19 +192,23 @@ function DetailPanel({ node, links, allNodes, onClose, onSelectNode }) {
 
           <div className="panel-body">
             <div className="panel-section">
-              <h3 className="panel-section-title">ORIGIN & ESSENCE</h3>
+              <h3 className="panel-section-title">{node.type === 'darshana' ? 'DOCTRINE & TRADITION' : 'ORIGIN & ESSENCE'}</h3>
               <p className="panel-desc">{node.desc}</p>
             </div>
 
             {node.source && (
               <div className="panel-section">
-                <h3 className="panel-section-title">CHRONICLES (SOURCES)</h3>
+                <h3 className="panel-section-title">
+                  {node.type === 'darshana' ? 'TEXTUAL FOUNDATIONS' : 'CHRONICLES (SOURCES)'}
+                </h3>
                 <div className="panel-source">{node.source}</div>
               </div>
             )}
 
             <div className="panel-section">
-              <h3 className="panel-section-title">SACRED CONNECTIONS</h3>
+              <h3 className="panel-section-title">
+                {node.type === 'darshana' ? 'ADHERENTS & ACHARYAS' : 'SACRED CONNECTIONS'}
+              </h3>
               <div className="relation-list">
                 {links?.map(l => {
                   const other = (l.source?.id || l.source) === node.id ? (l.target?.id || l.target) : (l.source?.id || l.source);
@@ -222,28 +231,30 @@ function DetailPanel({ node, links, allNodes, onClose, onSelectNode }) {
               </div>
             </div>
 
-            <div className="panel-section contribution-section">
-              {correctionSuccess ? (
-                <div className="correction-success-msg">
-                  <span className="success-icon">✨</span>
-                  <p>Suggestion submitted! You earned +50 Shraddha.</p>
-                  <p>Our scholars will review your contribution.</p>
-                </div>
-              ) : isCorrecting ? (
-                <SubmitCorrectionForm 
-                  node={node} 
-                  onCancel={() => setIsCorrecting(false)} 
-                  onSuccess={() => setCorrectionSuccess(true)} 
-                />
-              ) : (
-                <button 
-                  className="btn-suggest-correction"
-                  onClick={() => isLoggedIn ? setIsCorrecting(true) : setShowLoginHint(true)}
-                >
-                  ✎ Suggest a correction
-                </button>
-              )}
-            </div>
+            {node.type !== 'darshana' && (
+              <div className="panel-section contribution-section">
+                {correctionSuccess ? (
+                  <div className="correction-success-msg">
+                    <span className="success-icon">✨</span>
+                    <p>Suggestion submitted! You earned +50 Shraddha.</p>
+                    <p>Our scholars will review your contribution.</p>
+                  </div>
+                ) : isCorrecting ? (
+                  <SubmitCorrectionForm 
+                    node={node} 
+                    onCancel={() => setIsCorrecting(false)} 
+                    onSuccess={() => setCorrectionSuccess(true)} 
+                  />
+                ) : (
+                  <button 
+                    className="btn-suggest-correction"
+                    onClick={() => isLoggedIn ? setIsCorrecting(true) : setShowLoginHint(true)}
+                  >
+                    ✎ Suggest a correction
+                  </button>
+                )}
+              </div>
+            )}
           </div>
         </>
       )}
