@@ -3824,3 +3824,321 @@ body:has(.gurukul-week-page) {
   .gurukul-week-bottom-nav { flex-direction: column; }
   .gurukul-week-nav-btn--next { margin-left: 0; }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   PHASE 3E — MOBILE SYSTEM (≤ 768px)
+   No @media rules existed in this file before this block.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Graph instructions: mouse vs touch copy ─────────────────────────────── */
+.instructions {
+  position: fixed;
+  bottom: 1.2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.65rem;
+  letter-spacing: 0.14em;
+  color: var(--text-dim);
+  pointer-events: none;
+  z-index: 10;
+  white-space: nowrap;
+}
+
+@media (pointer: coarse) {
+  /* On touch devices, update the instruction copy via an attr trick.
+     The JS in GraphPage can also just swap the string — but this is zero-JS. */
+  .instructions::before {
+    content: 'Pinch to zoom · Drag to pan · Tap to explore';
+    display: block;
+  }
+  .instructions > * { display: none; }
+  .instructions { font-size: 0; } /* hide original text node */
+  .instructions::before { font-size: 0.65rem; }
+}
+
+/* ── AdminPanel — responsive header & card layout ────────────────────────── */
+.admin-header-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(10, 7, 2, 0.97);
+  backdrop-filter: blur(8px);
+}
+
+.admin-tab-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  flex: 1;
+}
+
+.admin-tab-btn {
+  min-height: 36px;
+  white-space: nowrap;
+}
+
+.admin-session-controls {
+  display: flex;
+  gap: 8px;
+  margin-left: auto;
+}
+
+/* Card list (used in mobile/tablet view) */
+.admin-card-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.admin-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.admin-card--submission {
+  border-color: rgba(212,151,58,0.2);
+}
+
+.admin-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.admin-card-label {
+  font-weight: 600;
+  color: var(--text);
+  font-size: 0.88rem;
+}
+
+.admin-card-badge {
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+
+.admin-card-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.admin-card-field {
+  font-size: 0.78rem;
+  color: var(--text-dim);
+}
+
+.admin-card-field code {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.72rem;
+  color: var(--amber-dim);
+  background: rgba(212,151,58,0.08);
+  padding: 1px 5px;
+  border-radius: 3px;
+}
+
+.admin-card-citation {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(232,213,163,0.1);
+  border-radius: 4px;
+  padding: 8px 10px;
+  font-size: 0.77rem;
+  color: var(--text-dim);
+  line-height: 1.5;
+}
+
+.admin-card-citation-label {
+  display: block;
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text-dim);
+  margin-bottom: 4px;
+  opacity: 0.6;
+}
+
+.admin-card-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+/* Touch-friendly button height — WCAG 2.5.5 minimum 44px */
+.admin-touch-btn {
+  min-height: 44px;
+  flex: 1;
+  font-size: 0.82rem;
+}
+
+@media (max-width: 768px) {
+  /* ── Header stacks title above tabs ───────────────────────────────────── */
+  .admin-header-bar { flex-direction: column; align-items: flex-start; }
+  .admin-session-controls { margin-left: 0; width: 100%; }
+  .admin-session-controls .btn { flex: 1; text-align: center; }
+
+  /* ── FilterBar: horizontal scroll pill row ────────────────────────────── */
+  .filter-manager {
+    padding: 6px 8px;
+    gap: 4px;
+  }
+  .filter-stack {
+    width: 100%;
+  }
+  .filter-group {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* Firefox */
+    padding-bottom: 2px;
+    gap: 5px;
+  }
+  .filter-group::-webkit-scrollbar { display: none; }
+
+  .filter-label {
+    min-width: auto;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .filter-btn {
+    white-space: nowrap;
+    flex-shrink: 0;
+    min-height: 32px;
+    font-size: 0.65rem;
+    padding: 4px 10px;
+  }
+
+  /* ── Header: search moves below filter row ────────────────────────────── */
+  .header-inner {
+    flex-direction: column;
+    padding: 6px 10px;
+    gap: 4px;
+  }
+  .search-bar {
+    width: 100%;
+  }
+
+  /* ── DetailPanel: bottom sheet instead of side panel ─────────────────── */
+  .detail-panel {
+    /* Override the right-side slide */
+    top: auto !important;
+    right: 0 !important;
+    bottom: -100% !important;
+    left: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    max-height: 75vh;
+    border-radius: 18px 18px 0 0;
+    border-right: none;
+    border-top: 1px solid var(--border);
+    overflow-y: auto;
+    transform: none !important;
+    transition: bottom 0.35s cubic-bezier(0.32, 0.72, 0, 1) !important;
+  }
+  .detail-panel.open {
+    bottom: 0 !important;
+  }
+
+  /* Bottom sheet drag handle visual indicator */
+  .detail-panel::before {
+    content: '';
+    display: block;
+    width: 36px;
+    height: 4px;
+    border-radius: 2px;
+    background: rgba(232,213,163,0.25);
+    margin: 10px auto 0;
+  }
+
+  /* ── Legend: hide by default on mobile (toggled via button) ───────────── */
+  .legend {
+    display: none;
+  }
+  .legend.legend--visible {
+    display: flex;
+  }
+
+  /* ── YugaTimeline: horizontal scroll strip ────────────────────────────── */
+  .yuga-timeline {
+    flex-direction: row;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    bottom: 2.5rem;
+    left: 0;
+    right: 0;
+    width: 100%;
+    border-radius: 0;
+    justify-content: flex-start;
+    padding: 6px 12px;
+    gap: 8px;
+  }
+  .yuga-timeline::-webkit-scrollbar { display: none; }
+
+  /* ── NodeCounter: smaller on mobile ──────────────────────────────────── */
+  .node-counter {
+    font-size: 0.6rem;
+    padding: 4px 10px;
+  }
+
+  /* ── Gurukul hero: scale down ─────────────────────────────────────────── */
+  .gurukul-hero-title .gurukul-title-line-2 {
+    font-size: clamp(3rem, 16vw, 6rem);
+  }
+
+  .gurukul-form-inner {
+    flex-direction: column;
+  }
+
+  /* ── Graph instructions: centre at bottom ─────────────────────────────── */
+  .instructions {
+    font-size: 0.6rem;
+  }
+}
+
+/* ── Small phone (≤ 480px) ───────────────────────────────────────────────── */
+@media (max-width: 480px) {
+  .filter-btn {
+    font-size: 0.6rem;
+    padding: 3px 8px;
+    min-height: 30px;
+  }
+
+  .filter-btn--darshana {
+    padding: 3px 10px;
+  }
+
+  .admin-header-title {
+    font-size: 0.85rem;
+  }
+
+  .gurukul-hero-tagline {
+    font-size: 0.9rem;
+  }
+
+  .panel-name {
+    font-size: 1.2rem;
+  }
+
+  .admin-card-actions {
+    flex-direction: column;
+  }
+  .admin-touch-btn {
+    width: 100%;
+  }
+}
+

@@ -17,35 +17,112 @@ function EmberCanvas() {
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
+
+    // ── prefers-reduced-motion: skip entirely ─────────────────────────────────
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
     const ctx = canvas.getContext('2d');
+    const isMobile = window.innerWidth < 768;
+    const isTouchDevice = window.matchMedia('(pointer: coarse)').matches;
+
+    // Mobile: 18 particles, Desktop: 55
+    const PARTICLE_COUNT = isMobile ? 18 : 55;
+
     let animId;
-    const resize = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; };
+    let frameCount = 0;
+
+    const resize = () => {
+      canvas.width  = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
     resize();
     window.addEventListener('resize', resize);
+
     class Ember {
       constructor() { this.reset(); }
       reset() {
-        this.x = Math.random() * canvas.width;
-        this.y = canvas.height + 10;
-        this.vx = (Math.random() - 0.5) * 0.6;
-        this.vy = -(Math.random() * 1.2 + 0.4);
+        this.x     = Math.random() * canvas.width;
+        this.y     = canvas.height + 10;
+        this.vx    = (Math.random() - 0.5) * 0.6;
+        this.vy    = -(Math.random() * 1.2 + 0.4);
         this.alpha = Math.random() * 0.6 + 0.2;
-        this.size = Math.random() * 2.5 + 0.5;
-        this.life = 1;
+        // Mobile: slightly larger particles to compensate for no glow
+        this.size  = isMobile
+          ? Math.random() * 3.5 + 1
+          : Math.random() * 2.5 + 0.5;
+        this.life  = 1;
         this.decay = Math.random() * 0.004 + 0.002;
-        const t = Math.random();
-        this.color = t < 0.4 ? 'rgba(212,100,20,' : t < 0.75 ? 'rgba(212,151,58,' : 'rgba(240,200,120,';
+        const t    = Math.random();
+        this.color = t < 0.4
+          ? 'rgba(212,100,20,'
+          : t < 0.75
+            ? 'rgba(212,151,58,'
+            : 'rgba(240,200,120,';
       }
-      update() { this.x += this.vx + Math.sin(this.life * 8) * 0.15; this.y += this.vy; this.life -= this.decay; if (this.life <= 0) this.reset(); }
-      draw() { ctx.save(); ctx.globalAlpha = this.life * this.alpha; ctx.fillStyle = `${this.color}${this.life * this.alpha})`; ctx.shadowBlur = 6; ctx.shadowColor = `${this.color}0.8)`; ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); ctx.restore(); }
+      update() {
+        this.x += this.vx + Math.sin(this.life * 8) * 0.15;
+        this.y += this.vy;
+        this.life -= this.decay;
+        if (this.life <= 0) this.reset();
+      }
+      draw() {
+        ctx.save();
+        ctx.globalAlpha = this.life * this.alpha;
+        ctx.fillStyle   = `${this.color}${this.life * this.alpha})`;
+        // ── shadowBlur is the #1 GPU bottleneck — skip on touch devices ────────
+        if (!isTouchDevice) {
+          ctx.shadowBlur  = 6;
+          ctx.shadowColor = `${this.color}0.8)`;
+        }
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      }
     }
-    const embers = Array.from({ length: 55 }, () => { const e = new Ember(); e.y = Math.random() * canvas.height; e.life = Math.random(); return e; });
-    const draw = () => { ctx.clearRect(0, 0, canvas.width, canvas.height); embers.forEach(e => { e.update(); e.draw(); }); animId = requestAnimationFrame(draw); };
+
+    const embers = Array.from({ length: PARTICLE_COUNT }, () => {
+      const e = new Ember();
+      e.y    = Math.random() * canvas.height;
+      e.life = Math.random();
+      return e;
+    });
+
+    const draw = () => {
+      // ── Pause when tab is not visible ──────────────────────────────────────
+      if (document.visibilityState === 'hidden') {
+        animId = requestAnimationFrame(draw);
+        return;
+      }
+
+      // ── Skip every other frame on mobile (~30fps budget) ───────────────────
+      frameCount++;
+      if (isMobile && frameCount % 2 !== 0) {
+        animId = requestAnimationFrame(draw);
+        return;
+      }
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      embers.forEach(e => { e.update(); e.draw(); });
+      animId = requestAnimationFrame(draw);
+    };
+
     draw();
-    return () => { cancelAnimationFrame(animId); window.removeEventListener('resize', resize); };
+
+    return () => {
+      cancelAnimationFrame(animId);
+      window.removeEventListener('resize', resize);
+    };
   }, []);
-  return <canvas ref={canvasRef} style={{ position: 'fixed', inset: 0, zIndex: 0, pointerEvents: 'none', opacity: 0.65 }} />;
+
+  return (
+    <canvas
+      ref={canvasRef}
+      style={{ position: 'fixed', inset: 0, zIndex: 0, pointerEvents: 'none', opacity: 0.65 }}
+    />
+  );
 }
+
 
 // ── Curriculum weeks ──────────────────────────────────────────────────────────
 const WEEKS = [

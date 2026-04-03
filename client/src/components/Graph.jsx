@@ -32,6 +32,10 @@ function Graph({ data, onSelectNode, onHoverNode, selectedNodeId, searchQuery, l
     const width = window.innerWidth;
     const height = window.innerHeight;
 
+    // ── Detect touch-primary device ────────────────────────────────────────────
+    const isTouchDevice = window.matchMedia('(pointer: coarse)').matches;
+    const isMobile = window.innerWidth < 768;
+
     const svg = d3.select(svgRef.current);
     svg.selectAll('*').remove();
 
@@ -39,25 +43,27 @@ function Graph({ data, onSelectNode, onHoverNode, selectedNodeId, searchQuery, l
     const g = svg.append('g');
     gRef.current = g.node();
 
-    // Zoom behavior
+    // ── Zoom behaviour ─────────────────────────────────────────────────────────
+    // CRITICAL: Do NOT call svg.on('touchstart', e => e.preventDefault()) at the
+    // SVG level — that intercepts multi-touch pinch before D3 zoom sees it.
+    // D3's zoom() handles pinch natively via pointer events.
     const zoom = d3.zoom()
-      .scaleExtent([.1, 8])
+      .scaleExtent([0.1, 8])
       .on('zoom', (event) => g.attr('transform', event.transform));
 
     svg.call(zoom);
-    svg.on('touchstart', (e) => e.preventDefault(), { passive: false });
 
-    const isMobile = window.innerWidth < 768;
-
-    // Initial transform to center the graph
-    const initialScale = isMobile ? 0.45 : 1.1;
-    svg.call(zoom.transform, d3.zoomIdentity.translate(width / 2, height / 2).scale(initialScale));
+    // Initial transform — zoomed out more on mobile to show the full graph
+    const initialScale = isMobile ? 0.42 : 1.1;
+    svg.call(zoom.transform, d3.zoomIdentity
+      .translate(width / 2, height / 2)
+      .scale(initialScale));
 
     const simulation = d3.forceSimulation(data.nodes)
       .force('link', d3.forceLink(data.links).id(d => d.id).distance(120).strength(1))
-      .force('charge', d3.forceManyBody().strength(isMobile ? -200 : -400))
+      .force('charge', d3.forceManyBody().strength(isMobile ? -180 : -400))
       .force('center', d3.forceCenter(0, 0))
-      .force('collision', d3.forceCollide().radius(d => d.size + (isMobile ? 15 : 25)));
+      .force('collision', d3.forceCollide().radius(d => d.size + (isMobile ? 18 : 25)));
 
     simulationRef.current = simulation;
 
@@ -92,37 +98,101 @@ function Graph({ data, onSelectNode, onHoverNode, selectedNodeId, searchQuery, l
       .data(data.nodes)
       .join('g')
       .attr('class', 'node-group')
-      .on('click', (e, d) => {
-        if (e.defaultPrevented) return;
-        e.stopPropagation();
-        onSelectNode(d.id);
-      })
-      .on('mouseover', (e, d) => {
-        onHoverNode({ visible: true, x: e.clientX, y: e.clientY, node: d });
-        
-        // Highlight ego network
-        node.style('opacity', n => {
-          const conn = data.links.some(l => 
-            (l.source.id === d.id && l.target.id === n.id) || 
-            (l.target.id === d.id && l.source.id === n.id) || 
-            n.id === d.id
+      // ── Larger invisible hit-target so fat fingers can tap reliably ──────────
+      .style('cursor', 'pointer');
+
+    // ── MOUSE events (desktop only) ────────────────────────────────────────────
+    if (!isTouchDevice) {
+      node
+        .on('click', (e, d) => {
+          if (e.defaultPrevented) return;
+          e.stopPropagation();
+          onSelectNode(d.id);
+        })
+        .on('mouseover', (e, d) => {
+          onHoverNode({ visible: true, x: e.clientX, y: e.clientY, node: d });
+          node.style('opacity', n => {
+            const conn = data.links.some(l =>
+              (l.source.id === d.id && l.target.id === n.id) ||
+              (l.target.id === d.id && l.source.id === n.id) ||
+              n.id === d.id
+            );
+            return conn ? 1 : 0.1;
+          });
+          link.style('opacity', l =>
+            (l.source.id === d.id || l.target.id === d.id) ? 0.8 : 0.03
           );
-          return conn ? 1 : 0.1;
+        })
+        .on('mousemove', (e) => {
+          onHoverNode(prev => ({ ...prev, x: e.clientX, y: e.clientY }));
+        })
+        .on('mouseout', () => {
+          onHoverNode({ visible: false, x: 0, y: 0, node: null });
+          node.style('opacity', 1);
+          link.style('opacity', null);
         });
-        link.style('opacity', l => (l.source.id === d.id || l.target.id === d.id) ? 0.8 : 0.03);
-      })
-      .on('mousemove', (e) => {
-        onHoverNode(prev => ({ ...prev, x: e.clientX, y: e.clientY }));
-      })
-      .on('mouseout', () => {
-        onHoverNode({ visible: false, x: 0, y: 0, node: null });
-        node.style('opacity', 1);
-        link.style('opacity', null);
-      })
-      .call(d3.drag()
-        .on('start', dragstarted)
-        .on('drag', dragged)
-        .on('end', dragended));
+    }
+
+    // ── TOUCH events (mobile / tablet) ────────────────────────────────────────
+    // Tap-to-select: fire onSelectNode only if the touch was short (< 250ms)
+    // and the finger barely moved (≤ 8px). This distinguishes tap from drag/pan.
+    if (isTouchDevice) {
+      node.each(function(d) {
+        let touchStartTime = 0;
+        let touchStartX = 0;
+        let touchStartY = 0;
+
+        d3.select(this)
+          .on('touchstart', function(e) {
+            // Allow the event to propagate so D3 drag still works for this node
+            touchStartTime = Date.now();
+            const t = e.touches[0];
+            touchStartX = t.clientX;
+            touchStartY = t.clientY;
+          }, { passive: true })
+          .on('touchend', function(e) {
+            e.stopPropagation();
+            const dt = Date.now() - touchStartTime;
+            const t = e.changedTouches[0];
+            const dx = t.clientX - touchStartX;
+            const dy = t.clientY - touchStartY;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            // Short tap with minimal movement = node selection
+            if (dt < 250 && dist < 8) {
+              onSelectNode(d.id);
+            }
+          }, { passive: true });
+      });
+    }
+
+    // ── Per-node drag (works on both mouse and touch via D3) ──────────────────
+    node.call(
+      d3.drag()
+        .on('start', (event, d) => {
+          // Prevent page scroll while dragging a node on touch
+          if (event.sourceEvent) {
+            event.sourceEvent.stopPropagation();
+            // Set touch-action:none dynamically only on the dragged node element
+            event.sourceEvent.currentTarget &&
+              (event.sourceEvent.currentTarget.style.touchAction = 'none');
+          }
+          if (!event.active) simulation.alphaTarget(0.3).restart();
+          d.fx = d.x;
+          d.fy = d.y;
+        })
+        .on('drag', (event, d) => {
+          d.fx = event.x;
+          d.fy = event.y;
+        })
+        .on('end', (event, d) => {
+          if (!event.active) simulation.alphaTarget(0);
+          d.fx = null;
+          d.fy = null;
+          if (event.sourceEvent?.currentTarget) {
+            event.sourceEvent.currentTarget.style.touchAction = '';
+          }
+        })
+    );
 
     // ── Outer glow ring (circle for beings, octagon for darshana) ────────────
     const regularNodes = node.filter(d => d.type !== 'darshana');
@@ -156,21 +226,33 @@ function Graph({ data, onSelectNode, onHoverNode, selectedNodeId, searchQuery, l
       .attr('opacity', .15);
 
     // ── Main shape ────────────────────────────────────────────────────────────
+    // On touch devices: skip drop-shadow filter (GPU-expensive) and use a
+    // slightly more opaque fill instead so nodes still pop visually.
     regularNodes.append('circle')
       .attr('r', d => d.size * .6)
       .attr('fill', d => COLORS[d.type] || '#fff')
-      .style('filter', 'drop-shadow(0 0 8px currentColor)');
+      .style('filter', isTouchDevice ? null : 'drop-shadow(0 0 8px currentColor)');
 
     darshanaNodes.append('polygon')
       .attr('points', d => octagonPoints(d.size * .6))
       .attr('fill', COLORS.darshana)
-      .style('filter', `drop-shadow(0 0 12px ${COLORS.darshana})`);
+      .style('filter', isTouchDevice
+        ? null
+        : `drop-shadow(0 0 12px ${COLORS.darshana})`);
+
+    // ── Large invisible hit-area for touch (makes nodes easy to tap) ──────────
+    if (isTouchDevice) {
+      node.append('circle')
+        .attr('r', d => Math.max(d.size + 10, 22))
+        .attr('fill', 'transparent')
+        .attr('stroke', 'none');
+    }
 
     // ── Sanskrit/Label below node ─────────────────────────────────────────────
     node.append('text')
       .attr('class', 'node-label')
       .attr('dy', d => d.size + 16)
-      .attr('font-size', d => Math.max(9, d.size * .5))
+      .attr('font-size', d => Math.max(isMobile ? 8 : 9, d.size * .5))
       .text(d => d.label);
 
     simulation.on('tick', () => {
@@ -183,23 +265,7 @@ function Graph({ data, onSelectNode, onHoverNode, selectedNodeId, searchQuery, l
       node.attr('transform', d => `translate(${d.x},${d.y})`);
     });
 
-    function dragstarted(event) {
-      if (event.sourceEvent) event.sourceEvent.stopPropagation();
-      if (!event.active) simulation.alphaTarget(0.3).restart();
-      event.subject.fx = event.subject.x;
-      event.subject.fy = event.subject.y;
-    }
-    function dragged(event) {
-      event.subject.fx = event.x;
-      event.subject.fy = event.y;
-    }
-    function dragended(event) {
-      if (!event.active) simulation.alphaTarget(0);
-      event.subject.fx = null;
-      event.subject.fy = null;
-    }
-
-    // Background click to deselect
+    // Background click/tap to deselect
     svg.on('click', (e) => {
       if (e.target === svgRef.current) onSelectNode(null);
     });
