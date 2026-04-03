@@ -1,6 +1,7 @@
 import React from 'react';
 
-const TYPES = ['all', 'deva', 'devi', 'hero', 'asura', 'sage', 'celestial', 'avatar', 'darshana'];
+const ENTITY_TYPES = ['all', 'deva', 'devi', 'hero', 'asura', 'sage', 'celestial', 'avatar'];
+const PHILOSOPHY_TYPES = ['darshana'];
 const LINK_TYPES = ['all', 'family', 'divine', 'conflict', 'guru', 'alliance', 'manifestation', 'darshana'];
 
 function FilterBar({ filter, setFilter, linkFilter, setLinkFilter }) {
@@ -9,10 +10,23 @@ function FilterBar({ filter, setFilter, linkFilter, setLinkFilter }) {
       <div className="filter-stack">
         <div className="filter-group">
           <span className="filter-label">Essence:</span>
-          {TYPES.map(t => (
+          {ENTITY_TYPES.map(t => (
             <button 
               key={t} 
               className={`filter-btn ${filter === t ? 'active' : ''}`}
+              onClick={() => setFilter(t)}
+            >
+              {t}
+            </button>
+          ))}
+        </div>
+        
+        <div className="filter-group">
+          <span className="filter-label">Philosophical Core:</span>
+          {PHILOSOPHY_TYPES.map(t => (
+            <button 
+              key={t} 
+              className={`filter-btn filter-btn--darshana ${filter === t ? 'active' : ''}`}
               onClick={() => setFilter(t)}
             >
               {t}

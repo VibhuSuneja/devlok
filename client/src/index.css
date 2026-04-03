@@ -14,6 +14,7 @@
   --destroy:    #c45c5c;
   --celestial:  #9a6ed4;
   --avatar:     #ffab00;
+  --mind:       #a0c4dc; /* Steel-blue ice — signals "pure concept" */
   --text:       #e8d5a3;
   --text-dim:   #7a6840;
   --border:     rgba(212,151,58,.22);
@@ -125,6 +126,26 @@ header {
 .filter-btn--small { padding: 1px 6px; font-size: .62rem; letter-spacing: .04em; }
 .filter-btn:hover { color: var(--amber); border-color: var(--amber-dim); }
 .filter-btn.active { color: var(--amber-glow); border-color: var(--amber); background: rgba(212,151,58,.10); }
+
+.filter-btn--darshana {
+  border-radius: 0;
+  clip-path: polygon(25% 0%, 75% 0%, 100% 25%, 100% 75%, 75% 100%, 25% 100%, 0% 75%, 0% 25%);
+  padding: 4px 14px;
+  background: rgba(160,196,220,.05);
+  border: 1px solid rgba(160,196,220,.2);
+  color: var(--mind);
+}
+.filter-btn--darshana:hover {
+  background: rgba(160,196,220,.15);
+  border-color: var(--mind);
+  color: #fff;
+}
+.filter-btn--darshana.active {
+  background: rgba(160,196,220,.25);
+  border-color: var(--mind);
+  color: #fff;
+  box-shadow: 0 0 15px rgba(160,196,220,.3);
+}
 
 /* Admin link */
 .header-actions {

@@ -7,6 +7,151 @@ import { protect, adminOnly } from '../middleware/auth.js';
 
 const router = express.Router();
 
+const CHARACTER_ALLOWED_FIELDS = new Set([
+  'label',
+  'sanskrit',
+  'type',
+  'size',
+  'filter',
+  'yuga',
+  'epithets',
+  'desc',
+  'source'
+]);
+
+const NEW_CHARACTER_REQUIRED_FIELDS = ['id', 'label', 'type', 'filter', 'yuga'];
+const NEW_RELATIONSHIP_REQUIRED_FIELDS = ['source', 'target', 'label', 'type'];
+
+class ReviewValidationError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = 'ReviewValidationError';
+  }
+}
+
+const normalizeCharacterFieldValue = (field, value) => {
+  if (field === 'size') {
+    const num = Number(value);
+    if (typeof value !== 'number' && isNaN(num)) {
+      throw new ReviewValidationError('Character size must be a valid number.');
+    }
+    return num;
+  }
+
+  if (field === 'epithets') {
+    if (!Array.isArray(value)) {
+      // If it's a string, maybe it was sent as comma-separated? 
+      // But let's assume strict array for now as per robust standards.
+      throw new ReviewValidationError('Character epithets must be an array of strings.');
+    }
+    if (value.some((item) => typeof item !== 'string')) {
+      throw new ReviewValidationError('All epithets must be strings.');
+    }
+  }
+
+  return value;
+};
+
+const appendCitationToSource = (existingSource, citation) => {
+  const sourceText = (existingSource || '').trim();
+  const citationText = (citation || '').trim();
+  if (!citationText) return sourceText;
+  if (!sourceText) return citationText;
+  if (sourceText.includes(citationText)) return sourceText;
+  return `${sourceText} · ${citationText}`;
+};
+
+const applyCharacterCorrection = async (submission) => {
+  if (!submission.targetId) {
+    throw new ReviewValidationError('Correction submissions require a targetId.');
+  }
+
+  const character = await Character.findOne({ id: submission.targetId });
+  if (!character) {
+    throw new ReviewValidationError(`Character "${submission.targetId}" was not found.`);
+  }
+
+  if (!submission.data || typeof submission.data !== 'object') {
+    throw new ReviewValidationError('Correction submission data must be an object.');
+  }
+
+  let changed = false;
+
+  // Support both single field updates {field, newValue} and object updates
+  if (submission.data.field) {
+    const { field, newValue } = submission.data;
+    if (!CHARACTER_ALLOWED_FIELDS.has(field)) {
+      throw new ReviewValidationError(`Unsupported correction field: ${field}`);
+    }
+    character[field] = normalizeCharacterFieldValue(field, newValue);
+    changed = true;
+  } else {
+    for (const [field, value] of Object.entries(submission.data)) {
+      if (!CHARACTER_ALLOWED_FIELDS.has(field)) continue;
+      character[field] = normalizeCharacterFieldValue(field, value);
+      changed = true;
+    }
+  }
+
+  if (!changed) {
+    throw new ReviewValidationError('No valid character fields were provided for correction.');
+  }
+
+  character.source = appendCitationToSource(character.source, submission.sourceCitation);
+  await character.save();
+};
+
+const createCharacterFromSubmission = async (submission) => {
+  if (!submission.data || typeof submission.data !== 'object') {
+    throw new ReviewValidationError('New character submission data must be an object.');
+  }
+
+  for (const field of NEW_CHARACTER_REQUIRED_FIELDS) {
+    if (!submission.data[field]) {
+      throw new ReviewValidationError(`Missing required character field: ${field}`);
+    }
+  }
+
+  const existing = await Character.findOne({ id: submission.data.id });
+  if (existing) {
+    throw new ReviewValidationError(`Character id "${submission.data.id}" already exists.`);
+  }
+
+  const payload = {};
+  for (const [field, value] of Object.entries(submission.data)) {
+    if (!CHARACTER_ALLOWED_FIELDS.has(field) && field !== 'id') continue;
+    payload[field] = field === 'id' ? value : normalizeCharacterFieldValue(field, value);
+  }
+
+  // Set initial source and creator
+  payload.source = submission.sourceCitation;
+  // createdBy is not in the Character schema yet, but good for tracking if added later
+  // payload.createdBy = submission.user; 
+
+  const newChar = new Character(payload);
+  await newChar.save();
+};
+
+const createRelationshipFromSubmission = async (submission) => {
+  if (!submission.data || typeof submission.data !== 'object') {
+    throw new ReviewValidationError('New relationship submission data must be an object.');
+  }
+
+  for (const field of NEW_RELATIONSHIP_REQUIRED_FIELDS) {
+    if (!submission.data[field]) {
+      throw new ReviewValidationError(`Missing required relationship field: ${field}`);
+    }
+  }
+
+  const newRel = new Relationship({
+    source: submission.data.source,
+    target: submission.data.target,
+    label: submission.data.label,
+    type: submission.data.type,
+  });
+  await newRel.save();
+};
+
 // ── GET /api/submissions ───────────────────────────────────────────────────
 // Admin only: List submissions (can filter by status)
 router.get('/', protect, adminOnly, async (req, res) => {
@@ -78,40 +223,14 @@ router.put('/:id/review', protect, adminOnly, async (req, res) => {
     if (!submission) return res.status(404).json({ message: 'Submission not found' });
     if (submission.status !== 'pending') return res.status(400).json({ message: 'Already reviewed' });
 
-    submission.status = status;
-    submission.adminFeedback = adminFeedback || '';
-
     if (status === 'approved') {
-      // 1. Apply the data to the DB
+      // 1. Apply the data to the DB based on submission type
       if (submission.type === 'correction') {
-        const char = await Character.findOne({ id: submission.targetId });
-        if (char) {
-          const { field, newValue } = submission.data;
-          // Deep merge or set depending on field structure, simple set for now
-          // Assuming data is { desc: 'new text' } style mappings
-          // For safety, allow only certain fields or just trust admin approval
-          if (submission.data.field) {
-            char[submission.data.field] = submission.data.newValue;
-          } else {
-             // fallback object merge
-             Object.assign(char, submission.data);
-          }
-          // ensure source citation gets appended or recorded? 
-          // (Usually we require them to append to the content directly, or we can update the source field)
-          if (char.source && !char.source.includes(submission.sourceCitation)) {
-             char.source = char.source + ' \u00B7 ' + submission.sourceCitation;
-          }
-          await char.save();
-        }
+        await applyCharacterCorrection(submission);
       } else if (submission.type === 'new_character') {
-        const newChar = new Character({
-           ...submission.data,
-           source: submission.sourceCitation
-        });
-        await newChar.save();
+        await createCharacterFromSubmission(submission);
       } else if (submission.type === 'new_relationship') {
-        const newRel = new Relationship(submission.data);
-        await newRel.save();
+        await createRelationshipFromSubmission(submission);
       }
 
       // 2. Award +200 Shraddha to the author
@@ -122,12 +241,21 @@ router.put('/:id/review', protect, adminOnly, async (req, res) => {
       }
     }
 
+    // Update submission record
+    submission.status = status;
+    submission.adminFeedback = adminFeedback || '';
     const updated = await submission.save();
+    
     res.json(updated);
 
   } catch (err) {
+    console.error('Submission review error:', err);
+    if (err instanceof ReviewValidationError) {
+      return res.status(400).json({ message: err.message });
+    }
     res.status(500).json({ message: err.message });
   }
 });
 
 export default router;
+
