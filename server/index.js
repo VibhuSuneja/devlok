@@ -12,6 +12,7 @@ import userRoutes from './routes/users.js';
 import exportRoutes from './routes/export.js';
 import submissionRoutes from './routes/submissions.js';
 import gurkulRoutes from './routes/gurukul.js';
+import rishiRoutes from './routes/rishi.js';
 
 const app = express();
 
@@ -51,6 +52,7 @@ app.use('/api/users', userRoutes);
 app.use('/api/export', exportRoutes);  // Public open data export
 app.use('/api/submissions', submissionRoutes);
 app.use('/api/gurukul', gurkulRoutes);
+app.use('/api/rishi', rishiRoutes);
 
 // Health check
 app.get('/', (req, res) => res.json({ message: 'Devlok API running 🕉' }));

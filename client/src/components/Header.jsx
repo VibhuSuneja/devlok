@@ -34,6 +34,7 @@ function Header({ typeFilter, setTypeFilter, linkFilter, setLinkFilter, searchQu
 
       <div className="header-actions">
         <Link to="/today" className="today-link">🔥 Daily Concept</Link>
+        <Link to="/ask" className="today-link" style={{ borderColor: 'var(--mind)', color: '#fff', background: 'rgba(160,196,220,0.1)' }}>🕉️ Ask Rishi</Link>
 
         {/* Admin-only link */}
         {isAdmin && (

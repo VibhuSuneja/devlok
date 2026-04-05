@@ -12,6 +12,7 @@ import ProfilePage from './pages/ProfilePage.jsx';
 import ConstellationPage from './pages/ConstellationPage.jsx';
 import OrientationBanner from './components/OrientationLock.jsx';
 import GurkulWeekPage from './pages/GurkulWeekPage.jsx';
+import AskRishiPage from './pages/AskRishiPage.jsx';
 import { useAuth } from './hooks/useAuth.js';
 
 // Any logged-in user (admin or regular)
@@ -59,6 +60,7 @@ function App() {
               </ProtectedRoute>
             } 
           />
+          <Route path="/ask" element={<AskRishiPage />} />
           <Route 
             path="/admin" 
             element={
