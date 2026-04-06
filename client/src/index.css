@@ -765,8 +765,8 @@ button { font-family: inherit; }
   .sep { display: none; } /* Hide the vertical separator line */
 
   /* Scrollable filter rows */
-  .filter-manager { width: 100%; gap: 4px; }
-  .filter-stack { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  .filter-manager { width: 100%; gap: 4px; align-items: flex-start; }
+  .filter-stack { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; align-items: flex-start; }
   .filter-stack::-webkit-scrollbar { display: none; }
   .filter-group { flex-wrap: nowrap; width: max-content; min-width: 100%; justify-content: flex-start; padding: 0 4px; }
   .filter-label { display: none; }
@@ -776,9 +776,10 @@ button { font-family: inherit; }
   .legend { display: none; }
 
   /* Node counter — top right, compact */
+  .dataset-controls { display: none; } /* Hide heavy export controls on mobile */
   .node-counter { 
     top: auto;
-    bottom: 200px; 
+    bottom: 140px; 
     right: 12px; 
     background: rgba(4,2,15,.5); 
     border: 1px solid rgba(232,213,163,.1);

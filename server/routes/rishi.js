@@ -1,7 +1,9 @@
 import express from 'express';
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import rateLimit from 'express-rate-limit';
 import Character from '../models/Character.js';
 import Relationship from '../models/Relationship.js';
+import { optionalAuth } from '../middleware/auth.js';
 
 const router = express.Router();
 
@@ -11,7 +13,27 @@ if (process.env.GEMINI_API_KEY) {
   genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 }
 
-router.post('/ask', async (req, res) => {
+// Rate limit logic
+const guestLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 5, // 5 questions per IP
+  message: { message: 'Seeker, your guest allowance is exhausted. Please create an account to seek deeper wisdom.' }
+});
+
+const userLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 20, // 20 questions per IP
+  message: { message: 'Your mind must rest. Please wait 15 minutes before seeking further wisdom.' }
+});
+
+const rishiLimiter = (req, res, next) => {
+  if (req.user) {
+    return userLimiter(req, res, next);
+  }
+  return guestLimiter(req, res, next);
+};
+
+router.post('/ask', optionalAuth, rishiLimiter, async (req, res) => {
   const { question } = req.body;
 
   if (!genAI) {
@@ -64,7 +86,6 @@ ${JSON.stringify(contextData, null, 2)}`;
       res.json({ answer: text });
     } catch (aiErr) {
       console.error('Gemini Specific Error:', aiErr);
-      // Fallback to a simpler model OR just report the specific error
       res.status(502).json({ message: 'The Rishi is currently silent (' + (aiErr.message || 'Model Error') + ')' });
     }
   } catch (error) {
