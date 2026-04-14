@@ -34,7 +34,31 @@ function Header({ typeFilter, setTypeFilter, linkFilter, setLinkFilter, searchQu
 
       <div className="header-actions">
         <Link to="/today" className="today-link">🔥 Daily Concept</Link>
+        <Link to="/affirmations" className="today-link" style={{ borderColor: '#6c3483', color: '#9b59b6', background: 'rgba(108,52,131,0.08)' }}>✦ Affirmations</Link>
+        <Link to="/journal" className="today-link" style={{ borderColor: '#8b6914', color: '#c9a84c', background: 'rgba(139,105,20,0.08)' }}>📜 Journal</Link>
         <Link to="/ask" className="today-link" style={{ borderColor: 'var(--mind)', color: '#fff', background: 'rgba(160,196,220,0.1)' }}>🕉️ Ask Rishi</Link>
+        {/* ── Meditate dropdown ── */}
+        <div className="meditate-menu-wrap" id="meditate-menu-wrap">
+          <span className="today-link meditate-menu-trigger" style={{ borderColor: 'var(--sacred)', color: 'var(--sacred)', background: 'rgba(92,184,138,0.08)', cursor: 'default' }}>
+            🧘 Meditate ▾
+          </span>
+          <div className="meditate-dropdown" id="meditate-dropdown">
+            <Link to="/meditate" className="meditate-dropdown-item" id="meditate-general-link">
+              <span className="meditate-dropdown-icon">🌸</span>
+              <span className="meditate-dropdown-text">
+                <strong>General Meditation</strong>
+                <small>5-min breathwork · Lotus</small>
+              </span>
+            </Link>
+            <Link to="/chakra-meditate" className="meditate-dropdown-item" id="meditate-chakra-link">
+              <span className="meditate-dropdown-icon">🔮</span>
+              <span className="meditate-dropdown-text">
+                <strong>7 Chakra Journey</strong>
+                <small>Solfeggio frequencies · 7 min</small>
+              </span>
+            </Link>
+          </div>
+        </div>
 
         {/* Admin-only link */}
         {isAdmin && (

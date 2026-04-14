@@ -4246,3 +4246,1819 @@ body:has(.gurukul-week-page) {
   .rishi-input-area { padding: 1rem; flex-direction: column; }
   .rishi-submit-btn { min-height: 44px; width: 100%; }
 }
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   MEDITATION PAGE — Breathwork & Guided Stillness
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.meditation-page {
+  position: fixed; inset: 0;
+  display: flex; flex-direction: column; align-items: center;
+  background: var(--void);
+  z-index: 200;
+  overflow: hidden;
+}
+
+/* ── Header ── */
+.meditation-header {
+  width: 100%;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1rem 2rem;
+  border-bottom: 1px solid var(--border);
+  background: rgba(8,5,32,.6);
+  backdrop-filter: blur(12px);
+  z-index: 10;
+}
+.meditation-header-title {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 1.1rem;
+  color: var(--amber-glow);
+  text-shadow: 0 0 20px rgba(240,184,74,.35);
+  letter-spacing: .12em;
+}
+.meditation-header-spacer { width: 60px; }
+
+/* ── Ambient Particle Ring ── */
+.meditation-particle-ring {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 420px; height: 420px;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 0;
+}
+.meditation-particle {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 3px; height: 3px;
+  border-radius: 50%;
+  background: var(--amber-glow);
+  opacity: 0;
+  animation: meditationParticleOrbit 12s linear infinite;
+  animation-delay: var(--delay);
+}
+@keyframes meditationParticleOrbit {
+  0% {
+    opacity: 0;
+    transform: rotate(var(--angle)) translateX(170px) scale(0.3);
+  }
+  10% { opacity: 0.5; }
+  50% {
+    opacity: 0.2;
+    transform: rotate(calc(var(--angle) + 180deg)) translateX(200px) scale(0.8);
+  }
+  90% { opacity: 0.4; }
+  100% {
+    opacity: 0;
+    transform: rotate(calc(var(--angle) + 360deg)) translateX(170px) scale(0.3);
+  }
+}
+
+/* ── Phase 0: Introduction ── */
+.meditation-intro {
+  flex: 1;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center;
+  padding: 2rem;
+  z-index: 5;
+  animation: meditationFadeIn 0.8s ease forwards;
+}
+@keyframes meditationFadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.meditation-intro-icon {
+  font-size: 3rem;
+  margin-bottom: 1.2rem;
+  animation: meditationGentlePulse 4s ease-in-out infinite;
+}
+@keyframes meditationGentlePulse {
+  0%, 100% { transform: scale(1); opacity: 0.8; }
+  50%      { transform: scale(1.1); opacity: 1; }
+}
+
+.meditation-intro-title {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(1.4rem, 4vw, 2rem);
+  color: var(--amber-glow);
+  text-shadow: 0 0 32px rgba(240,184,74,.4);
+  margin-bottom: 0.5rem;
+  letter-spacing: .08em;
+}
+.meditation-intro-subtitle {
+  font-size: 1rem;
+  color: var(--text-dim);
+  font-style: italic;
+  margin-bottom: 2.5rem;
+  letter-spacing: .05em;
+}
+
+.meditation-guidelines {
+  list-style: none;
+  padding: 0;
+  margin: 0 auto 2.5rem;
+  max-width: 380px;
+  text-align: left;
+}
+.meditation-guideline {
+  font-size: 1rem;
+  color: var(--text);
+  padding: 0.7rem 0;
+  border-bottom: 1px solid rgba(212,151,58,.06);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+  display: flex; align-items: flex-start; gap: 10px;
+  line-height: 1.6;
+}
+.meditation-guideline--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.meditation-guideline-dot {
+  color: var(--amber-glow);
+  flex-shrink: 0;
+  font-size: 0.7rem;
+  margin-top: 4px;
+}
+
+.meditation-begin-btn {
+  padding: 14px 40px;
+  font-size: 1rem;
+  letter-spacing: .12em;
+  transition: all 0.4s cubic-bezier(.16,1,.3,1);
+}
+.meditation-begin-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+.meditation-begin-btn:not(:disabled):hover {
+  background: rgba(212,151,58,.3);
+  box-shadow: 0 0 30px rgba(240,184,74,.3);
+  transform: translateY(-2px);
+}
+
+/* ── Phase 1: Countdown ── */
+.meditation-countdown {
+  flex: 1;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  z-index: 5;
+}
+.meditation-countdown-label {
+  font-size: .8rem;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 1rem;
+}
+.meditation-countdown-number {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(5rem, 15vw, 10rem);
+  color: var(--amber-glow);
+  text-shadow: 0 0 60px rgba(240,184,74,.5), 0 0 120px rgba(240,184,74,.2);
+  line-height: 1;
+  animation: countdownPop 1s cubic-bezier(.16,1,.3,1) forwards;
+}
+@keyframes countdownPop {
+  0%   { opacity: 0; transform: scale(1.8); }
+  50%  { opacity: 1; }
+  100% { opacity: 1; transform: scale(1); }
+}
+.meditation-countdown-hint {
+  margin-top: 1.5rem;
+  font-size: 1rem;
+  color: var(--text-dim);
+  font-style: italic;
+  letter-spacing: .08em;
+  animation: meditationFadeIn 2s ease forwards;
+}
+
+/* ── Phase 2: Breathwork ── */
+.meditation-breathwork {
+  flex: 1;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 2rem;
+  z-index: 5;
+  padding: 2rem;
+}
+
+.meditation-lotus-container {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 1.5rem;
+}
+.meditation-lotus-svg {
+  width: clamp(200px, 50vw, 280px);
+  height: clamp(200px, 50vw, 280px);
+  will-change: transform, filter;
+  transform-origin: center center;
+}
+
+.meditation-breath-label {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(1.2rem, 3vw, 1.6rem);
+  color: var(--amber-glow);
+  text-shadow: 0 0 20px rgba(240,184,74,.4);
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  min-height: 2rem;
+  text-align: center;
+}
+
+.meditation-timer {
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+}
+.meditation-timer-remaining {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 1.8rem;
+  color: var(--amber);
+  opacity: 0.6;
+  letter-spacing: .15em;
+}
+.meditation-timer-label {
+  font-size: .6rem;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.meditation-breath-guide {
+  text-align: center;
+}
+.meditation-guide-cycle {
+  font-size: .72rem;
+  color: var(--text-dim);
+  letter-spacing: .1em;
+  opacity: 0.5;
+}
+
+/* ── Phase 3: Completion ── */
+.meditation-complete {
+  flex: 1;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center;
+  padding: 2rem;
+  z-index: 5;
+  animation: meditationFadeIn 1.5s ease forwards;
+}
+.meditation-complete-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  animation: bellRing 2s ease-in-out infinite;
+}
+@keyframes bellRing {
+  0%, 100% { transform: rotate(0deg); }
+  15%  { transform: rotate(8deg); }
+  30%  { transform: rotate(-8deg); }
+  45%  { transform: rotate(4deg); }
+  60%  { transform: rotate(-4deg); }
+  75%  { transform: rotate(0deg); }
+}
+.meditation-complete-title {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(1.4rem, 4vw, 2rem);
+  color: var(--amber-glow);
+  text-shadow: 0 0 30px rgba(240,184,74,.4);
+  margin-bottom: 0.6rem;
+  letter-spacing: .08em;
+}
+.meditation-complete-message {
+  font-size: 1.05rem;
+  color: var(--text);
+  font-style: italic;
+  margin-bottom: 2.5rem;
+  opacity: 0.75;
+  letter-spacing: .04em;
+}
+
+.meditation-complete-stats {
+  display: flex; gap: 3rem;
+  margin-bottom: 2.5rem;
+}
+.meditation-stat {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+}
+.meditation-stat-value {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 1.6rem;
+  color: var(--amber-glow);
+}
+.meditation-stat-label {
+  font-size: .6rem;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.meditation-complete-actions {
+  display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;
+}
+.meditation-complete-actions .btn {
+  padding: 10px 28px;
+  font-size: .9rem;
+}
+
+/* ── Meditation Mobile ── */
+@media (max-width: 768px) {
+  .meditation-header { padding: 1rem; }
+  .meditation-header-title { font-size: .9rem; }
+  .meditation-particle-ring { width: 300px; height: 300px; }
+  .meditation-particle {
+    animation-name: meditationParticleOrbitMobile;
+  }
+  @keyframes meditationParticleOrbitMobile {
+    0% {
+      opacity: 0;
+      transform: rotate(var(--angle)) translateX(120px) scale(0.3);
+    }
+    10% { opacity: 0.5; }
+    50% {
+      opacity: 0.2;
+      transform: rotate(calc(var(--angle) + 180deg)) translateX(140px) scale(0.8);
+    }
+    90% { opacity: 0.4; }
+    100% {
+      opacity: 0;
+      transform: rotate(calc(var(--angle) + 360deg)) translateX(120px) scale(0.3);
+    }
+  }
+  .meditation-breathwork { gap: 1.5rem; }
+  .meditation-complete-stats { gap: 2rem; }
+  .meditation-complete-actions { flex-direction: column; width: 100%; max-width: 280px; }
+  .meditation-complete-actions .btn { width: 100%; }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   MEDITATE HOVER DROPDOWN (Header)
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.meditate-menu-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.meditate-menu-trigger {
+  user-select: none;
+  white-space: nowrap;
+}
+
+.meditate-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 230px;
+  background: rgba(4,2,15,.97);
+  border: 1px solid rgba(92,184,138,.25);
+  backdrop-filter: blur(20px);
+  border-radius: 4px;
+  box-shadow: 0 16px 48px rgba(0,0,0,.7), 0 0 0 1px rgba(92,184,138,.08);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-6px);
+  transition: opacity .22s ease, transform .22s cubic-bezier(.16,1,.3,1);
+  z-index: 300;
+}
+
+.meditate-menu-wrap:hover .meditate-dropdown {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.meditate-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(255,255,255,.04);
+  text-decoration: none;
+  color: var(--text);
+  transition: background .2s ease;
+}
+.meditate-dropdown-item:last-child { border-bottom: none; }
+.meditate-dropdown-item:hover {
+  background: rgba(92,184,138,.08);
+}
+.meditate-dropdown-item:hover strong { color: var(--sacred); }
+
+.meditate-dropdown-icon {
+  font-size: 1.4rem;
+  flex-shrink: 0;
+  line-height: 1;
+}
+.meditate-dropdown-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.meditate-dropdown-text strong {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: .78rem;
+  letter-spacing: .06em;
+  color: var(--text);
+  transition: color .2s;
+}
+.meditate-dropdown-text small {
+  font-size: .62rem;
+  color: var(--text-dim);
+  letter-spacing: .06em;
+}
+
+/* ── Mobile: inline links instead of absolute dropdown ── */
+@media (max-width: 768px) {
+  .meditate-dropdown {
+    position: fixed;
+    top: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border-radius: 12px 12px 0 0;
+    min-width: unset;
+    width: 100%;
+    transform: translateY(20px);
+  }
+  .meditate-menu-wrap:hover .meditate-dropdown {
+    transform: translateY(0);
+  }
+  .meditate-dropdown-item { padding: 18px 24px; }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   7 CHAKRA MEDITATION PAGE
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.chakra-page {
+  position: fixed; inset: 0;
+  display: flex; flex-direction: column;
+  background: var(--void);
+  z-index: 200;
+  overflow: hidden;
+  transition: --chakra-color-bg 1.2s ease;
+}
+
+/* Dynamic colour wash backdrop */
+.chakra-backdrop {
+  position: absolute; inset: 0;
+  background: radial-gradient(
+    ellipse 80% 60% at 50% 40%,
+    var(--chakra-color-bg, rgba(92,184,138,0.04)) 0%,
+    transparent 70%
+  );
+  transition: background 1.4s ease;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Chakra Header ── */
+.chakra-header {
+  width: 100%; position: relative; z-index: 10;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1rem 2rem;
+  border-bottom: 1px solid rgba(var(--chakra-rgb, 92,184,138), 0.2);
+  background: rgba(4,2,15,.75);
+  backdrop-filter: blur(14px);
+  transition: border-color 1.2s ease;
+}
+.chakra-header-title {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 1rem;
+  color: var(--chakra-color, var(--sacred));
+  text-shadow: 0 0 20px rgba(var(--chakra-rgb, 92,184,138), 0.45);
+  letter-spacing: .12em;
+  text-align: center;
+  flex: 1;
+  transition: color 1.2s ease, text-shadow 1.2s ease;
+}
+
+/* ══ INTRO ══ */
+.chakra-intro {
+  flex: 1; position: relative; z-index: 5;
+  display: flex; flex-direction: column; align-items: center;
+  padding: 2rem 1.5rem;
+  overflow-y: auto;
+  animation: meditationFadeIn .7s ease forwards;
+}
+.chakra-intro-top { text-align: center; margin-bottom: 2rem; }
+.chakra-intro-title {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(1.4rem, 4vw, 2.2rem);
+  color: var(--sacred);
+  text-shadow: 0 0 30px rgba(92,184,138,.35);
+  margin-bottom: .5rem;
+  letter-spacing: .08em;
+}
+.chakra-intro-sub {
+  font-size: 1rem; color: var(--text-dim);
+  font-style: italic; line-height: 1.7;
+}
+
+.chakra-intro-body {
+  display: flex; gap: 3rem; align-items: flex-start;
+  max-width: 860px; width: 100%;
+}
+
+/* Chakra info list */
+.chakra-intro-info { flex: 1; display: flex; flex-direction: column; gap: 1.5rem; }
+.chakra-intro-steps { display: flex; flex-direction: column; gap: 4px; }
+.chakra-intro-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 14px;
+  border: 1px solid rgba(var(--chakra-rgb),0.25);
+  border-radius: 4px;
+  background: rgba(var(--chakra-rgb),0.04);
+  transition: background .2s, transform .2s;
+}
+.chakra-intro-row:hover {
+  background: rgba(var(--chakra-rgb),0.10);
+  transform: translateX(4px);
+}
+.chakra-intro-orb {
+  font-size: 1.1rem;
+  color: var(--chakra-color);
+  width: 22px; text-align: center;
+}
+.chakra-intro-row-name {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: .75rem; color: var(--text);
+  letter-spacing: .06em; flex: 1;
+}
+.chakra-intro-row-hz {
+  font-size: .72rem;
+  color: var(--chakra-color);
+  letter-spacing: .08em;
+}
+.chakra-intro-row-mantra {
+  font-size: .7rem; color: var(--text-dim); font-style: italic;
+}
+.chakra-intro-note {
+  font-size: .85rem; color: var(--text-dim);
+  font-style: italic; line-height: 1.6;
+  padding: 12px 16px;
+  border-left: 2px solid rgba(92,184,138,.25);
+}
+.chakra-begin-btn {
+  padding: 14px 40px; font-size: 1rem;
+  letter-spacing: .12em;
+  border-color: var(--sacred);
+  color: var(--sacred);
+  background: rgba(92,184,138,.1);
+}
+.chakra-begin-btn:hover {
+  background: rgba(92,184,138,.22);
+  box-shadow: 0 0 24px rgba(92,184,138,.3);
+  transform: translateY(-2px);
+}
+
+/* ══ SPINE (shared by intro + active sidebar) ══ */
+.chakra-spine {
+  position: relative;
+  display: flex; flex-direction: column; align-items: flex-start;
+  gap: 0;
+  padding: 0 0 0 12px;
+}
+.chakra-spine-line {
+  position: absolute;
+  left: 22px; top: 16px; bottom: 16px;
+  width: 2px;
+  background: linear-gradient(
+    to bottom,
+    rgba(108,52,131,.7),   /* crown */
+    rgba(74,35,90,.6),
+    rgba(26,82,118,.5),
+    rgba(30,132,73,.5),
+    rgba(183,149,11,.4),
+    rgba(211,84,0,.4),
+    rgba(192,57,43,.5)    /* root */
+  );
+}
+
+.chakra-node {
+  display: flex; align-items: center; gap: 10px;
+  position: relative; z-index: 1;
+  padding: 8px 0;
+  transition: all .35s cubic-bezier(.16,1,.3,1);
+}
+
+.chakra-node-orb {
+  width: 32px; height: 32px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  border: 2px solid rgba(var(--chakra-rgb), 0.35);
+  background: rgba(var(--chakra-rgb), 0.08);
+  color: rgba(var(--chakra-rgb), 0.6);
+  font-size: .85rem;
+  flex-shrink: 0;
+  transition: all .4s ease;
+}
+.chakra-node-symbol { font-size: .85rem; }
+
+.chakra-node-info {
+  display: flex; flex-direction: column; gap: 1px;
+}
+.chakra-node-name {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: .68rem; letter-spacing: .06em;
+  color: var(--text-dim);
+  transition: color .4s;
+}
+.chakra-node-hz {
+  font-size: .58rem; color: var(--text-dim);
+  opacity: .5; letter-spacing: .06em;
+  transition: opacity .4s;
+}
+
+/* Active node */
+.chakra-node--active .chakra-node-orb {
+  width: 40px; height: 40px;
+  border-color: var(--chakra-color);
+  background: rgba(var(--chakra-rgb), 0.22);
+  color: var(--chakra-color);
+  box-shadow: 0 0 20px rgba(var(--chakra-rgb), 0.55), 0 0 40px rgba(var(--chakra-rgb), 0.2);
+  animation: chakraOrbPulse 2s ease-in-out infinite;
+}
+.chakra-node--active .chakra-node-name { color: var(--chakra-color); font-size: .72rem; }
+.chakra-node--active .chakra-node-hz { opacity: 1; color: var(--chakra-color); }
+@keyframes chakraOrbPulse {
+  0%, 100% { box-shadow: 0 0 16px rgba(var(--chakra-rgb),.5), 0 0 32px rgba(var(--chakra-rgb),.15); }
+  50%       { box-shadow: 0 0 28px rgba(var(--chakra-rgb),.75), 0 0 56px rgba(var(--chakra-rgb),.3); }
+}
+
+/* Completed node */
+.chakra-node--done .chakra-node-orb {
+  background: rgba(var(--chakra-rgb), 0.18);
+  border-color: var(--chakra-color);
+  color: var(--chakra-color);
+  font-size: .75rem; font-weight: 700;
+}
+.chakra-node--done .chakra-node-name { color: rgba(var(--chakra-rgb), 0.8); }
+
+/* Upcoming node */
+.chakra-node--upcoming { opacity: .35; }
+
+/* ══ ACTIVE SESSION LAYOUT ══ */
+.chakra-active {
+  flex: 1; position: relative; z-index: 5;
+  display: grid;
+  grid-template-columns: 200px 1fr 220px;
+  gap: 0;
+  overflow: hidden;
+}
+
+.chakra-sidebar {
+  border-right: 1px solid rgba(var(--chakra-rgb, 92,184,138), 0.12);
+  padding: 2rem 1.5rem;
+  background: rgba(4,2,15,.4);
+  backdrop-filter: blur(8px);
+  overflow-y: auto;
+  transition: border-color 1.2s ease;
+}
+
+.chakra-center {
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 1.5rem; padding: 2rem;
+  position: relative;
+}
+
+/* Orb */
+.chakra-orb-container {
+  display: flex; flex-direction: column; align-items: center; gap: 1rem;
+}
+.chakra-orb-svg {
+  width: clamp(180px, 36vw, 260px);
+  height: clamp(180px, 36vw, 260px);
+  will-change: transform, filter;
+  transform-origin: center center;
+  transform: scale(0.55);
+}
+
+.chakra-breath-label {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(1rem, 2.5vw, 1.4rem);
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  min-height: 2rem; text-align: center;
+  transition: color 1.2s ease;
+}
+
+/* Timer */
+.chakra-timer {
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+}
+.chakra-timer-val {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 2.2rem; letter-spacing: .15em;
+  transition: color 1.2s ease;
+}
+.chakra-timer-lbl {
+  font-size: .58rem; letter-spacing: .3em;
+  text-transform: uppercase; color: var(--text-dim);
+}
+
+/* Affirmation */
+.chakra-affirmation {
+  font-size: .95rem; font-style: italic;
+  text-align: center; max-width: 380px;
+  line-height: 1.7; opacity: .75;
+  transition: color 1.2s ease;
+}
+
+/* ── Info panel (right) ── */
+.chakra-info-panel {
+  border-left: 1px solid rgba(var(--chakra-rgb, 92,184,138), 0.12);
+  padding: 2rem 1.5rem;
+  background: rgba(4,2,15,.45);
+  backdrop-filter: blur(10px);
+  display: flex; flex-direction: column; gap: 14px;
+  transition: border-color 1.2s ease;
+}
+
+.chakra-info-badge {
+  width: 56px; height: 56px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  border: 1.5px solid;
+  align-self: center;
+  transition: all 1.2s ease;
+}
+.chakra-info-symbol { font-size: 1.6rem; }
+.chakra-info-name {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 1rem; text-align: center;
+  letter-spacing: .08em;
+  transition: color 1.2s ease;
+}
+.chakra-info-english {
+  font-size: .7rem; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--text-dim);
+  text-align: center;
+}
+.chakra-info-divider {
+  height: 1px; opacity: .25;
+  transition: background 1.2s ease;
+}
+.chakra-info-row {
+  display: flex; justify-content: space-between;
+  align-items: baseline; gap: 8px;
+}
+.chakra-info-key {
+  font-size: .62rem; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--text-dim);
+}
+.chakra-info-val {
+  font-size: .8rem; color: var(--text);
+  transition: color 1.2s ease;
+}
+
+/* Progress bar */
+.chakra-info-progress {
+  margin-top: auto;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.chakra-progress-bar {
+  height: 3px; background: rgba(255,255,255,.07); border-radius: 2px;
+  overflow: hidden;
+}
+.chakra-progress-fill {
+  height: 100%; border-radius: 2px;
+  transition: width 1s linear, background 1.2s ease;
+}
+.chakra-progress-label {
+  font-size: .6rem; letter-spacing: .2em;
+  text-transform: uppercase; color: var(--text-dim);
+  text-align: right;
+}
+
+/* ── Transition screen (bell moment) ── */
+.chakra-transition-msg {
+  display: flex; flex-direction: column;
+  align-items: center; gap: 1.5rem;
+  animation: meditationFadeIn .6s ease;
+}
+.chakra-bell-icon {
+  font-size: 3.5rem;
+  animation: bellRing 1.5s ease-in-out infinite;
+}
+.chakra-trans-text {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(1rem, 2.5vw, 1.4rem);
+  color: var(--chakra-color, var(--sacred));
+  text-shadow: 0 0 20px rgba(var(--chakra-rgb, 92,184,138), .4);
+  text-align: center; letter-spacing: .1em;
+  transition: color 1.2s, text-shadow 1.2s;
+}
+
+/* ══ DONE ══ */
+.chakra-done {
+  flex: 1; position: relative; z-index: 5;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center; padding: 2rem;
+  animation: meditationFadeIn 1.2s ease forwards;
+}
+.chakra-done-icon { font-size: 3.5rem; margin-bottom: 1rem; animation: meditationGentlePulse 4s infinite; }
+.chakra-done-title {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(1.4rem, 4vw, 2rem);
+  color: var(--sacred);
+  text-shadow: 0 0 30px rgba(92,184,138,.4);
+  margin-bottom: .6rem;
+}
+.chakra-done-msg {
+  font-size: 1rem; font-style: italic;
+  color: var(--text-dim); line-height: 1.8;
+  margin-bottom: 2rem;
+}
+.chakra-done-grid {
+  display: flex; gap: 12px; margin-bottom: 2.5rem;
+  flex-wrap: wrap; justify-content: center;
+}
+.chakra-done-orb {
+  width: 44px; height: 44px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  border: 1.5px solid; font-size: 1.1rem;
+  box-shadow: 0 0 12px currentColor;
+  opacity: .8;
+}
+.chakra-done-actions {
+  display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;
+}
+.chakra-done-actions .btn { padding: 10px 28px; font-size: .9rem; }
+
+
+/* ══ RESPONSIVE ══ */
+@media (max-width: 900px) {
+  .chakra-active {
+    grid-template-columns: 160px 1fr;
+    grid-template-rows: 1fr auto;
+  }
+  .chakra-info-panel { display: none; } /* hidden on tablet, info shown in center */
+}
+
+@media (max-width: 640px) {
+  .chakra-active {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+  }
+  .chakra-sidebar {
+    border-right: none;
+    border-bottom: 1px solid rgba(var(--chakra-rgb, 92,184,138), 0.12);
+    padding: 1rem;
+    overflow-x: auto;
+  }
+  .chakra-spine { flex-direction: row; padding: 0; }
+  .chakra-spine-line {
+    top: 20px; bottom: auto;
+    left: 16px; right: 16px;
+    width: auto; height: 2px;
+    background: linear-gradient(to right,
+      rgba(108,52,131,.7), rgba(74,35,90,.6),
+      rgba(26,82,118,.5), rgba(30,132,73,.5),
+      rgba(183,149,11,.4), rgba(211,84,0,.4),
+      rgba(192,57,43,.5)
+    );
+  }
+  .chakra-node { flex-direction: column; align-items: center; padding: 0 6px; }
+  .chakra-node-info { display: none; }
+  .chakra-intro-body { flex-direction: column; gap: 1.5rem; }
+  .chakra-header { padding: 1rem; }
+  .chakra-header-title { font-size: .85rem; }
+  .chakra-done-actions { flex-direction: column; width: 100%; max-width: 280px; }
+  .chakra-done-actions .btn { width: 100%; }
+}
+
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   JOURNAL PAGE — Manas Patrika · Ancient Diary Aesthetic
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Design tokens ── */
+:root {
+  --parchment:      #f5edd6;
+  --parchment-dark: #e8d8b0;
+  --ink:            #231c10;
+  --ink-light:      #4a3c25;
+  --ink-faded:      #8b7355;
+  --ink-sepia:      #6b4f2c;
+  --wax:            #8b2b2b;
+  --journal-border: rgba(107,79,44,.22);
+  --journal-page:   rgba(245,237,214,.04);
+}
+
+/* ── Page shell ── */
+.journal-page {
+  position: fixed; inset: 0;
+  display: flex; flex-direction: column;
+  background: var(--void);
+  z-index: 200;
+  overflow: hidden;
+}
+
+/* Parchment wash overlay — gives the whole page an aged-paper tint */
+.journal-parchment-overlay {
+  position: absolute; inset: 0;
+  pointer-events: none; z-index: 0;
+  background:
+    radial-gradient(ellipse 120% 80% at 50% 20%, rgba(245,237,214,.06) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 20% 80%, rgba(139,105,20,.04) 0%, transparent 55%),
+    radial-gradient(ellipse 40% 60% at 85% 60%, rgba(107,79,44,.03) 0%, transparent 50%);
+}
+
+/* ── Header ── */
+.journal-header {
+  position: relative; z-index: 10;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: .9rem 2rem;
+  border-bottom: 1px solid var(--journal-border);
+  background: rgba(4,2,15,.82);
+  backdrop-filter: blur(14px);
+}
+.journal-header-center {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 2px; flex: 1;
+}
+.journal-header-title {
+  font-family: 'IM Fell English', 'Cormorant Garamond', serif;
+  font-size: 1.3rem;
+  color: #c9a84c;
+  letter-spacing: .14em;
+  text-shadow: 0 0 18px rgba(201,168,76,.3);
+}
+.journal-header-subtitle {
+  font-size: .55rem;
+  letter-spacing: .35em;
+  text-transform: uppercase;
+  color: #8b7355;
+}
+.journal-quill-svg {
+  width: 36px; height: 36px;
+  color: #8b7355;
+  display: block;
+}
+.journal-header-center .journal-quill-svg {
+  display: none; /* hide in header, show only in welcome */
+}
+.journal-header-actions { display: flex; gap: 8px; }
+.journal-export-btn {
+  background: transparent;
+  border: 1px solid var(--journal-border);
+  color: #8b7355;
+  padding: 5px 12px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: .72rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all .2s;
+}
+.journal-export-btn:hover { border-color: #c9a84c; color: #c9a84c; }
+
+/* ── Security badge ── */
+.journal-security-wrap {
+  position: relative; z-index: 10;
+  background: rgba(4,2,15,.6);
+  border-bottom: 1px solid rgba(92,184,138,.12);
+}
+.journal-security-badge {
+  width: 100%; display: flex; align-items: center; gap: 10px;
+  padding: 8px 2rem;
+  background: transparent; border: none; cursor: pointer;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: .78rem; color: rgba(92,184,138,.8);
+  letter-spacing: .06em; text-align: left;
+  transition: background .2s;
+}
+.journal-security-badge:hover { background: rgba(92,184,138,.04); }
+.journal-security-icon { font-size: 1rem; flex-shrink: 0; }
+.journal-security-arrow { margin-left: auto; font-size: .6rem; }
+.journal-security-panel {
+  padding: 16px 2rem 20px;
+  background: rgba(4,2,15,.5);
+  border-top: 1px solid rgba(92,184,138,.08);
+  animation: meditationFadeIn .3s ease;
+}
+.journal-security-panel p {
+  font-size: .82rem; color: rgba(232,213,163,.7);
+  margin-bottom: 10px; line-height: 1.6;
+}
+.journal-security-panel strong { color: rgba(92,184,138,.9); }
+.journal-security-panel ul {
+  margin: 0 0 12px 20px;
+  list-style: disc;
+}
+.journal-security-panel li {
+  font-size: .8rem; color: rgba(232,213,163,.65);
+  margin-bottom: 6px; line-height: 1.55;
+}
+.journal-security-panel em { color: rgba(201,168,76,.85); font-style: italic; }
+.journal-security-note {
+  font-size: .75rem !important;
+  color: rgba(201,168,76,.55) !important;
+  border-left: 2px solid rgba(201,168,76,.2);
+  padding-left: 10px !important;
+  margin-bottom: 0 !important;
+}
+
+/* ── Layout ── */
+.journal-layout {
+  flex: 1; display: flex;
+  overflow: hidden;
+  position: relative; z-index: 5;
+}
+
+/* ── Sidebar ── */
+.journal-sidebar {
+  width: 260px; flex-shrink: 0;
+  display: flex; flex-direction: column;
+  border-right: 1px solid var(--journal-border);
+  background: rgba(4,2,15,.5);
+  backdrop-filter: blur(8px);
+}
+.journal-sidebar-top {
+  padding: 14px 14px 10px;
+  border-bottom: 1px solid var(--journal-border);
+  display: flex; flex-direction: column; gap: 8px;
+}
+.journal-new-btn {
+  width: 100%;
+  background: rgba(139,105,20,.12);
+  border: 1px solid rgba(139,105,20,.35);
+  color: #c9a84c;
+  padding: 9px 0;
+  font-family: 'IM Fell English', 'Cormorant Garamond', serif;
+  font-size: .9rem;
+  letter-spacing: .1em;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: all .25s;
+}
+.journal-new-btn:hover {
+  background: rgba(139,105,20,.22);
+  border-color: #c9a84c;
+  box-shadow: 0 0 14px rgba(201,168,76,.15);
+}
+.journal-new-btn--large {
+  padding: 12px 40px; width: auto; font-size: 1.05rem;
+}
+.journal-search {
+  background: rgba(245,237,214,.04);
+  border: 1px solid var(--journal-border);
+  border-radius: 2px;
+  padding: 7px 10px;
+  color: #c9a84c;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: .82rem;
+  outline: none;
+  transition: border-color .2s;
+}
+.journal-search::placeholder { color: #8b7355; font-style: italic; }
+.journal-search:focus { border-color: rgba(139,105,20,.5); }
+
+/* Entry list */
+.journal-entry-list {
+  flex: 1; overflow-y: auto;
+  padding: 8px 0;
+}
+.journal-entry-list::-webkit-scrollbar { width: 2px; }
+.journal-entry-list::-webkit-scrollbar-thumb { background: rgba(139,105,20,.3); }
+
+.journal-empty-list {
+  padding: 32px 16px;
+  text-align: center;
+  font-family: 'IM Fell English', serif;
+  font-style: italic;
+  font-size: .85rem;
+  color: #8b7355;
+  white-space: pre-line;
+  line-height: 1.7;
+}
+
+.journal-entry-card {
+  width: 100%; text-align: left;
+  background: transparent; border: none;
+  border-bottom: 1px solid rgba(107,79,44,.1);
+  padding: 12px 14px;
+  cursor: pointer;
+  display: flex; flex-direction: column; gap: 3px;
+  transition: background .2s;
+  position: relative;
+}
+.journal-entry-card:hover { background: rgba(139,105,20,.05); }
+.journal-entry-card--active {
+  background: rgba(139,105,20,.10);
+  border-left: 2px solid #c9a84c;
+}
+.journal-card-date {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: .62rem; letter-spacing: .1em;
+  text-transform: uppercase; color: #8b7355;
+}
+.journal-card-title {
+  font-family: 'IM Fell English', 'Cormorant Garamond', serif;
+  font-size: .9rem; color: #c9a84c;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.journal-card-preview {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: .78rem; color: #8b7355;
+  font-style: italic;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.journal-card-photo-dot {
+  position: absolute; right: 10px; top: 12px;
+  width: 6px; height: 6px; border-radius: 50%;
+  background: #c9a84c; opacity: .5;
+}
+
+.journal-sidebar-footer {
+  padding: 10px 14px;
+  border-top: 1px solid var(--journal-border);
+}
+.journal-count {
+  font-size: .6rem; letter-spacing: .2em;
+  text-transform: uppercase; color: #8b7355;
+}
+
+/* ── Main panel ── */
+.journal-main {
+  flex: 1; overflow-y: auto;
+  display: flex; flex-direction: column;
+}
+.journal-main::-webkit-scrollbar { width: 3px; }
+.journal-main::-webkit-scrollbar-thumb { background: rgba(139,105,20,.25); }
+
+/* ── Welcome ── */
+.journal-welcome {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 3rem 2rem; text-align: center;
+  animation: meditationFadeIn .8s ease forwards;
+}
+.journal-welcome-quill {
+  color: rgba(139,105,20,.35);
+  margin-bottom: 1.5rem;
+}
+.journal-welcome-quill .journal-quill-svg { width: 64px; height: 64px; }
+.journal-welcome-title {
+  font-family: 'IM Fell English', serif;
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  color: #c9a84c;
+  text-shadow: 0 0 24px rgba(201,168,76,.25);
+  margin-bottom: .8rem;
+  letter-spacing: .08em;
+}
+.journal-welcome-text {
+  font-family: 'IM Fell English', serif;
+  font-style: italic;
+  font-size: 1.05rem;
+  color: #8b7355;
+  line-height: 1.9;
+  max-width: 440px;
+  margin-bottom: 2rem;
+}
+.journal-welcome-ornament {
+  font-size: 1.1rem; color: rgba(139,105,20,.3);
+  letter-spacing: .5em;
+  margin-bottom: 2rem;
+}
+
+/* ── Editor ── */
+.journal-editor {
+  flex: 1; padding: 2.5rem 3rem;
+  display: flex; flex-direction: column;
+  gap: 0;
+  animation: meditationFadeIn .4s ease forwards;
+  /* Subtle lined paper effect */
+  background-image: repeating-linear-gradient(
+    transparent, transparent 31px,
+    rgba(107,79,44,.06) 31px, rgba(107,79,44,.06) 32px
+  );
+  background-position: 0 44px; /* start lines after title area */
+}
+.journal-editor-date {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: .8rem; font-style: italic;
+  color: #8b7355;
+  letter-spacing: .08em;
+  margin-bottom: 1.4rem;
+}
+.journal-editor-title {
+  background: transparent;
+  border: none; border-bottom: 1px solid rgba(107,79,44,.2);
+  padding: 0 0 10px;
+  font-family: 'IM Fell English', 'Cormorant Garamond', serif;
+  font-size: 1.5rem;
+  color: #c9a84c;
+  width: 100%;
+  outline: none;
+  letter-spacing: .04em;
+  transition: border-color .2s;
+}
+.journal-editor-title:focus { border-color: rgba(201,168,76,.4); }
+.journal-editor-title::placeholder { color: rgba(139,105,20,.3); font-style: italic; }
+.journal-editor-rule {
+  height: 1px;
+  background: linear-gradient(to right, rgba(201,168,76,.2), transparent);
+  margin: 1rem 0;
+}
+.journal-editor-body {
+  flex: 1;
+  min-height: 320px;
+  background: transparent; border: none;
+  font-family: 'IM Fell English', 'Cormorant Garamond', serif;
+  font-size: 1.1rem; line-height: 2rem;  /* matches line height to the 32px bg lines */
+  color: #ddd0b8;
+  outline: none; resize: none;
+  width: 100%;
+  caret-color: #c9a84c;
+}
+.journal-editor-body::placeholder {
+  color: rgba(139,105,20,.3);
+  font-style: italic;
+}
+
+/* ── Toolbar ── */
+.journal-editor-toolbar {
+  display: flex; align-items: center; gap: 8px;
+  padding-top: 16px;
+  border-top: 1px solid var(--journal-border);
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+.journal-toolbar-spacer { flex: 1; }
+.journal-tool-btn {
+  background: transparent;
+  border: 1px solid var(--journal-border);
+  color: #8b7355;
+  padding: 7px 14px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: .8rem; letter-spacing: .06em;
+  text-transform: uppercase; cursor: pointer;
+  border-radius: 2px; transition: all .2s;
+}
+.journal-tool-btn:hover { border-color: rgba(139,105,20,.5); color: #c9a84c; }
+.journal-tool-btn--save {
+  background: rgba(139,105,20,.15);
+  border-color: rgba(139,105,20,.5);
+  color: #c9a84c;
+}
+.journal-tool-btn--save:hover {
+  background: rgba(139,105,20,.28);
+  box-shadow: 0 0 14px rgba(201,168,76,.2);
+}
+.journal-tool-btn--save:disabled {
+  opacity: .35; cursor: not-allowed; pointer-events: none;
+}
+.journal-tool-btn--cancel { opacity: .6; }
+.journal-tool-btn--danger { color: var(--destroy); border-color: rgba(196,92,92,.25); }
+.journal-tool-btn--danger:hover { background: rgba(196,92,92,.1); border-color: var(--destroy); }
+
+/* ── Photo ── */
+.journal-photo-wrap {
+  position: relative; display: inline-block;
+  margin: 1rem 0;
+  border: 1px solid var(--journal-border);
+  border-radius: 2px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,.4), inset 0 0 0 2px rgba(201,168,76,.06);
+}
+.journal-photo-preview {
+  display: block;
+  max-width: 100%; max-height: 320px;
+  object-fit: contain;
+  filter: sepia(15%) contrast(1.02);
+}
+.journal-photo-preview--view { max-height: 400px; }
+.journal-photo-remove {
+  position: absolute; top: 6px; right: 6px;
+  background: rgba(4,2,15,.85);
+  border: 1px solid var(--journal-border);
+  color: #8b7355; width: 22px; height: 22px;
+  border-radius: 50%; cursor: pointer;
+  font-size: .7rem; display: flex; align-items: center; justify-content: center;
+  transition: all .2s;
+}
+.journal-photo-remove:hover { color: var(--destroy); border-color: var(--destroy); }
+
+/* ── Viewer ── */
+.journal-viewer {
+  flex: 1; padding: 2.5rem 3rem;
+  animation: meditationFadeIn .4s ease forwards;
+}
+.journal-viewer-date {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: .82rem; font-style: italic;
+  color: #8b7355; letter-spacing: .08em;
+  margin-bottom: 1.2rem;
+}
+.journal-viewer-time { opacity: .65; }
+.journal-viewer-title {
+  font-family: 'IM Fell English', serif;
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  color: #c9a84c;
+  letter-spacing: .04em;
+  margin-bottom: .6rem; font-weight: 400;
+  line-height: 1.3;
+}
+.journal-viewer-rule {
+  height: 1px;
+  background: linear-gradient(to right, rgba(201,168,76,.25), transparent);
+  margin: 1rem 0 1.8rem;
+}
+.journal-viewer-body {
+  font-family: 'IM Fell English', serif;
+  font-size: 1.08rem; line-height: 2;
+  color: #ddd0b8;
+}
+.journal-viewer-body p { margin-bottom: .5rem; }
+.journal-viewer-blank-line { height: 1rem; }
+
+.journal-viewer-actions {
+  display: flex; align-items: center; gap: 8px;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--journal-border);
+  margin-top: 2rem; flex-wrap: wrap;
+}
+.journal-delete-confirm-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; font-size: .85rem; color: #8b7355;
+}
+
+/* ── Loading ── */
+.journal-loading, .journal-error {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 1rem; text-align: center; padding: 2rem;
+}
+.journal-loading-quill .journal-quill-svg {
+  width: 56px; height: 56px;
+  color: rgba(139,105,20,.4);
+  animation: meditationGentlePulse 3s infinite;
+}
+.journal-loading-text {
+  font-family: 'IM Fell English', serif;
+  font-size: 1.2rem; font-style: italic; color: #c9a84c;
+}
+.journal-loading-sub {
+  font-size: .78rem; color: #8b7355;
+  letter-spacing: .12em; text-transform: uppercase;
+}
+.journal-error p { color: var(--text-dim); font-size: 1rem; }
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .journal-layout { flex-direction: column; }
+  .journal-sidebar {
+    width: 100%; max-height: 220px;
+    border-right: none; border-bottom: 1px solid var(--journal-border);
+  }
+  .journal-editor, .journal-viewer { padding: 1.5rem; }
+  .journal-header { padding: .8rem 1rem; }
+  .journal-security-badge { padding: 8px 1rem; }
+  .journal-security-panel { padding: 12px 1rem 16px; }
+  .journal-editor, .journal-viewer { padding: 1.5rem; }
+  .journal-header { padding: .8rem 1rem; }
+  .journal-security-badge { padding: 8px 1rem; }
+  .journal-security-panel { padding: 12px 1rem 16px; }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   AFFIRMATION PAGE — Pratidina Sankalpa
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Page shell ── */
+.affirmation-page {
+  position: fixed; inset: 0;
+  display: flex; flex-direction: column; align-items: center;
+  background: var(--void);
+  z-index: 200;
+  overflow-y: auto;
+}
+
+/* ── Ambient sparkles ── */
+.affirmation-sparkle {
+  position: fixed;
+  color: rgba(212,151,58,.3);
+  pointer-events: none;
+  animation: affirmSparkle 6s ease-in-out infinite;
+  z-index: 0;
+}
+@keyframes affirmSparkle {
+  0%, 100% { opacity: 0.2; transform: scale(1);   }
+  50%       { opacity: 0.6; transform: scale(1.3); }
+}
+
+/* ── Header ── */
+.affirmation-header {
+  width: 100%; position: sticky; top: 0; z-index: 20;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1rem 2rem;
+  border-bottom: 1px solid var(--border);
+  background: rgba(4,2,15,.9);
+  backdrop-filter: blur(14px);
+}
+.affirmation-header-title {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 1rem;
+  color: #9b59b6;
+  text-shadow: 0 0 18px rgba(155,89,182,.3);
+  letter-spacing: .14em;
+}
+.affirmation-header-spacer { width: 60px; }
+
+/* ══ LANDING ══ */
+.affirmation-landing {
+  display: flex; flex-direction: column; align-items: center;
+  text-align: center;
+  padding: 3rem 2rem 4rem;
+  max-width: 560px; width: 100%;
+  animation: meditationFadeIn .7s ease forwards;
+  position: relative; z-index: 5;
+}
+.affirmation-landing-icon {
+  font-size: 3.5rem; margin-bottom: 1.2rem;
+  animation: meditationGentlePulse 4s ease-in-out infinite;
+}
+.affirmation-landing-title {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(1.6rem, 5vw, 2.4rem);
+  color: #9b59b6;
+  text-shadow: 0 0 30px rgba(155,89,182,.35);
+  margin-bottom: .6rem;
+  letter-spacing: .08em;
+}
+.affirmation-landing-sub {
+  font-size: 1rem; font-style: italic;
+  color: var(--text-dim); line-height: 1.8;
+  margin-bottom: 2.5rem;
+}
+
+/* Landing card */
+.affirmation-landing-card {
+  width: 100%;
+  background: rgba(108,52,131,.06);
+  border: 1px solid rgba(155,89,182,.2);
+  backdrop-filter: blur(10px);
+  border-radius: 6px;
+  padding: 1.8rem 2rem;
+  margin-bottom: 2.5rem;
+}
+.affirmation-landing-steps {
+  display: flex; flex-direction: column; gap: 1.2rem;
+}
+.affirmation-landing-step {
+  display: flex; align-items: center; gap: 1.2rem; text-align: left;
+}
+.affirmation-step-num {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 1.1rem;
+  color: #9b59b6;
+  width: 32px; flex-shrink: 0;
+  text-align: center;
+}
+.affirmation-step-text {
+  font-size: .92rem;
+  color: var(--text);
+  line-height: 1.55;
+}
+
+.affirmation-begin-btn {
+  padding: 14px 44px; font-size: 1rem;
+  letter-spacing: .12em;
+  border-color: #9b59b6; color: #9b59b6;
+  background: rgba(108,52,131,.1);
+  margin-bottom: 1rem;
+}
+.affirmation-begin-btn:hover {
+  background: rgba(108,52,131,.22);
+  box-shadow: 0 0 24px rgba(155,89,182,.3);
+  transform: translateY(-2px);
+}
+.affirmation-skip-btn {
+  background: none; border: none;
+  color: var(--text-dim); font-size: .82rem;
+  letter-spacing: .08em; cursor: pointer;
+  text-decoration: underline; text-underline-offset: 3px;
+  opacity: .6; transition: opacity .2s;
+}
+.affirmation-skip-btn:hover { opacity: 1; color: var(--text); }
+
+/* ══ SURVEY ══ */
+.affirmation-survey {
+  width: 100%; max-width: 640px;
+  padding: 2rem 1.5rem 3rem;
+  display: flex; flex-direction: column; align-items: center;
+  gap: 1.5rem;
+  position: relative; z-index: 5;
+}
+
+/* Progress */
+.affirmation-progress-wrap {
+  width: 100%; display: flex; flex-direction: column; gap: 6px;
+}
+.affirmation-progress-track {
+  width: 100%; height: 3px;
+  background: rgba(255,255,255,.06);
+  border-radius: 2px; overflow: hidden;
+}
+.affirmation-progress-fill {
+  height: 100%; background: #9b59b6;
+  border-radius: 2px;
+  transition: width .5s cubic-bezier(.16,1,.3,1);
+  box-shadow: 0 0 8px rgba(155,89,182,.6);
+}
+.affirmation-progress-label {
+  font-size: .6rem; letter-spacing: .2em;
+  text-transform: uppercase; color: var(--text-dim);
+  text-align: right;
+}
+
+/* Question card */
+.affirmation-question-card {
+  width: 100%;
+  background: rgba(8,5,32,.7);
+  border: 1px solid rgba(155,89,182,.2);
+  border-radius: 8px;
+  padding: 2rem 2rem 1.5rem;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 20px 60px rgba(0,0,0,.4), 0 0 0 1px rgba(155,89,182,.06);
+}
+
+@keyframes affirmSlideForward {
+  from { opacity: 0; transform: translateX(40px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes affirmSlideBack {
+  from { opacity: 0; transform: translateX(-40px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+.affirmation-slide-in      { animation: affirmSlideForward .35s cubic-bezier(.16,1,.3,1) forwards; }
+.affirmation-slide-in-back { animation: affirmSlideBack    .35s cubic-bezier(.16,1,.3,1) forwards; }
+
+.affirmation-question-num {
+  font-size: .6rem; letter-spacing: .22em;
+  text-transform: uppercase; color: #9b59b6;
+  margin-bottom: .6rem;
+}
+.affirmation-question-text {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(1rem, 3vw, 1.3rem);
+  color: var(--text);
+  line-height: 1.4;
+  margin-bottom: .4rem;
+  letter-spacing: .04em;
+}
+.affirmation-question-sub {
+  font-size: .82rem; font-style: italic;
+  color: var(--text-dim);
+  margin-bottom: 1.5rem; line-height: 1.5;
+}
+
+/* Options grid */
+.affirmation-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.affirmation-option {
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px 14px;
+  background: rgba(255,255,255,.03);
+  border: 1px solid rgba(255,255,255,.07);
+  border-radius: 4px;
+  color: var(--text);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: .9rem;
+  cursor: pointer; text-align: left;
+  transition: all .2s cubic-bezier(.16,1,.3,1);
+  position: relative; overflow: hidden;
+}
+.affirmation-option::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: rgba(155,89,182,0);
+  transition: background .2s;
+}
+.affirmation-option:hover {
+  border-color: rgba(155,89,182,.4);
+  color: #c39bd3;
+  transform: translateY(-1px);
+}
+.affirmation-option:hover::before { background: rgba(155,89,182,.05); }
+.affirmation-option--selected {
+  border-color: #9b59b6;
+  background: rgba(108,52,131,.18);
+  color: #d7bde2;
+  box-shadow: 0 0 14px rgba(155,89,182,.2), inset 0 0 0 1px rgba(155,89,182,.3);
+}
+.affirmation-option-icon { font-size: 1.2rem; flex-shrink: 0; }
+.affirmation-option-label { line-height: 1.35; }
+
+/* Survey nav */
+.affirmation-survey-nav {
+  display: flex; width: 100%; justify-content: space-between; gap: 12px;
+}
+.affirmation-nav-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  padding: 10px 24px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: .9rem; letter-spacing: .08em;
+  text-transform: uppercase; cursor: pointer;
+  border-radius: 4px; transition: all .2s;
+}
+.affirmation-nav-btn:hover { border-color: #9b59b6; color: #9b59b6; }
+.affirmation-nav-btn--next {
+  background: rgba(108,52,131,.12);
+  border-color: #9b59b6; color: #9b59b6;
+  margin-left: auto;
+}
+.affirmation-nav-btn--next:hover:not(:disabled) {
+  background: rgba(108,52,131,.24);
+  box-shadow: 0 0 16px rgba(155,89,182,.25);
+}
+.affirmation-nav-btn--disabled { opacity: .3; cursor: not-allowed; pointer-events: none; }
+
+/* ══ RESULT ══ */
+.affirmation-result {
+  width: 100%; max-width: 700px;
+  padding: 2rem 1.5rem 4rem;
+  display: flex; flex-direction: column; align-items: center;
+  gap: 1.5rem;
+  position: relative; z-index: 5;
+  animation: meditationFadeIn .6s ease forwards;
+}
+
+/* Category tabs */
+.affirmation-tabs {
+  display: flex; gap: 8px; width: 100%; flex-wrap: wrap;
+}
+.affirmation-tab {
+  flex: 1; min-width: 140px;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  padding: 9px 12px;
+  background: rgba(255,255,255,.03);
+  border: 1px solid rgba(255,255,255,.07);
+  border-radius: 4px;
+  color: var(--text-dim);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: .78rem; letter-spacing: .05em;
+  cursor: pointer; transition: all .25s;
+}
+.affirmation-tab:hover {
+  border-color: var(--cat-color);
+  color: var(--text);
+}
+.affirmation-tab--active {
+  border-color: var(--cat-color);
+  background: rgba(var(--cat-color), 0.12);
+  color: var(--cat-color);
+  box-shadow: 0 0 16px rgba(var(--cat-color), 0.15);
+}
+/* Note: CSS can't easily use var(--cat-color) in rgba(), handled via opacity hack */
+.affirmation-tab--active {
+  color: #fff;
+  text-shadow: 0 0 10px var(--cat-color);
+  box-shadow: 0 0 0 1px var(--cat-color), 0 0 20px rgba(0,0,0,.4);
+}
+.affirmation-tab-icon { font-size: 1rem; }
+.affirmation-tab-name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* The affirmation card itself */
+.affirmation-card {
+  width: 100%;
+  position: relative;
+  background: rgba(8,5,32,.85);
+  border: 1px solid var(--cat-color);
+  border-radius: 8px;
+  padding: 3rem 2.5rem;
+  text-align: center;
+  backdrop-filter: blur(16px);
+  box-shadow:
+    0 0 40px rgba(0,0,0,.5),
+    0 0 80px rgba(0,0,0,.2),
+    inset 0 0 40px rgba(0,0,0,.2);
+  animation: affirmCardIn .5s cubic-bezier(.16,1,.3,1) forwards;
+}
+@keyframes affirmCardIn {
+  from { opacity: 0; transform: translateY(16px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Subtle colour wash inside card */
+.affirmation-card::before {
+  content: '';
+  position: absolute; inset: 0;
+  border-radius: 8px;
+  background: radial-gradient(ellipse 80% 60% at 50% 30%, rgba(255,255,255,.025) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.affirmation-card-ornament {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: .9rem; letter-spacing: .3em;
+  color: var(--cat-color); opacity: .6;
+  margin-bottom: 1.2rem;
+}
+.affirmation-card-ornament--bottom { margin-top: 1.5rem; margin-bottom: 1.5rem; }
+
+/* Category badge */
+.affirmation-category-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 4px 14px;
+  border: 1px solid var(--cat-color);
+  border-radius: 20px;
+  font-size: .7rem;
+  letter-spacing: .12em; text-transform: uppercase;
+  color: var(--cat-color);
+  background: rgba(0,0,0,.3);
+  margin-bottom: 1.5rem;
+  font-family: 'Cormorant Garamond', serif;
+}
+
+/* The affirmation text */
+.affirmation-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.15rem, 2.5vw, 1.5rem);
+  font-style: italic; font-weight: 400;
+  line-height: 1.85;
+  color: #e8d5a3;
+  margin: 0;
+  position: relative; z-index: 1;
+  text-shadow: 0 0 40px rgba(var(--cat-color), 0.1);
+  letter-spacing: .02em;
+}
+
+/* Actions */
+.affirmation-card-actions {
+  display: flex; justify-content: center; gap: 10px;
+}
+.affirmation-action-btn {
+  background: transparent;
+  border: 1px solid var(--journal-border);
+  color: var(--text-dim);
+  padding: 7px 18px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: .8rem; letter-spacing: .1em; text-transform: uppercase;
+  cursor: pointer; border-radius: 4px; transition: all .2s;
+}
+.affirmation-action-btn:hover {
+  border-color: var(--cat-color); color: var(--text);
+}
+.affirmation-action-btn--copied {
+  border-color: var(--sacred); color: var(--sacred);
+}
+
+/* Refresh note */
+.affirmation-refresh-note {
+  font-size: .72rem; letter-spacing: .08em;
+  color: var(--text-dim); font-style: italic; text-align: center;
+}
+
+/* Profile summary */
+.affirmation-profile-summary {
+  width: 100%;
+  padding: 1.2rem 1.5rem;
+  background: rgba(8,5,32,.5);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  backdrop-filter: blur(8px);
+}
+.affirmation-profile-label {
+  font-size: .62rem; letter-spacing: .22em;
+  text-transform: uppercase; color: var(--text-dim);
+  margin-bottom: .8rem;
+}
+.affirmation-profile-cats { display: flex; gap: 8px; flex-wrap: wrap; }
+
+/* Retake */
+.affirmation-retake-btn {
+  background: none; border: none;
+  color: var(--text-dim);
+  font-size: .78rem; letter-spacing: .06em;
+  cursor: pointer; text-decoration: underline;
+  text-underline-offset: 3px; opacity: .5;
+  transition: opacity .2s;
+  font-family: 'Cormorant Garamond', serif;
+}
+.affirmation-retake-btn:hover { opacity: 1; color: var(--text); }
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+  .affirmation-options { grid-template-columns: 1fr; }
+  .affirmation-card { padding: 2rem 1.5rem; }
+  .affirmation-tabs { gap: 6px; }
+  .affirmation-tab { min-width: 0; padding: 8px; font-size: .7rem; }
+  .affirmation-tab-name { display: none; }
+  .affirmation-tab-icon { font-size: 1.3rem; }
+  .affirmation-survey { padding: 1.5rem 1rem 2rem; }
+  .affirmation-question-card { padding: 1.5rem 1.2rem; }
+}
+

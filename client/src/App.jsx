@@ -13,6 +13,13 @@ import ConstellationPage from './pages/ConstellationPage.jsx';
 import OrientationBanner from './components/OrientationLock.jsx';
 import GurkulWeekPage from './pages/GurkulWeekPage.jsx';
 import AskRishiPage from './pages/AskRishiPage.jsx';
+import MeditationPage from './pages/MeditationPage.jsx';
+import ChakraMeditationPage from './pages/ChakraMeditationPage.jsx';
+import JournalPage from './pages/JournalPage.jsx';
+import AffirmationPage from './pages/AffirmationPage.jsx';
+import SupportPage from './pages/SupportPage.jsx';
+import TermsPage from './pages/TermsPage.jsx';
+import PrivacyPage from './pages/PrivacyPage.jsx';
 import { useAuth } from './hooks/useAuth.js';
 
 // Any logged-in user (admin or regular)
@@ -61,6 +68,20 @@ function App() {
             } 
           />
           <Route path="/ask" element={<AskRishiPage />} />
+          <Route path="/meditate" element={<MeditationPage />} />
+          <Route path="/chakra-meditate" element={<ChakraMeditationPage />} />
+          <Route
+            path="/journal"
+            element={
+              <ProtectedRoute>
+                <JournalPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/affirmations" element={<AffirmationPage />} />
+          <Route path="/support"      element={<SupportPage />} />
+          <Route path="/terms"        element={<TermsPage />} />
+          <Route path="/privacy"      element={<PrivacyPage />} />
           <Route 
             path="/admin" 
             element={
