@@ -18,7 +18,7 @@ const SOCIAL_LINKS = {
   instagram: 'https://www.instagram.com/o_.vibhu._o?igsh=enFnaGNuNDQ5OWpo',
   twitter:   'https://x.com/TheignitedOnee',
   youtube:   '',
-  linkedin:  '',
+  linkedin:  'https://www.linkedin.com/in/vibhusuneja08?utm_source=share_via&utm_content=profile&utm_medium=member_android',
 };
 /* ──────────────────────────────────────────────── */
 
