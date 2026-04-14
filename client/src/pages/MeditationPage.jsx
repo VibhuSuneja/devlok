@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import * as Tone from 'tone';
+import SiteFooter from '../components/SiteFooter.jsx';
 
 /*
  * ── Meditation Page ──────────────────────────────────────────────────────
@@ -424,6 +425,9 @@ export default function MeditationPage() {
           </div>
         </main>
       )}
+
+      {/* Show footer only on intro and completion screens */}
+      {(phase === 0 || phase === 3) && <SiteFooter />}
     </div>
   );
 }

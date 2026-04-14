@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Link } from 'react-router-dom';
+import SiteFooter from '../components/SiteFooter.jsx';
 import {
   SURVEY_QUESTIONS,
   CATEGORY_META,
@@ -509,6 +510,8 @@ export default function AffirmationPage() {
           </p>
         </main>
       )}
+
+      <SiteFooter />
     </div>
   );
 }

@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import axios from '../api/axios.js';
 import { useAuth } from '../hooks/useAuth.js';
 import { useNavigate } from 'react-router-dom';
+import SiteFooter from '../components/SiteFooter.jsx';
 
 function AskRishiPage() {
   const { user } = useAuth();
@@ -91,6 +92,8 @@ function AskRishiPage() {
           Seek Truth
         </button>
       </form>
+
+      <SiteFooter />
     </div>
   );
 }

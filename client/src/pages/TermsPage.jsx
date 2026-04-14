@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import SiteFooter from '../components/SiteFooter.jsx';
 
 export default function TermsPage() {
   return (
@@ -64,13 +65,7 @@ export default function TermsPage() {
         </section>
       </article>
 
-      <footer className="legal-footer">
-        <Link to="/privacy" className="legal-footer-link">Privacy Policy</Link>
-        <span>·</span>
-        <Link to="/support" className="legal-footer-link">Support</Link>
-        <span>·</span>
-        <Link to="/" className="legal-footer-link">Devlok</Link>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }

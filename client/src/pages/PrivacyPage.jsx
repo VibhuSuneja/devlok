@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import SiteFooter from '../components/SiteFooter.jsx';
 
 export default function PrivacyPage() {
   return (
@@ -95,13 +96,7 @@ export default function PrivacyPage() {
         </section>
       </article>
 
-      <footer className="legal-footer">
-        <Link to="/terms" className="legal-footer-link">Terms of Service</Link>
-        <span>·</span>
-        <Link to="/support" className="legal-footer-link">Support</Link>
-        <span>·</span>
-        <Link to="/" className="legal-footer-link">Devlok</Link>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }

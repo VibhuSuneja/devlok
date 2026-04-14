@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import SiteFooter from '../components/SiteFooter.jsx';
 
 /*
  * SupportPage — Devlok Support Hub
@@ -12,12 +13,12 @@ import { Link } from 'react-router-dom';
  */
 
 /* ── ⚠️  UPDATE THESE WITH YOUR REAL DETAILS ── */
-const UPI_ID       = 'yourupiid@googlepay';           // ← your UPI/GPay ID
+const UPI_ID       = 'shashisun01@oksbi';
 const SOCIAL_LINKS = {
-  instagram: 'https://instagram.com/devlok.in',       // ← your Instagram
-  twitter:   'https://twitter.com/DevlokApp',         // ← your X / Twitter
-  youtube:   '',                                       // ← YouTube (optional)
-  linkedin:  '',                                       // ← LinkedIn (optional)
+  instagram: 'https://www.instagram.com/o_.vibhu._o?igsh=enFnaGNuNDQ5OWpo',
+  twitter:   'https://x.com/TheignitedOnee',
+  youtube:   '',
+  linkedin:  '',
 };
 /* ──────────────────────────────────────────────── */
 
@@ -169,12 +170,7 @@ export default function SupportPage() {
 
       </div>
 
-      {/* Bottom brand */}
-      <footer className="support-brand-footer">
-        <span className="support-brand-name">DEVLOK</span>
-        <span className="support-brand-sub">The Knowledge Core · Built with ♡ for the seekers</span>
-        <span className="support-brand-copy">© {new Date().getFullYear()} Devlok. All rights reserved.</span>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import React, { useMemo, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useStreak } from '../hooks/useStreak';
+import SiteFooter from '../components/SiteFooter.jsx';
 import { shareOrDownload } from '../utils/generateShareCard';
 import concepts from '../data/concepts.json';
 import posthog from 'posthog-js';
@@ -216,9 +217,7 @@ export default function ConceptPage() {
       </main>
 
       {/* ── Footer ── */}
-      <footer className="concept-footer">
-        <Link to="/" className="concept-footer-link">Explore the full mythology graph →</Link>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }
