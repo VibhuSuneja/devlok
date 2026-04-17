@@ -3,9 +3,9 @@
 // Gated content page at /gurukul/week/:n
 // Requires user.gurukul === true to access content.
 
-import React, { useContext } from 'react';
+import React from 'react';
 import { useParams, Link, Navigate } from 'react-router-dom';
-import { AuthContext } from '../context/AuthContext.jsx';
+import { useAuth } from '../hooks/useAuth';
 
 // ── Week content stubs ────────────────────────────────────────────────────────
 // Replace the `essays` array content with real content as you write it.
@@ -70,7 +70,7 @@ const WEEK_DATA = {
 
 export default function GurkulWeekPage() {
   const { n } = useParams();
-  const { user, loading } = useContext(AuthContext);
+  const { user, loading } = useAuth();
 
   const weekNum = parseInt(n);
 
@@ -84,7 +84,7 @@ export default function GurkulWeekPage() {
 
   // Not logged in
   if (!user) {
-    return <Navigate to="/signup?redirect=/gurukul/week/1" replace />;
+    return <Navigate to={`/login?redirect=/gurukul/week/${n}`} replace />;
   }
 
   // Not enrolled — send back to Gurukul page

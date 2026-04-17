@@ -1,13 +1,9 @@
 import axios from 'axios';
 
-const instance = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
+const api = axios.create({
+  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api',
 });
 
-instance.interceptors.request.use((config) => {
-  const token = localStorage.getItem('devlok_token');
-  if (token) config.headers.Authorization = `Bearer ${token}`;
-  return config;
-});
+// We will inject the token via a custom hook or interceptor in App.jsx
+export default api;
 
-export default instance;

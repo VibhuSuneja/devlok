@@ -26,12 +26,20 @@ const allowedOrigins = [
   rawOrigin,
   'http://localhost:5173',
   'http://localhost:5174',
+  'http://localhost:5175',
+  'http://localhost:5176',
+  'http://localhost:5177',
   'https://devlok-three.vercel.app',
 ].filter(Boolean);
 
 app.use(cors({
   origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes(origin)) {
+    // Allow any localhost port in development or if it's in the whitelist
+    if (
+      !origin || 
+      allowedOrigins.includes(origin) || 
+      (origin.startsWith('http://localhost:') && process.env.NODE_ENV !== 'production')
+    ) {
       callback(null, true);
     } else {
       console.warn('Blocked by CORS:', origin);

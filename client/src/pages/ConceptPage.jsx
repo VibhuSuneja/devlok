@@ -6,8 +6,7 @@ import { shareOrDownload } from '../utils/generateShareCard';
 import concepts from '../data/concepts.json';
 import posthog from 'posthog-js';
 import axios from '../api/axios.js';
-import { AuthContext } from '../context/AuthContext.jsx';
-import { useContext } from 'react';
+import { useAuth } from '../hooks/useAuth';
 
 // Devlok official go-live date — Starts the concept sequence from Day 1
 const LAUNCH_DATE = new Date('2026-03-23T00:00:00Z');
@@ -100,7 +99,7 @@ function ShareButtons({ concept, sharing, onShare }) {
 }
 
 export default function ConceptPage() {
-  const { user, updateUser } = useContext(AuthContext);
+  const { user, reloadUser } = useAuth();
   const { streak } = useStreak();
   const [sharing, setSharing] = useState(null); // 'square' | 'landscape' | null
   const [shareError, setShareError] = useState('');
@@ -120,15 +119,12 @@ export default function ConceptPage() {
       axios.put('/users/concepts-read', { conceptId: dayIndex })
         .then(res => {
           if (res.data.awarded > 0) {
-            updateUser({
-              shraddha: res.data.shraddha,
-              conceptsRead: res.data.conceptsRead
-            });
+            reloadUser();
           }
         })
         .catch(err => console.error('Shraddha award error:', err));
     }
-  }, [concept, dayIndex]); // intentionally excludes user/updateUser — ref guards re-execution
+  }, [concept, dayIndex, user, reloadUser]); // intentionally includes user/reloadUser — ref guards re-execution
 
 
   const handleShare = async (format) => {

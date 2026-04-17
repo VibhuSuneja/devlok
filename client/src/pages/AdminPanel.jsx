@@ -4,10 +4,8 @@ import { useAuth } from '../hooks/useAuth.js';
 import CharacterModal from '../components/CharacterModal.jsx';
 import RelationshipModal from '../components/RelationshipModal.jsx';
 
-// ── Auth header helper (avoids repeating throughout) ─────────────────────────
-const authHeader = () => ({
-  headers: { Authorization: `Bearer ${localStorage.getItem('devlok_token')}` },
-});
+// ── Auth header helper (now handled by axios interceptor, returning empty) ───
+const authHeader = () => ({});
 
 function AdminPanel() {
   const [activeTab, setActiveTab]           = useState('entities');

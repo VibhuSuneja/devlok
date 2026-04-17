@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useRef, useContext, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { AuthContext } from '../context/AuthContext.jsx';
+import { useAuth } from '../hooks/useAuth';
 import {
   getOrCreateKey,
   encryptEntry,
@@ -104,7 +104,7 @@ function QuillSVG() {
 
 /* ══════════════════════════════════════════════════════════════════════════ */
 export default function JournalPage() {
-  const { user, loading: authLoading } = useContext(AuthContext);
+  const { user, loading: authLoading, reloadUser } = useAuth();
   const navigate = useNavigate();
 
   const [cryptoKey,    setCryptoKey]    = useState(null);
@@ -123,14 +123,11 @@ export default function JournalPage() {
   const fileInputRef = useRef(null);
   const bodyRef      = useRef(null);
 
-  /* ── Redirect if not logged in ── */
-  useEffect(() => {
-    if (!authLoading && user === null) navigate('/signup');
-  }, [authLoading, user, navigate]);
+
 
   /* ── Initialise crypto key and load entries ── */
   useEffect(() => {
-    if (!user?.id) return;
+    if (!user) return;
 
     (async () => {
       try {

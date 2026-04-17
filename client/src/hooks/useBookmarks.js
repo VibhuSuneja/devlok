@@ -1,5 +1,5 @@
-import { useState, useEffect, useCallback, useContext } from 'react';
-import { AuthContext } from '../context/AuthContext.jsx';
+import { useState, useEffect, useCallback } from 'react';
+import { useAuth } from './useAuth.js';
 import axios from '../api/axios.js';
 
 /**
@@ -9,8 +9,8 @@ import axios from '../api/axios.js';
  * Exposes: { bookmarks, isBookmarked, toggleBookmark, loading }
  */
 export function useBookmarks() {
-  const { user, isLoggedIn, updateUser } = useContext(AuthContext);
-  const [bookmarks, setBookmarks] = useState(user?.bookmarks || []);
+  const { user, isLoggedIn } = useAuth();
+  const [bookmarks, setBookmarks] = useState(user?.publicMetadata?.bookmarks || []);
   const [loading, setLoading] = useState(false);
 
   // Sync bookmarks from user context whenever user object changes
@@ -40,8 +40,6 @@ export function useBookmarks() {
     try {
       setLoading(true);
       const res = await axios.put('/users/bookmarks', { characterId, action });
-      // Sync shraddha back to user context
-      updateUser({ bookmarks: res.data.bookmarks, shraddha: res.data.shraddha, shraddhaRank: res.data.shraddhaRank });
       setBookmarks(res.data.bookmarks);
       return { success: true, action };
     } catch (err) {
@@ -52,7 +50,7 @@ export function useBookmarks() {
     } finally {
       setLoading(false);
     }
-  }, [bookmarks, isLoggedIn, updateUser]);
+  }, [bookmarks, isLoggedIn]);
 
   return { bookmarks, isBookmarked, toggleBookmark, loading };
 }

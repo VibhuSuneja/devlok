@@ -1,6 +1,6 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import axios from '../api/axios.js';
-import { AuthContext } from '../context/AuthContext.jsx';
+import { useAuth } from '../hooks/useAuth.js';
 import { useSound } from '../hooks/useSound.js';
 
 function SubmitCorrectionForm({ node, onCancel, onSuccess }) {
@@ -11,7 +11,7 @@ function SubmitCorrectionForm({ node, onCancel, onSuccess }) {
   const [error, setError] = useState(null);
   
   const { playSound } = useSound();
-  const { updateUser, user } = useContext(AuthContext);
+  const { user, reloadUser } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -29,15 +29,11 @@ function SubmitCorrectionForm({ node, onCancel, onSuccess }) {
         targetId: node.id,
         data: { field, newValue },
         sourceCitation
-      }, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('devlok_token')}`
-        }
       });
       
-      // Update UI state points locally to avoid needing a full refetch
+      // Refresh user metadata to reflect new Shraddha points
       if (user) {
-        updateUser({ shraddha: (user.shraddha || 0) + 50 });
+        reloadUser();
       }
       playSound('shraddha');
       onSuccess(res.data);

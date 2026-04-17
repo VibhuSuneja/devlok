@@ -6,7 +6,7 @@ import express from 'express';
 import crypto from 'crypto';
 import GurkulWaitlist from '../models/GurkulWaitlist.js';
 import User from '../models/User.js';
-import { protect, adminOnly } from '../middleware/auth.js';
+import { protect, adminOnly, syncUserToClerk } from '../middleware/auth.js';
 
 const router = express.Router();
 
@@ -225,6 +225,9 @@ router.post('/verify-payment', protect, async (req, res) => {
       },
       { new: true }
     );
+    
+    // ── Update Clerk Metadata ─────────────────────────────────────────────
+    await syncUserToClerk(updatedUser);
 
     // Mark as converted in waitlist (best-effort)
     GurkulWaitlist.findOneAndUpdate(

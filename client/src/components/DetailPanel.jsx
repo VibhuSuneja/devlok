@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useRef } from 'react';
-import { AuthContext } from '../context/AuthContext.jsx';
+import React, { useState, useEffect, useRef } from 'react';
+import { useAuth } from '../hooks/useAuth';
 import { useBookmarks } from '../hooks/useBookmarks.js';
 import { useSound } from '../hooks/useSound.js';
 import SubmitCorrectionForm from './SubmitCorrectionForm.jsx';
@@ -93,12 +93,12 @@ function getEffectiveLabel(link, currentNodeId, otherNode) {
 }
 
 function DetailPanel({ node, links, allNodes, onClose, onSelectNode }) {
-  const [copied, setCopied] = React.useState(false);
-  const [showLoginHint, setShowLoginHint] = React.useState(false);
-  const [isCorrecting, setIsCorrecting] = React.useState(false);
-  const [correctionSuccess, setCorrectionSuccess] = React.useState(false);
+  const [copied, setCopied] = useState(false);
+  const [showLoginHint, setShowLoginHint] = useState(false);
+  const [isCorrecting, setIsCorrecting] = useState(false);
+  const [correctionSuccess, setCorrectionSuccess] = useState(false);
   
-  const { isLoggedIn } = useContext(AuthContext);
+  const { isLoggedIn } = useAuth();
   const { isBookmarked, toggleBookmark } = useBookmarks();
   const { playSound } = useSound();
   const prevNodeId = useRef(null);

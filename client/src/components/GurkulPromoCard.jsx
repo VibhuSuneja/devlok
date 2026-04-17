@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from '../api/axios';
-import { AuthContext } from '../context/AuthContext';
+import { useAuth } from '../hooks/useAuth';
 
 function GurkulPromoCard() {
-  const { user } = useContext(AuthContext);
+  const { user } = useAuth();
   const [count, setCount] = useState(0);
   const [email, setEmail] = useState('');
   const [success, setSuccess] = useState(false);
@@ -21,10 +21,10 @@ function GurkulPromoCard() {
     setLoading(true);
 
     const data = {
-      email: user ? user.email : email,
-      name: user ? user.name : 'Curious Scholar',
+      email: user ? user.emailAddresses[0].emailAddress : email,
+      name: user ? user.fullName : 'Curious Scholar',
       source: 'profile_page',
-      userId: user ? user._id : null
+      userId: user ? user.id : null
     };
 
     try {
@@ -53,7 +53,7 @@ function GurkulPromoCard() {
       <div className="gurukul-promo-card success">
         <div className="promo-success-icon">ॐ</div>
         <h3 className="promo-title">Initiation Recorded</h3>
-        <p className="promo-text">You are part of the first 20 seekers. We will notify you at {user?.email || email}.</p>
+        <p className="promo-text">You are part of the first 20 seekers. We will notify you at {user?.emailAddresses[0]?.emailAddress || email}.</p>
       </div>
     );
   }
@@ -111,7 +111,7 @@ function GurkulPromoCard() {
           />
         )}
         <button className="promo-btn" type="submit" disabled={loading}>
-          {loading ? 'Initiating...' : user ? `Join as ${user.name} →` : 'Secure My Seat →'}
+          {loading ? 'Initiating...' : user ? `Join as ${user.fullName} →` : 'Secure My Seat →'}
         </button>
       </form>
 

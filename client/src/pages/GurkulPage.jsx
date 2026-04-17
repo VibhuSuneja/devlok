@@ -6,10 +6,10 @@
 //  - Payment flow: create-order → Razorpay modal → verify-payment → success
 //  - Already-purchased users see their access confirmed
 
-import React, { useState, useEffect, useRef, useContext, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import axios from '../api/axios.js';
-import { AuthContext } from '../context/AuthContext.jsx';
+import { useAuth } from '../hooks/useAuth';
 
 // ── Ember particle system ─────────────────────────────────────────────────────
 function EmberCanvas() {
@@ -177,7 +177,7 @@ function PaymentBlock({ user, onSuccess }) {
 
   const handlePay = async () => {
     if (!user) {
-      window.location.href = '/signup?redirect=/gurukul';
+      window.location.href = '/login?redirect=/gurukul';
       return;
     }
 
@@ -276,11 +276,9 @@ function PaymentBlock({ user, onSuccess }) {
         )}
       </button>
 
-      {!user && (
         <p className="gurukul-payment-signin-hint">
-          <Link to="/signup?redirect=/gurukul">Create a free account</Link> first, then pay.
+          <Link to="/login?redirect=/gurukul">Sign in or create a free account</Link> first, then pay.
         </p>
-      )}
 
       <p className="gurukul-payment-guarantee">
         Secure payment via Razorpay · No subscription · No recurring charges
@@ -374,7 +372,7 @@ function WaitlistBlock({ user, waitlistCount, onJoined }) {
 
 // ── Main Page ─────────────────────────────────────────────────────────────────
 export default function GurkulPage() {
-  const { user, updateUser }  = useContext(AuthContext);
+  const { user, reloadUser }  = useAuth();
   const [waitlistCount, setWaitlistCount] = useState(null);
   const [activeWeek, setActiveWeek]       = useState(0);
   const formRef = useRef(null);
@@ -396,10 +394,10 @@ export default function GurkulPage() {
     );
   }, []);
 
-  const handlePaymentSuccess = useCallback((updatedUser) => {
-    updateUser(updatedUser);
+  const handlePaymentSuccess = useCallback(async () => {
+    await reloadUser();
     scrollToForm();
-  }, [updateUser]);
+  }, [reloadUser]);
 
   const progress = waitlistCount ? Math.round((waitlistCount.progress / 20) * 100) : 0;
 

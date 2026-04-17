@@ -8,7 +8,8 @@ import bcrypt from 'bcryptjs';
 const UserSchema = new mongoose.Schema({
   name:         { type: String, required: true },
   email:        { type: String, required: true, unique: true },
-  password:     { type: String, required: true },
+  password:     { type: String }, // Made optional as Clerk handles auth
+  clerkId:      { type: String, unique: true, sparse: true }, // Link to Clerk
   role:         { type: String, enum: ['admin', 'user'], default: 'user' },
   bookmarks:    [{ type: String }],         // array of character IDs
   conceptsRead: [{ type: Number }],         // array of concept date_index values

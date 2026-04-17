@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import axios from '../api/axios.js';
-import { AuthContext } from '../context/AuthContext.jsx';
+import { useAuth } from '../hooks/useAuth';
 import { useBookmarks } from '../hooks/useBookmarks.js';
 
 const COLORS = {
@@ -13,7 +13,7 @@ const COLORS = {
 function CharacterPage() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { user, isLoggedIn } = useContext(AuthContext);
+  const { user, isLoggedIn } = useAuth();
   const { isBookmarked, toggleBookmark } = useBookmarks();
 
   const [character, setCharacter] = useState(null);

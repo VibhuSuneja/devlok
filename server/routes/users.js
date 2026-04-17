@@ -1,7 +1,7 @@
 import express from 'express';
 import Character from '../models/Character.js';
 import User from '../models/User.js';
-import { protect } from '../middleware/auth.js';
+import { protect, clerkClient, syncUserToClerk } from '../middleware/auth.js';
 
 const router = express.Router();
 
@@ -89,6 +89,8 @@ router.put('/bookmarks', protect, async (req, res) => {
     }
 
     await user.save();
+    await syncUserToClerk(user);
+
     res.json({
       bookmarks: user.bookmarks,
       shraddha:  user.shraddha,
@@ -120,6 +122,8 @@ router.put('/concepts-read', protect, async (req, res) => {
     }
 
     await user.save();
+    await syncUserToClerk(user);
+
     res.json({
       conceptsRead: user.conceptsRead,
       shraddha:     user.shraddha,

@@ -29,8 +29,7 @@ function AskRishiPage() {
 
     try {
       const response = await axios.post('/rishi/ask', 
-        { question: userText },
-        { headers: { Authorization: `Bearer ${localStorage.getItem('devlok_token')}` } }
+        { question: userText }
       );
       
       setConversation(prev => [...prev, { role: 'rishi', text: response.data.answer }]);

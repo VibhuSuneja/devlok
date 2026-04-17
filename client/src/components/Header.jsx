@@ -1,16 +1,12 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
+import { SignedIn, SignedOut, UserButton, SignInButton, useUser } from '@clerk/clerk-react';
 import SearchBar from './SearchBar.jsx';
 import FilterBar from './FilterBar.jsx';
-import { AuthContext } from '../context/AuthContext.jsx';
 
 function Header({ typeFilter, setTypeFilter, linkFilter, setLinkFilter, searchQuery, setSearchQuery }) {
-  const { user, isAdmin, isLoggedIn } = useContext(AuthContext);
-
-  // Generate initials from user name (up to 2 chars)
-  const initials = user?.name
-    ? user.name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase()
-    : '';
+  const { user, isLoaded } = useUser();
+  const isAdmin = user?.publicMetadata?.role === 'admin' || user?.emailAddresses[0]?.emailAddress === 'admin@devlok.com';
 
   return (
     <header className="header">
@@ -37,7 +33,7 @@ function Header({ typeFilter, setTypeFilter, linkFilter, setLinkFilter, searchQu
         <Link to="/affirmations" className="today-link" style={{ borderColor: '#6c3483', color: '#9b59b6', background: 'rgba(108,52,131,0.08)' }}>✦ Affirmations</Link>
         <Link to="/journal" className="today-link" style={{ borderColor: '#8b6914', color: '#c9a84c', background: 'rgba(139,105,20,0.08)' }}>📜 Journal</Link>
         <Link to="/ask" className="today-link" style={{ borderColor: 'var(--mind)', color: '#fff', background: 'rgba(160,196,220,0.1)' }}>🕉️ Ask Rishi</Link>
-        {/* ── Meditate dropdown ── */}
+        
         <div className="meditate-menu-wrap" id="meditate-menu-wrap">
           <span className="today-link meditate-menu-trigger" style={{ borderColor: 'var(--sacred)', color: 'var(--sacred)', background: 'rgba(92,184,138,0.08)', cursor: 'default' }}>
             🧘 Meditate ▾
@@ -61,21 +57,23 @@ function Header({ typeFilter, setTypeFilter, linkFilter, setLinkFilter, searchQu
         </div>
 
         {/* Admin-only link */}
-        {isAdmin && (
+        {isLoaded && isAdmin && (
           <Link to="/admin" className="admin-link">Access Core</Link>
         )}
 
-        {/* Auth state — logged in: avatar + profile link; out: sign in */}
-        {isLoggedIn ? (
-          <Link to="/profile" className="user-avatar-link" title={`${user.name} · ${user.shraddha || 0} Shraddha`}>
-            <span className="user-avatar">{initials}</span>
-          </Link>
-        ) : (
-          <Link to="/signup" className="signin-link">Sign in</Link>
-        )}
+        {/* Clerk Auth State */}
+        <SignedIn>
+          <UserButton afterSignOutUrl="/" />
+        </SignedIn>
+        <SignedOut>
+          <SignInButton mode="modal">
+            <button className="signin-link" style={{ background: 'transparent', border: '1px solid var(--amber)', cursor: 'pointer' }}>Sign in</button>
+          </SignInButton>
+        </SignedOut>
       </div>
     </header>
   );
 }
 
 export default Header;
+

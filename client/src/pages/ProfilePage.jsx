@@ -1,6 +1,6 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { AuthContext } from '../context/AuthContext.jsx';
+import { useAuth } from '../hooks/useAuth.js';
 import axios from '../api/axios.js';
 
 // ── Shraddha ranks (mirror server) ───────────────────────────────────────────
@@ -32,7 +32,7 @@ const NODE_COLORS = {
 const TOTAL_CONCEPTS = 90; // Updated for Phase 3E expansion target
 
 export default function ProfilePage() {
-  const { user, logout, updateUser } = useContext(AuthContext);
+  const { user, logout } = useAuth();
   const navigate = useNavigate();
   const [bookmarkedChars, setBookmarkedChars] = useState([]);
   const [loadingBookmarks, setLoadingBookmarks] = useState(true);
@@ -47,12 +47,12 @@ export default function ProfilePage() {
 
   if (!user) return null;
 
-  const { label: rankLabel, progress: rankProgress, next: rankNext } = getRankInfo(user.shraddha || 0);
-  const conceptsReadCount = user.conceptsRead?.length || 0;
+  const { label: rankLabel, progress: rankProgress, next: rankNext } = getRankInfo(user.publicMetadata?.shraddha || user.shraddha || 0);
+  const conceptsReadCount = user.publicMetadata?.conceptsRead?.length || user.conceptsRead?.length || 0;
   const conceptProgress = Math.round((conceptsReadCount / TOTAL_CONCEPTS) * 100);
 
-  const handleLogout = () => {
-    logout();
+  const handleLogout = async () => {
+    await logout();
     navigate('/');
   };
 
