@@ -178,6 +178,32 @@ header {
   text-shadow: 0 0 8px rgba(240,184,74,.4);
 }
 
+.profile-nav-link {
+  font-size: .65rem;
+  color: var(--celestial);
+  text-decoration: none;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border: 1px solid rgba(154, 110, 212, 0.3);
+  border-radius: 2px;
+  background: rgba(154, 110, 212, 0.08);
+  transition: all 0.3s;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.profile-nav-link:hover {
+  background: rgba(154, 110, 212, 0.18);
+  border-color: var(--celestial);
+  box-shadow: 0 0 12px rgba(154, 110, 212, 0.2);
+  text-shadow: 0 0 8px rgba(154, 110, 212, 0.4);
+}
+.profile-nav-icon {
+  font-size: 0.8rem;
+}
+
 .admin-link {
   font-size: .65rem;
   color: var(--text-dim);

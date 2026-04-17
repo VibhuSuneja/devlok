@@ -63,6 +63,10 @@ function Header({ typeFilter, setTypeFilter, linkFilter, setLinkFilter, searchQu
 
         {/* Clerk Auth State */}
         <SignedIn>
+          <Link to="/profile" className="profile-nav-link">
+            <span className="profile-nav-icon">✦</span>
+            My Constellation
+          </Link>
           <UserButton afterSignOutUrl="/" />
         </SignedIn>
         <SignedOut>
