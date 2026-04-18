@@ -1,21 +1,24 @@
+import React, { useMemo } from 'react';
 import { useUser, useAuth as useClerkAuth } from '@clerk/clerk-react';
 
 export const useAuth = () => {
   const { user: clerkUser, isLoaded, isSignedIn } = useUser();
   const { signOut } = useClerkAuth();
 
-  // Bridge legacy user properties
-  const user = clerkUser ? {
-    ...clerkUser,
-    _id: clerkUser.id,
-    id: clerkUser.id,
-    email: clerkUser.primaryEmailAddress?.emailAddress,
-    name: clerkUser.fullName || clerkUser.firstName || clerkUser.username || 'Seeker',
-    role: clerkUser.publicMetadata?.role,
-    gurukul: clerkUser.publicMetadata?.gurukul,
-    shraddha: clerkUser.publicMetadata?.shraddha || 0,
-    ...clerkUser.publicMetadata
-  } : null;
+  // Bridge legacy user properties with stable reference
+  const user = React.useMemo(() => {
+    return clerkUser ? {
+      ...clerkUser,
+      _id: clerkUser.id,
+      id: clerkUser.id,
+      email: clerkUser.primaryEmailAddress?.emailAddress,
+      name: clerkUser.fullName || clerkUser.firstName || clerkUser.username || 'Seeker',
+      role: clerkUser.publicMetadata?.role,
+      gurukul: clerkUser.publicMetadata?.gurukul,
+      shraddha: clerkUser.publicMetadata?.shraddha || 0,
+      ...clerkUser.publicMetadata
+    } : null;
+  }, [clerkUser]);
 
   const isAdmin = user?.role === 'admin' || user?.email === 'admin@devlok.com';
 

@@ -155,7 +155,7 @@ export default function JournalPage() {
         setCryptoError('Could not initialise encryption. Your browser may not support Web Crypto API.');
       }
     })();
-  }, [user]);
+  }, [user?.id]);
 
   /* ── Open an entry ── */
   const openEntry = (id) => {
