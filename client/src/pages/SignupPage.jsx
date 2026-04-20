@@ -1,8 +1,12 @@
 import React from 'react';
 import { SignUp } from '@clerk/clerk-react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 export default function SignupPage() {
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const redirectUrl = searchParams.get('redirect') || '/profile';
+
   return (
     <div className="login-page">
       <div className="login-card">
@@ -17,6 +21,7 @@ export default function SignupPage() {
             routing="path" 
             path="/signup" 
             signInUrl="/login"
+            fallbackRedirectUrl={redirectUrl}
             appearance={{
               elements: {
                 formButtonPrimary: 'btn btn-primary',

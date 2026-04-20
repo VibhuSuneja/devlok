@@ -116,6 +116,7 @@ export const syncUserToClerk = async (user) => {
         gurukul: user.gurukul,
         shraddha: user.shraddha,
         conceptsRead: user.conceptsRead || [],
+        hasSoulProfile: user.hasSoulProfile || false,
       }
     });
   } catch (err) {

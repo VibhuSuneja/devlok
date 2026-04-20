@@ -39,6 +39,7 @@ router.get('/me', protect, async (req, res) => {
       shraddha:     user.shraddha,
       shraddhaRank: getShraddhaRank(user.shraddha),
       joinedAt:     user.joinedAt,
+      hasSoulProfile: user.hasSoulProfile || false,
     });
   } catch (err) {
     res.status(500).json({ message: err.message });

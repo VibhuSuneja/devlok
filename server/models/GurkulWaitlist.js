@@ -28,8 +28,7 @@ const GurkulWaitlistSchema = new mongoose.Schema({
   },
   // Shraddha user ID if they were logged in (optional link)
   userId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
+    type: String, // String supports Clerk IDs (e.g. 'user_...')
     default: null,
   },
   // Track if we've sent them the confirmation email

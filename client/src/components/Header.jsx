@@ -21,8 +21,9 @@ function Header({ typeFilter, setTypeFilter, linkFilter, setLinkFilter, searchQu
 
       <div className="header-center">
         <SearchBar query={searchQuery} setQuery={setSearchQuery} />
-        <div className="sep" />
-        <div className="filter-stack">
+        
+        {/* Toggleable Filter Section */}
+        <div className="filters-container-minimal">
           <FilterBar 
             filter={typeFilter} 
             setFilter={setTypeFilter} 
@@ -33,67 +34,88 @@ function Header({ typeFilter, setTypeFilter, linkFilter, setLinkFilter, searchQu
       </div>
 
       {/* Desktop nav */}
-      <div className="header-actions">
-        <Link to="/today" className="today-link" title="Daily Concept">
-          🔥<span className="nav-text"> Daily Concept</span>
-        </Link>
-        <Link to="/affirmations" className="today-link" title="Affirmations"
-          style={{ borderColor: '#6c3483', color: '#9b59b6', background: 'rgba(108,52,131,0.08)' }}>
-          ✦<span className="nav-text"> Affirmations</span>
-        </Link>
-        <Link to="/journal" className="today-link" title="Journal"
-          style={{ borderColor: '#8b6914', color: '#c9a84c', background: 'rgba(139,105,20,0.08)' }}>
-          📜<span className="nav-text"> Journal</span>
-        </Link>
-        <Link to="/ask" className="today-link" title="Ask Rishi"
-          style={{ borderColor: 'var(--mind)', color: '#fff', background: 'rgba(160,196,220,0.1)' }}>
-          🕉️<span className="nav-text"> Ask Rishi</span>
-        </Link>
-        
-        <div className="meditate-menu-wrap" id="meditate-menu-wrap">
-          <span className="today-link meditate-menu-trigger" title="Meditate"
-            style={{ borderColor: 'var(--sacred)', color: 'var(--sacred)', background: 'rgba(92,184,138,0.08)', cursor: 'default' }}>
-            🧘<span className="nav-text"> Meditate ▾</span>
-          </span>
-          <div className="meditate-dropdown" id="meditate-dropdown">
-            <Link to="/meditate" className="meditate-dropdown-item" id="meditate-general-link">
-              <span className="meditate-dropdown-icon">🌸</span>
+      <div className="header-right">
+        {/* Experience Dropdown (Replaces clutter of links) */}
+        <div className="meditate-menu-wrap" style={{ margin: '0 8px' }}>
+          <button className="today-link experience-trigger">
+            Experience ▾
+          </button>
+          <div className="meditate-dropdown experience-dropdown">
+            <Link to="/today" className="meditate-dropdown-item">
+              <span className="meditate-dropdown-icon">🔥</span>
               <span className="meditate-dropdown-text">
-                <strong>General Meditation</strong>
-                <small>5-min breathwork · Lotus</small>
+                <strong>Daily Concept</strong>
+                <small>Wisdom for the day</small>
               </span>
             </Link>
-            <Link to="/chakra-meditate" className="meditate-dropdown-item" id="meditate-chakra-link">
+            <Link to="/journal" className="meditate-dropdown-item">
+              <span className="meditate-dropdown-icon">📜</span>
+              <span className="meditate-dropdown-text">
+                <strong>Journal</strong>
+                <small>Record your growth</small>
+              </span>
+            </Link>
+            <Link to="/ask" className="meditate-dropdown-item">
+              <span className="meditate-dropdown-icon">🕉️</span>
+              <span className="meditate-dropdown-text">
+                <strong>Ask Rishi</strong>
+                <small>AI Wisdom Engine</small>
+              </span>
+            </Link>
+            <Link to="/soul" className="meditate-dropdown-item">
+              <span className="meditate-dropdown-icon">🪔</span>
+              <span className="meditate-dropdown-text">
+                <strong>Soul Mirror</strong>
+                <small>Your Spiritual Identity</small>
+              </span>
+            </Link>
+            <Link to="/meditate" className="meditate-dropdown-item">
+              <span className="meditate-dropdown-icon">🌸</span>
+              <span className="meditate-dropdown-text">
+                <strong>Meditation</strong>
+                <small>Find your center</small>
+              </span>
+            </Link>
+            <Link to="/chakra-meditate" className="meditate-dropdown-item">
               <span className="meditate-dropdown-icon">🔮</span>
               <span className="meditate-dropdown-text">
-                <strong>7 Chakra Journey</strong>
-                <small>Solfeggio frequencies · 7 min</small>
+                <strong>Chakra Journey</strong>
+                <small>Seven energy centers</small>
+              </span>
+            </Link>
+            <Link to="/affirmations" className="meditate-dropdown-item">
+              <span className="meditate-dropdown-icon">✦</span>
+              <span className="meditate-dropdown-text">
+                <strong>Affirmations</strong>
+                <small>Voice of Power</small>
+              </span>
+            </Link>
+            <Link to="/dana" className="meditate-dropdown-item">
+              <span className="meditate-dropdown-icon">☀️</span>
+              <span className="meditate-dropdown-text">
+                <strong>Dana</strong>
+                <small>Sacred Offering</small>
               </span>
             </Link>
           </div>
         </div>
 
-        {isLoaded && isAdmin && (
-          <Link to="/admin" className="admin-link">
-            ⚙<span className="nav-text"> Core</span>
-          </Link>
-        )}
+        {/* Global Nav (Clerk + Profile) */}
+        <div className="header-auth-group">
+          <SignedIn>
+            <Link to="/profile" className="profile-icon-link" title="My Profile">👤</Link>
+            <UserButton afterSignOutUrl="/" />
+          </SignedIn>
+          <SignedOut>
+            <SignInButton mode="modal">
+              <button className="signin-link-minimal">Sign in</button>
+            </SignInButton>
+          </SignedOut>
+        </div>
 
-        <SignedIn>
-          <Link to="/profile" className="profile-nav-link" title="My Profile">
-            <span className="profile-nav-icon">👤</span>
-            <span className="nav-text">My Profile</span>
-          </Link>
-          <UserButton afterSignOutUrl="/" />
-        </SignedIn>
-        <SignedOut>
-          <SignInButton mode="modal">
-            <button className="signin-link today-link"
-              style={{ background: 'transparent', border: '1px solid var(--amber)', cursor: 'pointer' }}>
-              <span className="nav-text">Sign in</span>
-            </button>
-          </SignInButton>
-        </SignedOut>
+        {isLoaded && isAdmin && (
+          <Link to="/admin" className="admin-link-icon" title="Core Controls">⚙</Link>
+        )}
       </div>
 
       {/* Mobile: right side — hamburger + auth */}
@@ -128,6 +150,10 @@ function Header({ typeFilter, setTypeFilter, linkFilter, setLinkFilter, searchQu
           <Link to="/ask" className="mobile-nav-item" onClick={closeMenu}>🕉️ Ask Rishi</Link>
           <Link to="/meditate" className="mobile-nav-item" onClick={closeMenu}>🌸 Meditation</Link>
           <Link to="/chakra-meditate" className="mobile-nav-item" onClick={closeMenu}>🔮 Chakra Journey</Link>
+          <Link to="/dana" className="mobile-nav-item" onClick={closeMenu}>☀️ Dana</Link>
+          <SignedIn>
+            <Link to="/soul" className="mobile-nav-item" onClick={closeMenu}>🪔 Soul Mirror</Link>
+          </SignedIn>
           <Link to="/profile" className="mobile-nav-item mobile-nav-item--profile" onClick={closeMenu}>👤 My Profile</Link>
           {isLoaded && isAdmin && (
             <Link to="/admin" className="mobile-nav-item" onClick={closeMenu}>⚙ Access Core</Link>

@@ -73,6 +73,11 @@ export default function ProfilePage() {
             <span className="shraddha-icon">✦</span>
             <span className="shraddha-points">{user.shraddha || 0} Shraddha</span>
             <span className="shraddha-rank">{rankLabel}</span>
+            {user.publicMetadata?.danaTier !== 'none' && user.publicMetadata?.danaTier && (
+              <span className="dana-tier-badge" data-tier={user.publicMetadata.danaTier}>
+                ◈ {user.publicMetadata.danaTier}
+              </span>
+            )}
           </div>
         </div>
       </div>
@@ -152,6 +157,7 @@ export default function ProfilePage() {
         <div className="shraddha-table">
           <div className="shraddha-row"><span>Bookmark a character</span><span className="shraddha-reward">+5</span></div>
           <div className="shraddha-row"><span>Read a daily concept</span><span className="shraddha-reward">+10</span></div>
+          <div className="shraddha-row"><span>Sacred Dana</span><span className="shraddha-reward">1 per ₹10</span></div>
           <div className="shraddha-row"><span>Submit a contribution</span><span className="shraddha-reward">+50</span></div>
           <div className="shraddha-row"><span>Contribution approved</span><span className="shraddha-reward">+200</span></div>
         </div>

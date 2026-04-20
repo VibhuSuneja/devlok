@@ -209,6 +209,19 @@ function DetailPanel({ node, links, allNodes, onClose, onSelectNode }) {
               <h3 className="panel-section-title">
                 {node.type === 'darshana' ? 'ADHERENTS & ACHARYAS' : 'SACRED CONNECTIONS'}
               </h3>
+              
+              {node.sutras && node.sutras.length > 0 && (
+                <div className="sutra-gallery">
+                  {node.sutras.map((s, idx) => (
+                    <div key={idx} className="sutra-card">
+                      <div className="sutra-sanskrit">{s.sanskrit}</div>
+                      <div className="sutra-translation">"{s.translation}"</div>
+                      <div className="sutra-explanation">{s.explanation}</div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
               <div className="relation-list">
                 {links?.map(l => {
                   const other = (l.source?.id || l.source) === node.id ? (l.target?.id || l.target) : (l.source?.id || l.source);

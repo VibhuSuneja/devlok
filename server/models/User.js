@@ -24,6 +24,15 @@ const UserSchema = new mongoose.Schema({
   gurkulOrderId:   { type: String, default: null }, // Razorpay order_id for audit
   gurkulPaymentId: { type: String, default: null }, // Razorpay payment_id for audit
 
+  // ── Soul Profile Engine ─────────────────────────────────────────────────
+  soulProfileId:          { type: mongoose.Schema.Types.ObjectId, ref: 'SoulProfile', default: null },
+  hasSoulProfile:         { type: Boolean, default: false },
+  onboardingCompletedAt:  { type: Date, default: null },
+
+  // ── Dana (Contributions) ────────────────────────────────────────────────
+  totalDana:    { type: Number, default: 0 }, // cumulative INR
+  danaTier:     { type: String, enum: ['none', 'Anudata', 'Bhamashah', 'Vajra'], default: 'none' },
+
 }, { timestamps: true });
 
 UserSchema.pre('save', async function (next) {

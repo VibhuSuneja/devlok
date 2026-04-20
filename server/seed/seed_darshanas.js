@@ -100,6 +100,19 @@ const DARSHANA_NODES = [
     epithets: ['Non-Dualism', 'Kevalādvaita', 'Jnana Marga', 'Shankara School'],
     desc: 'The school of pure non-dualism — the most influential philosophical system in Indian intellectual history. Its core teaching: Brahman alone is real; the world as a separate entity is maya (not illusion but misapprehension of what is); and the individual Atman is identical to Brahman. The famous mahavakyas — "Aham Brahmasmi" (I am Brahman), "Tat tvam asi" (That thou art) — are its condensed formulae. Systematized by Adi Shankaracharya in the 8th century CE through commentaries on the Prasthanatrayi (Brahma Sutras, Bhagavad Gita, and 10 principal Upanishads). Moksha is not a future event but the direct recognition that the self was never separate from the infinite.',
     source: 'Brahma Sūtra Bhāshya · Vivekachudamani · Upadesha Sahāsri · Mandukya Kārikā',
+    premium: true,
+    sutras: [
+      {
+        sanskrit: 'ब्रह्म सत्यं जगन्मिथ्या जीवो ब्रह्मैव नापरः',
+        translation: 'Brahman is real, the world is appearance; the individual soul is none other than Brahman.',
+        explanation: 'The ultimate summary of Advaita: the perceived duality between self and God is an artifact of ignorance (avidya).'
+      },
+      {
+        sanskrit: 'अहं ब्रह्मास्मि',
+        translation: 'I am Brahman.',
+        explanation: 'One of the four Mahavakyas, asserting the identity of the individual consciousness with the infinite.'
+      }
+    ]
   },
   {
     id: 'vishishtadvaita',
@@ -112,6 +125,14 @@ const DARSHANA_NODES = [
     epithets: ['Qualified Non-Dualism', 'Ramanuja School', 'Bhakti Vedanta'],
     desc: 'Qualified non-dualism — the philosophical synthesis that reconciles Advaita with theistic devotion. It agrees that Brahman is the ultimate reality, but insists that individual souls (chit) and matter (achit) are real, not mere appearances — they constitute the "body" of Ishvara (personal God, understood as Vishnu). Liberation is not the disappearance of the self into an impersonal Absolute but the soul\'s entry into the divine presence where it retains its individuality in worship. Bhakti (devotion) is the primary path, giving this school enormous influence on the Bhakti movement traditions of South India.',
     source: 'Sri Bhāshya · Vedārthasangraha · Bhagavad Gita Bhāshya · Divya Prabandham',
+    premium: true,
+    sutras: [
+      {
+        sanskrit: 'अशेषचिदचित्प्रकारं ब्रह्म एकमेव तत्',
+        translation: 'Brahman is one, qualified by all conscious and unconscious beings as His modes.',
+        explanation: 'Unlike Advaita, Ramanuja argues that differences are real but exist as attributes of the one Divine whole.'
+      }
+    ]
   },
   {
     id: 'dvaita',
@@ -124,6 +145,14 @@ const DARSHANA_NODES = [
     epithets: ['Strict Dualism', 'Madhva School', 'Tattva-vada'],
     desc: 'Strict dualism — the most theologically uncompromising of the three Vedanta schools. While Advaita says Atman = Brahman, and Vishishtadvaita says they are related as body and soul, Dvaita insists they are eternally and fundamentally distinct. Madhva proposed five kinds of eternal difference (panchabhedas) that can never be dissolved: God and soul, God and matter, one soul and another, souls and matter, distinct material objects. Liberation is not merger but eternal proximity to Vishnu in devoted service. Madhva also introduced the radical idea of preordained salvation — that some souls are destined for liberation, some for eternal bondage, and some for eternal damnation — a position unique in Vedantic thought.',
     source: 'Brahma Sūtra Bhāshya (Madhva) · Anuvyākhyāna · Mahābhārata Tātparya Nirnaya',
+    premium: true,
+    sutras: [
+      {
+        sanskrit: 'पञ्चभेदाः प्रपञ्चोऽयं विष्णोर्भिन्नो न संशयः',
+        translation: 'The five differences are certain; this universe is distinct from Vishnu.',
+        explanation: 'A fundamental assertion of Dvaita: the difference between God, Soul, and Matter is absolute and eternal.'
+      }
+    ]
   },
   {
     id: 'samkhya',
@@ -136,6 +165,14 @@ const DARSHANA_NODES = [
     epithets: ['The Oldest Darshana', 'Purusha-Prakriti School', 'Enumeration Philosophy'],
     desc: 'The oldest of the six classical schools — a purely dualistic framework that provides the metaphysical vocabulary most of Indian philosophy, including the Bhagavad Gita, uses without attribution. Its two eternal principles: Purusha (pure consciousness — multiple, passive, witnessing) and Prakriti (primordial matter — one, active, constituted of three qualities: sattva, rajas, tamas). Creation is not divine act but the interaction of consciousness with matter. The 25 tattvas (cosmic principles) — from Prakriti through mahat, ahamkara, the five tanmatras, five gross elements, and eleven sense organs — are its map of cosmic evolution. Its influence on Hindu philosophy is as foundational as Aristotle\'s categories on Western thought.',
     source: 'Sāmkhya Kārikā (Ishvarakrishna) · Bhāgavata Purāṇa III · Mahabharata Shanti Parva',
+    premium: true,
+    sutras: [
+      {
+        sanskrit: 'सत्त्वरजस्तमसां साम्यावस्था प्रकृतिः',
+        translation: 'Prakriti is the state of equilibrium of the three Gunas: Sattva, Rajas, and Tamas.',
+        explanation: 'Defines the primordial material source as a balanced state that becomes unbalanced to create the universe.'
+      }
+    ]
   },
   {
     id: 'yoga_darshana',
@@ -148,6 +185,19 @@ const DARSHANA_NODES = [
     epithets: ['Ashtanga Yoga', 'Patanjali School', 'Citta-vrtti-nirodha'],
     desc: 'The philosophical systematization of Yoga as a complete school of thought — entirely distinct from modern usage of the word. It accepts the Samkhya metaphysical framework (Purusha and Prakriti) but adds a practical programme for separating pure consciousness from matter. Its goal is defined with surgical precision: citta-vrtti-nirodha — the stilling of all fluctuations of the mind. The eight limbs of Ashtanga Yoga (Yama, Niyama, Asana, Pranayama, Pratyahara, Dharana, Dhyana, Samadhi) are its structured path, each more internal than the last, culminating in samadhi — the direct experience of Purusha in its pure state. The Yoga Sutras\' 196 aphorisms remain the most technically precise treatment of consciousness in human literature.',
     source: 'Yoga Sūtras of Patañjali · Yoga Bhāshya (Vyāsabhāshya) · Bhagavad Gīta VI',
+    premium: true,
+    sutras: [
+      {
+        sanskrit: 'योगश्चित्तवृत्तिनिरोधः',
+        translation: 'Yoga is the cessation of the domestications of the mind-stuff.',
+        explanation: 'The definitive second sutra of Patanjali, defining the core mechanic of all yogic practice.'
+      },
+      {
+        sanskrit: 'तदा द्रष्टुः स्वरूपेऽवस्थानम्',
+        translation: 'Then the Seer abides in its own nature.',
+        explanation: 'When the mind is silent, the pure awareness (Purusha) is no longer misidentified with thought.'
+      }
+    ]
   },
   {
     id: 'nyaya',

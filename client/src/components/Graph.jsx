@@ -199,19 +199,19 @@ function Graph({ data, onSelectNode, onHoverNode, selectedNodeId, searchQuery, l
     const darshanaNodes = node.filter(d => d.type === 'darshana');
 
     regularNodes.append('circle')
-      .attr('class', 'node-ring')
+      .attr('class', d => `node-ring ${d.premium ? 'node-premium-ring' : ''}`)
       .attr('r', d => d.size + 6)
       .attr('fill', 'none')
       .attr('stroke', d => COLORS[d.type] || '#fff')
-      .attr('stroke-width', 2)
+      .attr('stroke-width', d => d.premium ? 3 : 2)
       .style('filter', 'blur(3px)');
 
     darshanaNodes.append('polygon')
-      .attr('class', 'node-ring')
+      .attr('class', d => `node-ring ${d.premium ? 'node-premium-ring' : ''}`)
       .attr('points', d => octagonPoints(d.size + 8))
       .attr('fill', 'none')
       .attr('stroke', COLORS.darshana)
-      .attr('stroke-width', 2)
+      .attr('stroke-width', d => d.premium ? 3 : 2)
       .style('filter', 'blur(2px)');
 
     // ── Inner glow ────────────────────────────────────────────────────────────

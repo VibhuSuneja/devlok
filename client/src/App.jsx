@@ -21,9 +21,28 @@ import AffirmationPage from './pages/AffirmationPage.jsx';
 import SupportPage from './pages/SupportPage.jsx';
 import TermsPage from './pages/TermsPage.jsx';
 import PrivacyPage from './pages/PrivacyPage.jsx';
+import SoulOnboarding from './pages/SoulOnboarding.jsx';
+import SoulProfile   from './pages/SoulProfile.jsx';
+import DailyReflection from './pages/DailyReflection.jsx';
+import ChangePhase from './pages/ChangePhase.jsx';
+import DanaPage from './pages/DanaPage.jsx';
+import SoulDebugGallery from './pages/SoulDebugGallery.jsx';
+
+import { useLocation } from 'react-router-dom';
 
 // Any logged-in user
 const ProtectedRoute = ({ children }) => {
+  const { user, isLoaded } = useUser();
+  const location = useLocation();
+
+  if (!isLoaded) return null;
+
+  // Gatekeeping: redirect to onboarding if no soul profile exists
+  const hasProfile = user?.publicMetadata?.hasSoulProfile;
+  if (user && !hasProfile && location.pathname !== '/soul-onboarding') {
+    return <Navigate to="/soul-onboarding" replace />;
+  }
+
   return (
     <>
       <SignedIn>{children}</SignedIn>
@@ -110,6 +129,40 @@ function App() {
         <Route path="/support"      element={<SupportPage />} />
         <Route path="/terms"        element={<TermsPage />} />
         <Route path="/privacy"      element={<PrivacyPage />} />
+        <Route
+          path="/soul-onboarding"
+          element={
+            <ProtectedRoute>
+              <SoulOnboarding />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/soul"
+          element={
+            <ProtectedRoute>
+              <SoulProfile />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/reflect"
+          element={
+            <ProtectedRoute>
+              <DailyReflection />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/soul/phase"
+          element={
+            <ProtectedRoute>
+              <ChangePhase />
+            </ProtectedRoute>
+          }
+        />
+        <Route path="/dana" element={<DanaPage />} />
+        <Route path="/soul-debug" element={<SoulDebugGallery />} />
         <Route 
           path="/admin" 
           element={

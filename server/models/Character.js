@@ -23,6 +23,12 @@ const CharacterSchema = new mongoose.Schema({
   epithets:  [String],
   desc:      { type: String },
   source:    { type: String },
+  sutras: [{
+    sanskrit: String,
+    translation: String,
+    explanation: String
+  }],
+  premium: { type: Boolean, default: false },
   createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
 }, { timestamps: true });
 

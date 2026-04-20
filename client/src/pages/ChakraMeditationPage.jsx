@@ -117,18 +117,14 @@ const CHAKRAS = [
 ];
 
 /* ── Bell sound ── */
-function playBell(volume = -8) {
-  const synth = new Tone.MetalSynth({
-    frequency: 200,
-    envelope: { attack: 0.001, decay: 3.5, release: 2 },
-    harmonicity: 5.1,
-    modulationIndex: 16,
-    resonance: 4000,
-    octaves: 1.5,
+function playBell(volume = -38) {
+  const synth = new Tone.Synth({
+    oscillator: { type: 'sine' },
+    envelope: { attack: 0.08, decay: 2.2, sustain: 0, release: 2 }
   }).toDestination();
   synth.volume.value = volume;
-  synth.triggerAttackRelease('8n', Tone.now());
-  setTimeout(() => synth.dispose(), 7000);
+  synth.triggerAttackRelease('C5', '8n', Tone.now());
+  setTimeout(() => synth.dispose(), 5000);
 }
 
 /* ── Solfeggio oscillator (sine + subtle harmonics) ── */
@@ -251,6 +247,7 @@ export default function ChakraMeditationPage() {
 
   // Audio refs
   const toneRef      = useRef(null);   // { osc, osc2 }
+  const ttsAudioRef  = useRef(null);   // Speech audio ref
   const animFrameRef = useRef(null);
   const breathStart  = useRef(null);
   const timerRef     = useRef(null);
@@ -326,7 +323,20 @@ export default function ChakraMeditationPage() {
     setPhase('active');
     breathStart.current   = null;
     lastLabelRef.current  = '';
-    await startTone(CHAKRAS[index].freq);
+    
+    // Stop any previously playing TTS
+    if (ttsAudioRef.current) {
+      ttsAudioRef.current.pause();
+      ttsAudioRef.current.currentTime = 0;
+    }
+    
+    // Play affirmation TTS
+    const c = CHAKRAS[index];
+    const audio = new Audio(`/audio/chakras/${index}_${c.id}.mp3`);
+    ttsAudioRef.current = audio;
+    audio.play().catch(e => console.log('Audio play error:', e));
+
+    await startTone(c.freq);
   }, [startTone]);
 
   /* ── rAF on active phase ── */
@@ -377,10 +387,10 @@ export default function ChakraMeditationPage() {
 
     setCompleted(prev => new Set([...prev, chakraIndex]));
 
-    // Play bell(s)
-    playBell(-8);
-    setTimeout(() => playBell(-16), 1800);
-    if (isLast) setTimeout(() => playBell(-20), 3600);
+    // Play bell(s) with very low volume
+    playBell(-38);
+    setTimeout(() => playBell(-42), 1800);
+    if (isLast) setTimeout(() => playBell(-45), 3600);
 
     // Move to next or done after 4s
     setTimeout(() => {
@@ -396,6 +406,9 @@ export default function ChakraMeditationPage() {
   useEffect(() => {
     return () => {
       stopTone();
+      if (ttsAudioRef.current) {
+        ttsAudioRef.current.pause();
+      }
       if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
       if (timerRef.current) clearInterval(timerRef.current);
     };
