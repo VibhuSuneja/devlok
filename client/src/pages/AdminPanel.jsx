@@ -260,13 +260,15 @@ function AdminPanel() {
                       </div>
                       <div className="admin-card-meta">
                         <span className="admin-card-field">Scholar: <strong>{s.user?.name || 'Unknown'}</strong></span>
+                        <span className="admin-card-field">Type: <strong>{s.type}</strong></span>
                         {s.type === 'correction' && (
                           <span className="admin-card-field">
                             Field: {s.data?.field} → <em>{s.data?.newValue}</em>
                           </span>
                         )}
                       </div>
-                      {s.sourceCitation && (
+                        <pre className="admin-submission-preview">{JSON.stringify(s.data, null, 2)}</pre>
+                        {s.sourceCitation && (
                         <div className="admin-card-citation">
                           <span className="admin-card-citation-label">Citation</span>
                           {s.sourceCitation}
@@ -294,7 +296,7 @@ function AdminPanel() {
                         <td>{s.user?.name || 'Unknown Scholar'}</td>
                         <td>
                           <div style={{ fontWeight: 600, color: 'var(--amber-dim)', marginBottom: '4px' }}>
-                            {s.type === 'correction' ? `Correction on [${char?.label || s.targetId}]` : 'New Entry'}
+                            {s.type === 'correction' ? `Correction on [${char?.label || s.targetId}]` : `Submission: ${s.type}`}
                           </div>
                           {s.type === 'correction' && (
                             <div style={{ fontSize: '0.75rem', marginBottom: '8px' }}>
@@ -302,7 +304,8 @@ function AdminPanel() {
                               <span style={{ opacity: 0.6 }}>Proposed: </span> {s.data?.newValue}
                             </div>
                           )}
-                          <div style={{ fontSize: '0.75rem', color: 'var(--text-dim)', background: 'rgba(255,255,255,0.05)', padding: '6px', borderRadius: '4px' }}>
+                            <pre className="admin-submission-preview">{JSON.stringify(s.data, null, 2)}</pre>
+                            <div style={{ fontSize: '0.75rem', color: 'var(--text-dim)', background: 'rgba(255,255,255,0.05)', padding: '6px', borderRadius: '4px' }}>
                             <span style={{ display: 'block', fontSize: '0.65rem', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '2px' }}>Citation</span>
                             {s.sourceCitation}
                           </div>

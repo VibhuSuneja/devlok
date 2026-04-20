@@ -6,13 +6,13 @@ const CharacterSchema = new mongoose.Schema({
   sanskrit: { type: String },
   type: {
     type: String,
-    enum: ['deva', 'devi', 'hero', 'sage', 'asura', 'celestial', 'avatar', 'darshana'],
+    enum: ['deva', 'devi', 'hero', 'sage', 'asura', 'celestial', 'avatar', 'darshana', 'concept', 'text'],
     required: true,
   },
   size:   { type: Number, default: 14 },
   filter: {
     type: String,
-    enum: ['mahabharata', 'ramayana', 'purana', 'vedic', 'philosophical'],
+    enum: ['mahabharata', 'ramayana', 'purana', 'vedic', 'philosophical', 'conceptual', 'textual'],
     required: true,
   },
   yuga: {
@@ -23,6 +23,11 @@ const CharacterSchema = new mongoose.Schema({
   epithets:  [String],
   desc:      { type: String },
   source:    { type: String },
+  entityKind: {
+    type: String,
+    enum: ['being', 'concept', 'text'],
+    default: 'being',
+  },
   sutras: [{
     sanskrit: String,
     translation: String,

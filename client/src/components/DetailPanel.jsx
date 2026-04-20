@@ -13,6 +13,8 @@ const COLORS = {
   celestial: '#9a6ed4',
   avatar: '#ffab00',
   darshana: '#a0c4dc',
+  concept: '#7fb8b2',
+  text: '#d0b06f',
 };
 
 // Returns the correct label from the perspective of currentNodeId

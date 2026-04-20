@@ -2,6 +2,7 @@ import express from 'express';
 import Submission from '../models/Submission.js';
 import User from '../models/User.js';
 import Character from '../models/Character.js';
+import GuidedPath from '../models/GuidedPath.js';
 import Relationship from '../models/Relationship.js';
 import { protect, adminOnly } from '../middleware/auth.js';
 
@@ -11,6 +12,7 @@ const CHARACTER_ALLOWED_FIELDS = new Set([
   'label',
   'sanskrit',
   'type',
+  'entityKind',
   'size',
   'filter',
   'yuga',
@@ -21,6 +23,7 @@ const CHARACTER_ALLOWED_FIELDS = new Set([
 
 const NEW_CHARACTER_REQUIRED_FIELDS = ['id', 'label', 'type', 'filter', 'yuga'];
 const NEW_RELATIONSHIP_REQUIRED_FIELDS = ['source', 'target', 'label', 'type'];
+const NEW_GUIDED_PATH_REQUIRED_FIELDS = ['id', 'title', 'thesis', 'startNodeId', 'endNodeId', 'steps'];
 
 class ReviewValidationError extends Error {
   constructor(message) {
@@ -132,6 +135,49 @@ const createCharacterFromSubmission = async (submission) => {
   await newChar.save();
 };
 
+const createGuidedPathFromSubmission = async (submission) => {
+  if (!submission.data || typeof submission.data !== 'object') {
+    throw new ReviewValidationError('Guided path submission data must be an object.');
+  }
+
+  for (const field of NEW_GUIDED_PATH_REQUIRED_FIELDS) {
+    if (!submission.data[field]) {
+      throw new ReviewValidationError(`Missing required guided path field: ${field}`);
+    }
+  }
+
+  if (!Array.isArray(submission.data.steps) || submission.data.steps.length < 2) {
+    throw new ReviewValidationError('Guided path submissions require at least 2 steps.');
+  }
+
+  const existing = await GuidedPath.findOne({ id: submission.data.id });
+  if (existing) {
+    throw new ReviewValidationError(`Guided path id "${submission.data.id}" already exists.`);
+  }
+
+  const steps = submission.data.steps.map((step, index) => {
+    if (!step?.nodeId || !step?.title || !step?.body) {
+      throw new ReviewValidationError(`Guided path step ${index + 1} is incomplete.`);
+    }
+
+    return {
+      nodeId: step.nodeId,
+      title: step.title,
+      body: step.body,
+    };
+  });
+
+  const guidedPath = new GuidedPath({
+    ...submission.data,
+    steps,
+    sourceCitation: submission.sourceCitation,
+    citations: Array.isArray(submission.data.citations) ? submission.data.citations : [submission.sourceCitation],
+    createdBy: submission.user,
+  });
+
+  await guidedPath.save();
+};
+
 const createRelationshipFromSubmission = async (submission) => {
   if (!submission.data || typeof submission.data !== 'object') {
     throw new ReviewValidationError('New relationship submission data must be an object.');
@@ -229,8 +275,12 @@ router.put('/:id/review', protect, adminOnly, async (req, res) => {
         await applyCharacterCorrection(submission);
       } else if (submission.type === 'new_character') {
         await createCharacterFromSubmission(submission);
+      } else if (submission.type === 'new_concept') {
+        await createCharacterFromSubmission(submission);
       } else if (submission.type === 'new_relationship') {
         await createRelationshipFromSubmission(submission);
+      } else if (submission.type === 'new_guided_path') {
+        await createGuidedPathFromSubmission(submission);
       }
 
       // 2. Award +200 Shraddha to the author
@@ -258,4 +308,3 @@ router.put('/:id/review', protect, adminOnly, async (req, res) => {
 });
 
 export default router;
-

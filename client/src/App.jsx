@@ -21,6 +21,7 @@ import AffirmationPage from './pages/AffirmationPage.jsx';
 import SupportPage from './pages/SupportPage.jsx';
 import TermsPage from './pages/TermsPage.jsx';
 import PrivacyPage from './pages/PrivacyPage.jsx';
+import ContributionPage from './pages/ContributionPage.jsx';
 import SoulOnboarding from './pages/SoulOnboarding.jsx';
 import SoulProfile   from './pages/SoulProfile.jsx';
 import DailyReflection from './pages/DailyReflection.jsx';
@@ -42,6 +43,20 @@ const ProtectedRoute = ({ children }) => {
   if (user && !hasProfile && location.pathname !== '/soul-onboarding') {
     return <Navigate to="/soul-onboarding" replace />;
   }
+
+  return (
+    <>
+      <SignedIn>{children}</SignedIn>
+      <SignedOut>
+        <RedirectToSignIn />
+      </SignedOut>
+    </>
+  );
+};
+
+const AuthOnlyRoute = ({ children }) => {
+  const { isLoaded } = useUser();
+  if (!isLoaded) return null;
 
   return (
     <>
@@ -162,6 +177,14 @@ function App() {
           }
         />
         <Route path="/dana" element={<DanaPage />} />
+        <Route
+          path="/contribute"
+          element={
+            <AuthOnlyRoute>
+              <ContributionPage />
+            </AuthOnlyRoute>
+          }
+        />
         <Route path="/soul-debug" element={<SoulDebugGallery />} />
         <Route 
           path="/admin" 
@@ -177,4 +200,3 @@ function App() {
 }
 
 export default App;
-

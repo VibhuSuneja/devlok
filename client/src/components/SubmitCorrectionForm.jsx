@@ -48,7 +48,7 @@ function SubmitCorrectionForm({ node, onCancel, onSuccess }) {
     <div className="correction-form-container">
       <h4 className="correction-title">Suggest a Correction for {node.label}</h4>
       <p className="correction-subtitle">
-        Help preserve the authenticity of Devlok. Verified corrections award +250 Shraddha.
+        Help preserve the authenticity of Devlok. Submission grants +50 Shraddha now, and approved work grants +200 more.
       </p>
 
       {error && <div className="correction-error">{error}</div>}

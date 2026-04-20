@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { SignedIn, SignedOut, UserButton, SignInButton, useUser } from '@clerk/clerk-react';
-import SearchBar from './SearchBar.jsx';
+import { SignInButton, SignedIn, SignedOut, useUser, UserButton } from '@clerk/clerk-react';
 import FilterBar from './FilterBar.jsx';
+import SearchBar from './SearchBar.jsx';
 
-function Header({ typeFilter, setTypeFilter, linkFilter, setLinkFilter, searchQuery, setSearchQuery }) {
+function Header({ typeFilter, setTypeFilter, linkFilter, setLinkFilter, searchQuery, setSearchQuery, onOpenPaths }) {
   const { user, isLoaded } = useUser();
-  const isAdmin = user?.publicMetadata?.role === 'admin' || user?.emailAddresses[0]?.emailAddress === 'admin@devlok.com';
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const isAdmin = user?.publicMetadata?.role === 'admin' || user?.emailAddresses?.[0]?.emailAddress === 'admin@devlok.com';
 
-  const toggleMenu = () => setMobileMenuOpen(prev => !prev);
   const closeMenu = () => setMobileMenuOpen(false);
 
   return (
@@ -21,21 +20,17 @@ function Header({ typeFilter, setTypeFilter, linkFilter, setLinkFilter, searchQu
 
       <div className="header-center">
         <SearchBar query={searchQuery} setQuery={setSearchQuery} />
-        
-        {/* Toggleable Filter Section */}
         <div className="filters-container-minimal">
-          <FilterBar 
-            filter={typeFilter} 
-            setFilter={setTypeFilter} 
-            linkFilter={linkFilter} 
-            setLinkFilter={setLinkFilter} 
+          <FilterBar
+            filter={typeFilter}
+            setFilter={setTypeFilter}
+            linkFilter={linkFilter}
+            setLinkFilter={setLinkFilter}
           />
         </div>
       </div>
 
-      {/* Desktop nav */}
       <div className="header-right">
-        {/* Experience Dropdown (Replaces clutter of links) */}
         <div className="meditate-menu-wrap" style={{ margin: '0 8px' }}>
           <button className="today-link experience-trigger">
             Experience ▾
@@ -48,25 +43,39 @@ function Header({ typeFilter, setTypeFilter, linkFilter, setLinkFilter, searchQu
                 <small>Wisdom for the day</small>
               </span>
             </Link>
+            <Link to="/contribute" className="meditate-dropdown-item">
+              <span className="meditate-dropdown-icon">✍</span>
+              <span className="meditate-dropdown-text">
+                <strong>Contribute</strong>
+                <small>Add concepts, ties, and paths</small>
+              </span>
+            </Link>
+            <button type="button" className="meditate-dropdown-item meditate-dropdown-item--button" onClick={onOpenPaths}>
+              <span className="meditate-dropdown-icon">✧</span>
+              <span className="meditate-dropdown-text">
+                <strong>Guided Paths</strong>
+                <small>Curated journeys through the graph</small>
+              </span>
+            </button>
             <Link to="/journal" className="meditate-dropdown-item">
-              <span className="meditate-dropdown-icon">📜</span>
+              <span className="meditate-dropdown-icon">🜜</span>
               <span className="meditate-dropdown-text">
                 <strong>Journal</strong>
                 <small>Record your growth</small>
               </span>
             </Link>
             <Link to="/ask" className="meditate-dropdown-item">
-              <span className="meditate-dropdown-icon">🕉️</span>
+              <span className="meditate-dropdown-icon">🕉</span>
               <span className="meditate-dropdown-text">
                 <strong>Ask Rishi</strong>
-                <small>AI Wisdom Engine</small>
+                <small>Graph-native inquiry</small>
               </span>
             </Link>
             <Link to="/soul" className="meditate-dropdown-item">
               <span className="meditate-dropdown-icon">🪔</span>
               <span className="meditate-dropdown-text">
                 <strong>Soul Mirror</strong>
-                <small>Your Spiritual Identity</small>
+                <small>Your spiritual identity</small>
               </span>
             </Link>
             <Link to="/meditate" className="meditate-dropdown-item">
@@ -87,20 +96,19 @@ function Header({ typeFilter, setTypeFilter, linkFilter, setLinkFilter, searchQu
               <span className="meditate-dropdown-icon">✦</span>
               <span className="meditate-dropdown-text">
                 <strong>Affirmations</strong>
-                <small>Voice of Power</small>
+                <small>Voice of power</small>
               </span>
             </Link>
             <Link to="/dana" className="meditate-dropdown-item">
-              <span className="meditate-dropdown-icon">☀️</span>
+              <span className="meditate-dropdown-icon">☀</span>
               <span className="meditate-dropdown-text">
                 <strong>Dana</strong>
-                <small>Sacred Offering</small>
+                <small>Sacred offering</small>
               </span>
             </Link>
           </div>
         </div>
 
-        {/* Global Nav (Clerk + Profile) */}
         <div className="header-auth-group">
           <SignedIn>
             <Link to="/profile" className="profile-icon-link" title="My Profile">👤</Link>
@@ -118,39 +126,44 @@ function Header({ typeFilter, setTypeFilter, linkFilter, setLinkFilter, searchQu
         )}
       </div>
 
-      {/* Mobile: right side — hamburger + auth */}
       <div className="header-mobile-right">
         <SignedIn>
-          <Link to="/profile" className="profile-nav-link profile-nav-link--mobile" title="My Profile">
-            👤
-          </Link>
+          <Link to="/profile" className="profile-nav-link profile-nav-link--mobile" title="My Profile">👤</Link>
           <UserButton afterSignOutUrl="/" />
         </SignedIn>
         <SignedOut>
           <SignInButton mode="modal">
-            <button className="signin-link signin-link--mobile" style={{ background: 'transparent', border: '1px solid var(--amber)', cursor: 'pointer', fontSize: '.6rem', padding: '5px 10px' }}>Sign in</button>
+            <button
+              className="signin-link signin-link--mobile"
+              style={{ background: 'transparent', border: '1px solid var(--amber)', cursor: 'pointer', fontSize: '.6rem', padding: '5px 10px' }}
+            >
+              Sign in
+            </button>
           </SignInButton>
         </SignedOut>
         <button
           className={`mobile-hamburger ${mobileMenuOpen ? 'open' : ''}`}
-          onClick={toggleMenu}
+          onClick={() => setMobileMenuOpen((prev) => !prev)}
           aria-label="Toggle menu"
           id="mobile-hamburger-btn"
         >
-          <span /><span /><span />
+          <span />
+          <span />
+          <span />
         </button>
       </div>
 
-      {/* Mobile dropdown nav */}
       {mobileMenuOpen && (
         <nav className="mobile-nav-drawer" id="mobile-nav-drawer">
           <Link to="/today" className="mobile-nav-item" onClick={closeMenu}>🔥 Daily Concept</Link>
+          <Link to="/contribute" className="mobile-nav-item" onClick={closeMenu}>✍ Contribute</Link>
+          <button type="button" className="mobile-nav-item mobile-nav-item--button" onClick={() => { closeMenu(); onOpenPaths?.(); }}>✧ Guided Paths</button>
           <Link to="/affirmations" className="mobile-nav-item" onClick={closeMenu}>✦ Affirmations</Link>
-          <Link to="/journal" className="mobile-nav-item" onClick={closeMenu}>📜 Journal</Link>
-          <Link to="/ask" className="mobile-nav-item" onClick={closeMenu}>🕉️ Ask Rishi</Link>
+          <Link to="/journal" className="mobile-nav-item" onClick={closeMenu}>🜜 Journal</Link>
+          <Link to="/ask" className="mobile-nav-item" onClick={closeMenu}>🕉 Ask Rishi</Link>
           <Link to="/meditate" className="mobile-nav-item" onClick={closeMenu}>🌸 Meditation</Link>
           <Link to="/chakra-meditate" className="mobile-nav-item" onClick={closeMenu}>🔮 Chakra Journey</Link>
-          <Link to="/dana" className="mobile-nav-item" onClick={closeMenu}>☀️ Dana</Link>
+          <Link to="/dana" className="mobile-nav-item" onClick={closeMenu}>☀ Dana</Link>
           <SignedIn>
             <Link to="/soul" className="mobile-nav-item" onClick={closeMenu}>🪔 Soul Mirror</Link>
           </SignedIn>

@@ -1,0 +1,137 @@
+[
+  {
+    "id": "karna-to-dharma",
+    "title": "Karna to Dharma",
+    "thesis": "Karna's tragedy shows that dharma is not just virtue or loyalty, but the painful art of choosing between competing obligations.",
+    "description": "A guided walk from wounded honor to the ethical architecture behind the Mahabharata.",
+    "startNodeId": "karna",
+    "endNodeId": "dharma",
+    "steps": [
+      {
+        "nodeId": "karna",
+        "title": "A righteous man on the wrong side",
+        "body": "Karna is generous, disciplined, and loyal. Yet the epic refuses to let those virtues settle the question of whether he stands with dharma. Devlok becomes more useful when it can hold that tension instead of flattening him into hero or villain."
+      },
+      {
+        "nodeId": "kunti",
+        "title": "Birth, secrecy, and debt",
+        "body": "Karna's origin turns private shame into public destiny. The silence around his birth creates obligations that surface too late, proving that hidden truth in the epics is never merely personal."
+      },
+      {
+        "nodeId": "duryodhana",
+        "title": "Loyalty as moral debt",
+        "body": "Duryodhana gives Karna status when the world mocks him. Karna's loyalty is therefore not opportunism but repayment. The problem is that gratitude can bind a person to adharma when the benefactor himself is misaligned."
+      },
+      {
+        "nodeId": "krishna",
+        "title": "The attempt to reroute fate",
+        "body": "Krishna offers Karna a way out before the war. That moment matters because it shows the Mahabharata is not fatalistic. Insight appears, alternatives are offered, and still a person may choose a narrower code over a wider order."
+      },
+      {
+        "nodeId": "arjuna",
+        "title": "Rivalry as mirror",
+        "body": "Arjuna and Karna are not just opponents. They are mirrors of legitimacy and exclusion, recognition and resentment. Their rivalry lets the epic ask whether excellence without belonging can ever become peaceful."
+      },
+      {
+        "nodeId": "dharma",
+        "title": "Dharma is larger than loyalty",
+        "body": "By the time we reach dharma, Karna's life reads like a warning: private honor and personal loyalty are real goods, but they are not the whole field. Dharma is the order that must still hold when every local bond feels sacred."
+      }
+    ],
+    "citations": [
+      "Mahabharata, Udyoga Parva",
+      "Mahabharata, Karna Parva",
+      "Mahabharata, Shanti Parva"
+    ]
+  },
+  {
+    "id": "krishna-to-vedanta",
+    "title": "Krishna to Vedanta",
+    "thesis": "Krishna is not only a divine character in the graph; he is a bridge into Vedantic questions about self, action, and reality.",
+    "description": "A path from the battlefield dialogue to the philosophical vision that sits behind it.",
+    "startNodeId": "krishna",
+    "endNodeId": "vedanta",
+    "steps": [
+      {
+        "nodeId": "krishna",
+        "title": "More than an epic strategist",
+        "body": "Krishna enters many readers' lives as a charismatic epic figure. But the graph gains depth when Krishna is also treated as a portal into metaphysics, not only narrative action."
+      },
+      {
+        "nodeId": "arjuna",
+        "title": "The crisis that opens philosophy",
+        "body": "Arjuna's refusal to fight is not weakness. It is the moment where action, grief, family, law, and selfhood all collide. Without this crisis, the Gita would be advice. With it, the Gita becomes philosophy."
+      },
+      {
+        "nodeId": "atman",
+        "title": "The self that is not exhausted by the body",
+        "body": "The Gita's first major reorientation is about the self. Atman is not reducible to fear, status, or mortality, and that shift changes how action itself is understood."
+      },
+      {
+        "nodeId": "karma",
+        "title": "Action without possession",
+        "body": "Karma in this path is not pop-spiritual scorekeeping. It is the structure of action, consequence, and attachment. Krishna's intervention is to detach action from egoic ownership, not from responsibility."
+      },
+      {
+        "nodeId": "moksha",
+        "title": "Freedom as insight, not escape",
+        "body": "Moksha is often imagined as somewhere else. Vedantic reading complicates that. Liberation begins as right-seeing inside life, not merely departure from it."
+      },
+      {
+        "nodeId": "vedanta",
+        "title": "From dialogue to doctrine",
+        "body": "Vedanta gathers these moves into a systematic inquiry: what is real, who am I, and how should one live when the self is deeper than the passing forms of the world."
+      }
+    ],
+    "citations": [
+      "Bhagavad Gita, Chapters 2-6",
+      "Mundaka Upanishad",
+      "Brahma Sutras"
+    ]
+  },
+  {
+    "id": "ramayana-to-rajadharma",
+    "title": "Ramayana to Rajadharma",
+    "thesis": "The Ramayana is not only a tale of devotion and exile; it is also a meditation on kingship, legitimacy, and the moral burden of rule.",
+    "description": "A path from Rama's personal conduct to the larger political ethics of rajadharma.",
+    "startNodeId": "rama",
+    "endNodeId": "rajadharma",
+    "steps": [
+      {
+        "nodeId": "rama",
+        "title": "The king before the throne",
+        "body": "Rama's authority begins before coronation. His willingness to accept exile makes him legible not only as obedient son but as a ruler whose legitimacy is tied to restraint."
+      },
+      {
+        "nodeId": "sita",
+        "title": "The cost borne by the kingdom's moral center",
+        "body": "Sita reveals that royal ethics are never abstract. The burdens of public virtue often fall unequally, and the epic insists that political order cannot be discussed apart from those sacrifices."
+      },
+      {
+        "nodeId": "hanuman",
+        "title": "Service as political intelligence",
+        "body": "Hanuman is devotion, but he is also reconnaissance, diplomacy, courage, and disciplined execution. Rajadharma needs loyalty of this kind: not flattery, but capable service aligned to a just center."
+      },
+      {
+        "nodeId": "ravana",
+        "title": "Power without restraint",
+        "body": "Ravana is learned, formidable, and administratively brilliant. His fall matters because it shows that statecraft without self-governance corrodes into predation."
+      },
+      {
+        "nodeId": "dharma",
+        "title": "Order larger than personal desire",
+        "body": "Dharma sits behind rajadharma as its frame. Rule is legitimate only when power remains answerable to a moral order that does not originate in the ruler's will."
+      },
+      {
+        "nodeId": "rajadharma",
+        "title": "Kingship as disciplined obligation",
+        "body": "Rajadharma is governance as responsibility. The path from Rama to rajadharma shows why the epic keeps returning to restraint, sacrifice, and accountability as the marks of rule."
+      }
+    ],
+    "citations": [
+      "Valmiki Ramayana, Ayodhya Kanda",
+      "Valmiki Ramayana, Yuddha Kanda",
+      "Mahabharata, Shanti Parva"
+    ]
+  }
+]

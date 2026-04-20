@@ -8,7 +8,7 @@ const submissionSchema = new mongoose.Schema({
   },
   type: {
     type: String,
-    enum: ['correction', 'new_character', 'new_relationship'],
+    enum: ['correction', 'new_character', 'new_relationship', 'new_concept', 'new_guided_path'],
     required: true
   },
   targetId: {

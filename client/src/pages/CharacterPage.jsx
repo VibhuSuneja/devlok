@@ -3,12 +3,7 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import axios from '../api/axios.js';
 import { useAuth } from '../hooks/useAuth';
 import { useBookmarks } from '../hooks/useBookmarks.js';
-
-const COLORS = {
-  deva: '#d4973a', devi: '#c45c8a', hero: '#5c8ac4',
-  sage: '#5cb88a', asura: '#c45c5c', celestial: '#9a6ed4',
-  avatar: '#ffab00', darshana: '#a0c4dc'
-};
+import { getNodeColor } from '../utils/graphTaxonomy.js';
 
 function CharacterPage() {
   const { id } = useParams();
@@ -111,21 +106,21 @@ function CharacterPage() {
 
       {/* ── Character detail ───────────────────────────────────────── */}
       <div className="char-page-body">
-        <div className="char-page-glow" style={{ background: `radial-gradient(circle, ${COLORS[character.type]}22 0%, transparent 70%)` }} />
+        <div className="char-page-glow" style={{ background: `radial-gradient(circle, ${getNodeColor(character.type)}22 0%, transparent 70%)` }} />
 
         <div className="char-page-card">
           {/* Sanskrit name */}
-          <h1 className="char-page-sanskrit" style={{ color: COLORS[character.type], textShadow: `0 0 40px ${COLORS[character.type]}55` }}>
+          <h1 className="char-page-sanskrit" style={{ color: getNodeColor(character.type), textShadow: `0 0 40px ${getNodeColor(character.type)}55` }}>
             {character.sanskrit}
           </h1>
           <h2 className="char-page-label">{character.label}</h2>
 
           {/* Badges */}
           <div className="char-page-badges">
-            <span className="char-page-badge" style={{ color: COLORS[character.type], borderColor: `${COLORS[character.type]}55` }}>
+            <span className="char-page-badge" style={{ color: getNodeColor(character.type), borderColor: `${getNodeColor(character.type)}55` }}>
               {character.yuga} Yuga
             </span>
-            <span className="char-page-badge" style={{ color: COLORS[character.type], borderColor: `${COLORS[character.type]}55` }}>
+            <span className="char-page-badge" style={{ color: getNodeColor(character.type), borderColor: `${getNodeColor(character.type)}55` }}>
               {character.type}
             </span>
           </div>
@@ -134,7 +129,7 @@ function CharacterPage() {
           {character.epithets?.length > 0 && (
             <div className="char-page-epithets">
               {character.epithets.map(e => (
-                <span key={e} className="epithet-tag" style={{ color: COLORS[character.type], borderColor: `${COLORS[character.type]}44` }}>
+                <span key={e} className="epithet-tag" style={{ color: getNodeColor(character.type), borderColor: `${getNodeColor(character.type)}44` }}>
                   {e}
                 </span>
               ))}
@@ -142,7 +137,7 @@ function CharacterPage() {
           )}
 
           {/* Divider */}
-          <div className="char-page-divider" style={{ background: `linear-gradient(90deg, transparent, ${COLORS[character.type]}55, transparent)` }} />
+          <div className="char-page-divider" style={{ background: `linear-gradient(90deg, transparent, ${getNodeColor(character.type)}55, transparent)` }} />
 
           {/* Description */}
           <p className="char-page-desc">{character.desc}</p>
@@ -158,7 +153,7 @@ function CharacterPage() {
               className={`char-page-bookmark-btn ${bookmarked ? 'bookmarked' : ''}`}
               onClick={handleBookmark}
               disabled={bmLoading}
-              style={{ borderColor: COLORS[character.type], color: bookmarked ? '#000' : COLORS[character.type], background: bookmarked ? COLORS[character.type] : 'transparent' }}
+              style={{ borderColor: getNodeColor(character.type), color: bookmarked ? '#000' : getNodeColor(character.type), background: bookmarked ? getNodeColor(character.type) : 'transparent' }}
               title={isLoggedIn ? (bookmarked ? 'Remove bookmark' : 'Bookmark this being') : 'Sign in to bookmark'}
             >
               {bmLoading ? '…' : bookmarked ? '★ Bookmarked' : '☆ Bookmark'}
@@ -167,7 +162,7 @@ function CharacterPage() {
             <button
               onClick={() => navigate(`/?focus=${id}`)}
               className="char-page-explore-btn"
-              style={{ background: COLORS[character.type], color: '#000' }}
+              style={{ background: getNodeColor(character.type), color: '#000' }}
             >
               Explore in Graph →
             </button>
@@ -175,7 +170,7 @@ function CharacterPage() {
             <button
               onClick={handleShare}
               className="char-page-share-btn"
-              style={{ borderColor: COLORS[character.type], color: COLORS[character.type] }}
+              style={{ borderColor: getNodeColor(character.type), color: getNodeColor(character.type) }}
             >
               {copied ? '✓ Copied!' : '↗ Share'}
             </button>

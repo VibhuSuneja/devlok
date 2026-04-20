@@ -224,6 +224,46 @@ const relationships = [
   { source: 'shiva', target: 'markandeya', label: 'Saved from Yama', type: 'divine' },
 ];
 
+characters.push(
+  { id: 'dharma', label: 'Dharma', type: 'concept', entityKind: 'concept', size: 18, filter: 'conceptual', yuga: 'eternal', sanskrit: 'धर्म', epithets: ['Cosmic Order', 'Right Alignment'], desc: "Dharma is the ordering principle that holds conduct, society, duty, and cosmic balance together. In the epics it is rarely simplistic; it often appears where obligations conflict and discernment becomes painful.", source: 'Mahabharata · Bhagavad Gita · Manusmriti' },
+  { id: 'karma', label: 'Karma', type: 'concept', entityKind: 'concept', size: 17, filter: 'conceptual', yuga: 'eternal', sanskrit: 'कर्म', epithets: ['Action', 'Consequence'], desc: "Karma names action and consequence, but also the deeper structure binding intention, deed, and result. The Gita turns karma from fatalism into disciplined action without egoic attachment.", source: 'Bhagavad Gita · Brihadaranyaka Upanishad' },
+  { id: 'moksha', label: 'Moksha', type: 'concept', entityKind: 'concept', size: 17, filter: 'conceptual', yuga: 'eternal', sanskrit: 'मोक्ष', epithets: ['Liberation', 'Release'], desc: "Moksha is liberation from ignorance and bondage. It is not merely escape from the world, but freedom born of right knowledge about self, reality, and attachment.", source: 'Upanishads · Bhagavad Gita · Vedanta texts' },
+  { id: 'maya', label: 'Maya', type: 'concept', entityKind: 'concept', size: 16, filter: 'conceptual', yuga: 'eternal', sanskrit: 'माया', epithets: ['Appearance', 'Cosmic Veil'], desc: "Maya is the power through which reality appears in conditioned forms and is misread by the limited mind. Vedantic traditions treat it not as mere illusion, but as mistaken apprehension of what is ultimately real.", source: 'Mandukya Karika · Vivekachudamani · Upanishads' },
+  { id: 'bhakti', label: 'Bhakti', type: 'concept', entityKind: 'concept', size: 16, filter: 'conceptual', yuga: 'eternal', sanskrit: 'भक्ति', epithets: ['Devotion', 'Loving Surrender'], desc: "Bhakti is devotion as an intelligent, affective path to the divine. It does not abandon inquiry; it reorients the self through love, surrender, remembrance, and trust.", source: 'Bhagavata Purana · Narada Bhakti Sutra' },
+  { id: 'atman', label: 'Atman', type: 'concept', entityKind: 'concept', size: 16, filter: 'conceptual', yuga: 'eternal', sanskrit: 'आत्मन्', epithets: ['Self', 'Inner Witness'], desc: "Atman is the innermost self that is deeper than body, role, or passing emotion. Upanishadic teaching repeatedly returns to it as the key to liberation and right understanding.", source: 'Katha Upanishad · Chandogya Upanishad · Bhagavad Gita' },
+  { id: 'vedanta', label: 'Vedanta', type: 'darshana', entityKind: 'concept', size: 18, filter: 'philosophical', yuga: 'eternal', sanskrit: 'वेदान्त', epithets: ['End of the Veda', 'Uttara Mimamsa'], desc: "Vedanta is the philosophical tradition built on the Upanishads, Bhagavad Gita, and Brahma Sutras. It asks what is ultimately real, who the self is, and how liberation becomes possible.", source: 'Upanishads · Bhagavad Gita · Brahma Sutras' },
+  { id: 'rajadharma', label: 'Rajadharma', type: 'concept', entityKind: 'concept', size: 16, filter: 'conceptual', yuga: 'eternal', sanskrit: 'राजधर्म', epithets: ['Ethics of Rule', 'Kingly Duty'], desc: "Rajadharma is the moral discipline of kingship and governance. It asks how power remains answerable to justice, social order, and restraint rather than private appetite.", source: 'Mahabharata, Shanti Parva · Ramayana' },
+  { id: 'bhagavad_gita', label: 'Bhagavad Gita', type: 'text', entityKind: 'text', size: 15, filter: 'textual', yuga: 'dvapara', sanskrit: 'भगवद् गीता', epithets: ['Song of the Lord'], desc: "The Bhagavad Gita is the dialogue between Krishna and Arjuna on the battlefield of Kurukshetra. It is one of the primary gateways into karma, atman, bhakti, yoga, and liberation.", source: 'Mahabharata, Bhishma Parva' },
+  { id: 'upanishads', label: 'Upanishads', type: 'text', entityKind: 'text', size: 15, filter: 'textual', yuga: 'eternal', sanskrit: 'उपनिषद्', epithets: ['Vedantic Source Texts'], desc: "The Upanishads are the philosophical culmination of the Vedic corpus. They investigate brahman, atman, consciousness, and the nature of liberation.", source: 'Principal Upanishads' },
+);
+
+relationships.push(
+  { source: 'krishna', target: 'bhagavad_gita', label: 'Speaker of', type: 'textual' },
+  { source: 'arjuna', target: 'bhagavad_gita', label: 'Listener in', type: 'textual' },
+  { source: 'bhagavad_gita', target: 'karma', label: 'Teaches', type: 'textual' },
+  { source: 'bhagavad_gita', target: 'atman', label: 'Teaches', type: 'textual' },
+  { source: 'bhagavad_gita', target: 'bhakti', label: 'Teaches', type: 'textual' },
+  { source: 'bhagavad_gita', target: 'moksha', label: 'Orients toward', type: 'textual' },
+  { source: 'upanishads', target: 'atman', label: 'Explores', type: 'textual' },
+  { source: 'upanishads', target: 'moksha', label: 'Explores', type: 'textual' },
+  { source: 'upanishads', target: 'maya', label: 'Frames', type: 'textual' },
+  { source: 'upanishads', target: 'vedanta', label: 'Foundation of', type: 'darshana' },
+  { source: 'krishna', target: 'bhakti', label: 'Embodies', type: 'conceptual' },
+  { source: 'krishna', target: 'karma', label: 'Clarifies', type: 'conceptual' },
+  { source: 'krishna', target: 'vedanta', label: 'Gateway to', type: 'darshana' },
+  { source: 'karna', target: 'dharma', label: 'Tests', type: 'conceptual' },
+  { source: 'yudhishthira', target: 'dharma', label: 'Seeks', type: 'conceptual' },
+  { source: 'rama', target: 'rajadharma', label: 'Embodies', type: 'conceptual' },
+  { source: 'rama', target: 'dharma', label: 'Subordinates self to', type: 'conceptual' },
+  { source: 'ravana', target: 'rajadharma', label: 'Violates', type: 'conceptual' },
+  { source: 'hanuman', target: 'bhakti', label: 'Embodies', type: 'conceptual' },
+  { source: 'radha', target: 'bhakti', label: 'Embodies', type: 'conceptual' },
+  { source: 'arjuna', target: 'dharma', label: 'Questions', type: 'conceptual' },
+  { source: 'vedanta', target: 'atman', label: 'Centers', type: 'darshana' },
+  { source: 'vedanta', target: 'maya', label: 'Interprets', type: 'darshana' },
+  { source: 'vedanta', target: 'moksha', label: 'Aims at', type: 'darshana' },
+);
+
 async function seed() {
   try {
     const mongoUri = process.env.MONGO_URI;

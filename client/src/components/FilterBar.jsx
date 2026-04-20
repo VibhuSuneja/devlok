@@ -1,8 +1,5 @@
 import React from 'react';
-
-const ENTITY_TYPES = ['all', 'deva', 'devi', 'hero', 'asura', 'sage', 'celestial', 'avatar'];
-const PHILOSOPHY_TYPES = ['darshana'];
-const LINK_TYPES = ['all', 'family', 'divine', 'conflict', 'guru', 'alliance', 'manifestation', 'darshana'];
+import { ESSENCE_TYPES, KNOWLEDGE_TYPES, LINK_TYPES } from '../utils/graphTaxonomy.js';
 
 function FilterBar({ filter, setFilter, linkFilter, setLinkFilter }) {
   return (
@@ -10,7 +7,7 @@ function FilterBar({ filter, setFilter, linkFilter, setLinkFilter }) {
       <div className="filter-stack">
         <div className="filter-group">
           <span className="filter-label">Essence:</span>
-          {ENTITY_TYPES.map(t => (
+          {ESSENCE_TYPES.map(t => (
             <button 
               key={t} 
               className={`filter-btn ${filter === t ? 'active' : ''}`}
@@ -22,8 +19,8 @@ function FilterBar({ filter, setFilter, linkFilter, setLinkFilter }) {
         </div>
         
         <div className="filter-group">
-          <span className="filter-label">Philosophical Core:</span>
-          {PHILOSOPHY_TYPES.map(t => (
+          <span className="filter-label">Knowledge Core:</span>
+          {KNOWLEDGE_TYPES.map(t => (
             <button 
               key={t} 
               className={`filter-btn filter-btn--darshana ${filter === t ? 'active' : ''}`}
