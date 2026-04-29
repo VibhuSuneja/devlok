@@ -74,6 +74,14 @@ const SoulProfileSchema = new mongoose.Schema({
   // Hidden from user — dimensions drive archetype confidence silently
   dimensions: { type: DimensionsSchema, default: () => ({}) },
 
+  // Rishi AI emotional tracking — additive, no breaking change
+  lastDetectedEmotions: { type: [String], default: [] },
+  emotionHistory: [{
+    emotions:        { type: [String], default: [] },
+    detectedAt:      { type: Date, default: Date.now },
+    questionSnippet: { type: String },  // first 80 chars, no PII
+  }],
+
   // Track question IDs already answered per phase to avoid repeating
   answeredQuestionIds: { type: [String], default: [] },
 
