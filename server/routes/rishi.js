@@ -196,6 +196,64 @@ function buildSoulContext(soulProfile) {
   return `\n\n[SEEKER_SOUL_PROFILE]\n${parts.join('\n')}`;
 }
 
+// ── Emotional trajectory analyser ─────────────────────────────────
+// Reads the last 5 emotion history entries and classifies the arc:
+// "stagnant"   — same emotions recurring, no movement
+// "deepening"  — intensity states (Grief, Hopelessness) persisting
+// "evolving"   — lighter or purposeful emotions appearing recently
+// Returns a plain-English narrative injected into the system prompt.
+
+const HEAVY_EMOTIONS = new Set(['Grief', 'Anger', 'Hopelessness', 'Guilt', 'Demotivation', 'Loneliness', 'Death']);
+const LIGHT_EMOTIONS = new Set(['Inner Peace', 'Purpose']);
+const TRANSITION_EMOTIONS = new Set(['Confusion', 'Mental Unrest', 'Fear']);
+
+function buildEmotionalTrajectory(emotionHistory = []) {
+  if (!emotionHistory.length) return null;
+
+  // Take the 5 most recent entries (stored oldest-first, capped at 50)
+  const recent = emotionHistory.slice(-5);
+  if (recent.length < 2) return null; // Not enough data yet
+
+  // Flatten all emotions across recent entries with timestamps
+  const timeline = recent.flatMap((entry) =>
+    (entry.emotions || []).map((e) => ({ emotion: e, detectedAt: entry.detectedAt }))
+  );
+
+  const olderEmotions = recent.slice(0, Math.floor(recent.length / 2)).flatMap((e) => e.emotions || []);
+  const newerEmotions = recent.slice(Math.floor(recent.length / 2)).flatMap((e) => e.emotions || []);
+
+  const olderHeavy = olderEmotions.filter((e) => HEAVY_EMOTIONS.has(e)).length;
+  const newerHeavy = newerEmotions.filter((e) => HEAVY_EMOTIONS.has(e)).length;
+  const newerLight = newerEmotions.filter((e) => LIGHT_EMOTIONS.has(e)).length;
+  const uniqueEmotions = new Set(timeline.map((e) => e.emotion));
+
+  // Classify arc
+  let arc, narrativeSuffix;
+
+  if (newerLight > 0 && newerHeavy < olderHeavy) {
+    arc = 'evolving';
+    const lightList = newerEmotions.filter((e) => LIGHT_EMOTIONS.has(e)).join(' and ');
+    const heavyList = olderEmotions.filter((e) => HEAVY_EMOTIONS.has(e)).join(' and ');
+    narrativeSuffix = heavyList
+      ? `This seeker has been traversing from ${heavyList} toward ${lightList}. They are on an ascending arc — acknowledge this growth and gently encourage the next step forward.`
+      : `This seeker is touching states of ${lightList}. Honour this emerging clarity.`;
+  } else if (uniqueEmotions.size <= 2 && newerHeavy > 0) {
+    arc = 'stagnant';
+    const stuckEmotions = [...uniqueEmotions].join(' and ');
+    narrativeSuffix = `This seeker appears to be circling ${stuckEmotions} repeatedly. Their soul may be stuck in a loop. Gently name this pattern and offer the teaching of Vairagya (detachment) or Abhyasa (steady practice) as a way forward.`;
+  } else if (newerHeavy >= olderHeavy && newerHeavy > 0) {
+    arc = 'deepening';
+    const heavyList = newerEmotions.filter((e) => HEAVY_EMOTIONS.has(e)).join(' and ');
+    narrativeSuffix = `This seeker's ${heavyList} appears to be intensifying across sessions. Respond with extra compassion, as Arjuna needed before Krishna could speak of Yoga.`;
+  } else {
+    arc = 'transitioning';
+    const emotionList = [...uniqueEmotions].slice(0, 3).join(', ');
+    narrativeSuffix = `This seeker has been moving through states of ${emotionList} — they are in a period of transition. Honour the uncertainty and offer the teaching of the witness-self (Sakshi Bhava).`;
+  }
+
+  return { arc, narrative: narrativeSuffix, timeline: timeline.map((t) => t.emotion) };
+}
+
 // ── Main route: POST /ask ──────────────────────────────────────────
 
 router.post('/ask', optionalAuth, rishiLimiter, async (req, res) => {
@@ -282,6 +340,9 @@ ${JSON.stringify(charContext, null, 2)}`;
     // ── Soul profile context ─────────────────────────────────────
     const soulContext = buildSoulContext(soulProfile);
 
+    // ── Pass 2.5: Build emotional trajectory from history ────────
+    const trajectory = soulProfile ? buildEmotionalTrajectory(soulProfile.emotionHistory || []) : null;
+
     // ── System prompt ────────────────────────────────────────────
     const systemInstruction = `You are the Rishi of Devlok, an enlightened sage with absolute access to the cosmic knowledge graph.
 Your purpose is to answer the seeker's questions by weaving together the beings (devas, heroes, sages), concepts (dharma, karma, atman), and texts of our tradition.
@@ -290,6 +351,12 @@ ${detectedEmotions.length > 0 ? `The seeker's emotional state has been detected 
 Acknowledge their emotional state with empathy BEFORE delivering wisdom.
 Use the provided shlokas and guidance hints to ground your answer in scripture.
 Quote at least one shloka with its source reference.
+` : ''}${trajectory ? `
+[SEEKER EMOTIONAL JOURNEY — READ THIS CAREFULLY]
+The seeker's emotional arc is classified as: "${trajectory.arc}"
+Recent emotional timeline: ${trajectory.timeline.join(' → ')}
+Guidance: ${trajectory.narrative}
+IMPORTANT: If the arc is meaningful, briefly acknowledge their journey (e.g., "I have witnessed your heart through multiple turnings...") before delivering the current wisdom. Do NOT just repeat the trajectory data verbatim — weave it naturally into your response as a true Guru would.
 ` : ''}Answer ONLY using the provided context records.
 - If the records contain the answer, explain it with depth and clarity.
 - If the records are insufficient, state it humbly: "The current archives of Devlok do not yet hold the full truth of this query."
@@ -356,6 +423,7 @@ ${soulContext}`;
       answer,
       sensingMessage,
       detectedEmotions,
+      trajectoryArc: trajectory?.arc || null,
       retrievalMode: retrivalMode,
       coverage: topNodes.length ? 'graph-grounded' : 'limited',
       relatedShlokas,
