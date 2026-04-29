@@ -445,4 +445,150 @@ ${soulContext}`;
   }
 });
 
+
+// ── Karmic Branching Simulator: POST /simulate ─────────────────────
+// Pass 1: LLM maps the dilemma to a mythological parallel + branches.
+// Pass 2: Graph lookup fetches real Character/Concept nodes per branch.
+
+const simulateLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 10,
+  message: { message: 'The oracle rests between simulations. Please wait before seeking another path.' },
+});
+
+router.post('/simulate', optionalAuth, simulateLimiter, async (req, res) => {
+  const { dilemma } = req.body;
+
+  if (!dilemma || typeof dilemma !== 'string' || dilemma.trim().length < 10) {
+    return res.status(400).json({ message: 'Please describe your dilemma in at least a sentence.' });
+  }
+
+  if (!genAI) {
+    return res.status(503).json({ message: 'The oracle is meditating (AI SDK missing).' });
+  }
+
+  try {
+    // ── Fetch all characters for graph grounding ──────────────────
+    const [allCharacters, allRelationships] = await Promise.all([
+      Character.find({}).lean(),
+      Relationship.find({}).lean(),
+    ]);
+
+    const characterIndex = allCharacters.map((c) => ({
+      id: c.id,
+      name: c.label,
+      type: c.type,
+      filter: c.filter,
+      desc: c.desc?.substring(0, 150),
+    }));
+
+    // ── Pass 1: LLM structural analysis ─────────────────────────
+    const structureModel = genAI.getGenerativeModel({
+      model: 'gemini-2.5-flash',
+      systemInstruction: `You are the Karmic Oracle of Devlok, an ancient sage who maps modern human dilemmas to mythological parallels in Hindu scripture and epic tradition.
+
+Given a seeker's dilemma, you must:
+1. Identify the CLOSEST mythological parallel (a character or moment from Mahabharata, Ramayana, Upanishads, Puranas, or Gita)
+2. Identify 2-4 PATHS the seeker could take, each grounded in a PurushArtha (Dharma, Artha, Kama, Moksha) or key concept
+3. For each path, identify EXACTLY which character IDs from the graph are most relevant
+
+AVAILABLE CHARACTER IDs (use only these):
+${JSON.stringify(characterIndex.slice(0, 80), null, 0)}
+
+Respond ONLY with valid JSON in this exact shape:
+{
+  "mythologicalParallel": {
+    "title": "string — event name (e.g. Arjuna at Kurukshetra)",
+    "character": "string — the primary character",
+    "summary": "string — 2-3 sentences connecting the dilemma to this moment",
+    "shloka": {
+      "text": "string — Sanskrit verse (optional, leave empty string if none)",
+      "translation": "string — English meaning",
+      "source": "string — e.g. Bhagavad Gita 2:47"
+    }
+  },
+  "branches": [
+    {
+      "path": "string — path name (e.g. The Path of Dharma)",
+      "purushartha": "Dharma | Artha | Kama | Moksha",
+      "headline": "string — one bold sentence for this choice",
+      "guidance": "string — 3-4 sentences of mythic wisdom for this path",
+      "riskWarning": "string — one sentence naming the shadow/risk of this choice",
+      "characterIds": ["array", "of", "character", "ids", "from", "graph"]
+    }
+  ]
+}
+
+Rules:
+- Always produce exactly 2 to 4 branches
+- Each branch MUST have at least 2 characterIds from the available list
+- Do NOT include any text outside the JSON object`,
+    });
+
+    const pass1Result = await structureModel.generateContent(dilemma.trim());
+    const pass1Text = pass1Result.response.text().trim();
+
+    // Parse the JSON structure
+    const jsonMatch = pass1Text.match(/\{[\s\S]*\}/);
+    if (!jsonMatch) {
+      throw new Error('Oracle returned malformed structure');
+    }
+    const simulation = JSON.parse(jsonMatch[0]);
+
+    // ── Pass 2: Enrich each branch with real graph nodes ─────────
+    const nodeById = new Map(allCharacters.map((c) => [c.id, c]));
+    const relById = new Map();
+    allRelationships.forEach((r) => {
+      const key = r.source < r.target ? `${r.source}|${r.target}` : `${r.target}|${r.source}`;
+      if (!relById.has(key)) relById.set(key, r);
+    });
+
+    if (Array.isArray(simulation.branches)) {
+      simulation.branches = simulation.branches.map((branch) => {
+        const nodeIds = Array.isArray(branch.characterIds) ? branch.characterIds : [];
+
+        // Fetch the actual node data from DB records
+        const nodes = nodeIds
+          .map((id) => nodeById.get(id))
+          .filter(Boolean)
+          .map((c) => ({
+            id: c.id,
+            label: c.label,
+            type: c.type,
+            desc: c.desc?.substring(0, 120) || '',
+            yuga: c.yuga,
+          }));
+
+        // Find intra-branch relationships between these nodes
+        const nodeIdSet = new Set(nodeIds);
+        const links = allRelationships
+          .filter((r) => nodeIdSet.has(r.source) && nodeIdSet.has(r.target))
+          .slice(0, 4)
+          .map((r) => ({
+            source: nodeById.get(r.source)?.label || r.source,
+            target: nodeById.get(r.target)?.label || r.target,
+            label: r.label,
+          }));
+
+        return { ...branch, nodes, links };
+      });
+    }
+
+    // ── Return simulation result ──────────────────────────────────
+    res.json({
+      dilemma: dilemma.trim(),
+      mythologicalParallel: simulation.mythologicalParallel,
+      branches: simulation.branches,
+    });
+
+  } catch (error) {
+    console.error('Karmic simulation error:', error.message);
+    res.status(500).json({
+      message: 'The cosmic mirror is clouded. The oracle could not complete this simulation.',
+      detail: process.env.NODE_ENV === 'development' ? error.message : undefined,
+    });
+  }
+});
+
 export default router;
+

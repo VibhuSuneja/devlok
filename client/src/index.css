@@ -11887,3 +11887,621 @@ body:has(.support-page) {
 .rishi-coverage--limited {
   color: #f0c47b;
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+   KARMIC SIMULATOR — Premium immersive styles
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* Page shell */
+.karmic-page {
+  min-height: 100vh;
+  background: radial-gradient(ellipse at 20% 10%, #1a0a2e 0%, #0a0a1a 60%, #000510 100%);
+  color: #e8e0f8;
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+  position: relative;
+  overflow-x: hidden;
+  padding-bottom: 60px;
+}
+
+/* Cosmic background particles */
+.karmic-bg-particles {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+.karmic-particle {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: var(--size);
+  height: var(--size);
+  border-radius: 50%;
+  background: rgba(180, 140, 255, 0.6);
+  animation: karmic-float var(--delay, 4s) ease-in-out infinite alternate;
+}
+@keyframes karmic-float {
+  0%   { transform: translateY(0) scale(1); opacity: 0.3; }
+  100% { transform: translateY(-20px) scale(1.4); opacity: 0.8; }
+}
+
+/* Header */
+.karmic-header {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  background: rgba(10,5,30,0.85);
+  backdrop-filter: blur(12px);
+}
+.karmic-header-center {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.karmic-header-icon {
+  font-size: 2rem;
+  filter: drop-shadow(0 0 12px rgba(180,100,255,0.6));
+  animation: karmic-pulse 3s ease-in-out infinite;
+}
+@keyframes karmic-pulse {
+  0%,100% { transform: scale(1); }
+  50%      { transform: scale(1.1); }
+}
+.karmic-header-title {
+  font-size: 1.6rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #d4a8ff, #a78bfa, #60d9fa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 0;
+  letter-spacing: 0.02em;
+}
+.karmic-header-sub {
+  font-size: 0.78rem;
+  color: rgba(180,160,220,0.7);
+  margin: 2px 0 0;
+  letter-spacing: 0.05em;
+}
+
+/* Input section */
+.karmic-input-section {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 40px 20px 0;
+  position: relative;
+  z-index: 5;
+}
+
+.karmic-intro-box {
+  text-align: center;
+  margin-bottom: 36px;
+}
+.karmic-intro-title {
+  font-size: 1.55rem;
+  font-weight: 700;
+  color: #d4a8ff;
+  margin-bottom: 12px;
+}
+.karmic-intro-body {
+  color: rgba(220,200,255,0.75);
+  line-height: 1.7;
+  font-size: 0.95rem;
+}
+
+.karmic-form {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(180,140,255,0.2);
+  border-radius: 20px;
+  padding: 28px;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 0 40px rgba(120,60,200,0.15);
+}
+.karmic-form-label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #b899ff;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.karmic-textarea {
+  width: 100%;
+  background: rgba(0,0,0,0.35);
+  border: 1px solid rgba(180,140,255,0.25);
+  border-radius: 12px;
+  color: #e8e0f8;
+  font-size: 1rem;
+  line-height: 1.6;
+  padding: 16px;
+  resize: vertical;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+}
+.karmic-textarea::placeholder { color: rgba(200,180,255,0.35); }
+.karmic-textarea:focus {
+  border-color: rgba(180,140,255,0.55);
+  box-shadow: 0 0 0 3px rgba(160,100,255,0.12);
+}
+.karmic-char-count {
+  text-align: right;
+  font-size: 0.72rem;
+  color: rgba(180,150,220,0.5);
+  margin: 6px 0 20px;
+}
+.karmic-submit-btn {
+  width: 100%;
+  padding: 16px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #7c3aed, #a855f7, #6366f1);
+  color: #fff;
+  font-size: 1.05rem;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: 0.04em;
+  transition: all 0.25s;
+  box-shadow: 0 4px 20px rgba(120,60,220,0.35);
+}
+.karmic-submit-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(140,80,255,0.5);
+}
+.karmic-submit-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Example dilemmas */
+.karmic-examples { margin-top: 32px; }
+.karmic-examples-label {
+  font-size: 0.78rem;
+  color: rgba(180,160,220,0.6);
+  text-align: center;
+  margin-bottom: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.karmic-examples-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.karmic-example-btn {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(180,140,255,0.18);
+  border-radius: 12px;
+  color: rgba(220,200,255,0.8);
+  padding: 12px 14px;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.karmic-example-btn:hover {
+  background: rgba(140,80,255,0.1);
+  border-color: rgba(180,140,255,0.4);
+  color: #d4a8ff;
+  transform: translateY(-1px);
+}
+
+.karmic-error {
+  margin-top: 20px;
+  padding: 14px 18px;
+  background: rgba(220,38,38,0.12);
+  border: 1px solid rgba(220,38,38,0.3);
+  border-radius: 10px;
+  color: #fca5a5;
+  font-size: 0.9rem;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+/* Loading oracle */
+.karmic-loading-section {
+  display: flex;
+  justify-content: center;
+  padding: 80px 20px;
+  position: relative;
+  z-index: 5;
+}
+.karmic-spinner-wrap {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+.karmic-mandala-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  transform: translate(-50%, -50%);
+}
+.karmic-ring-1 {
+  width: 80px; height: 80px;
+  border-top-color: #a855f7;
+  border-right-color: rgba(168,85,247,0.3);
+  animation: karmic-spin 1.2s linear infinite;
+}
+.karmic-ring-2 {
+  width: 110px; height: 110px;
+  border-top-color: #6366f1;
+  border-left-color: rgba(99,102,241,0.3);
+  animation: karmic-spin 1.8s linear infinite reverse;
+}
+.karmic-ring-3 {
+  width: 140px; height: 140px;
+  border-top-color: #60d9fa;
+  border-bottom-color: rgba(96,217,250,0.3);
+  animation: karmic-spin 2.4s linear infinite;
+}
+@keyframes karmic-spin { 100% { transform: translate(-50%, -50%) rotate(360deg); } }
+.karmic-spinner-icon {
+  font-size: 2rem;
+  animation: karmic-float 2s ease-in-out infinite alternate;
+  z-index: 2;
+  margin-top: 80px;
+}
+.karmic-spinner-text {
+  color: rgba(180,150,220,0.7);
+  font-size: 0.88rem;
+  text-align: center;
+  font-style: italic;
+  margin-top: 12px;
+}
+
+/* Results section */
+.karmic-results {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  position: relative;
+  z-index: 5;
+  animation: karmic-fadein 0.5s ease-out;
+}
+@keyframes karmic-fadein {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Dilemma echo */
+.karmic-dilemma-echo {
+  text-align: center;
+  margin-bottom: 36px;
+}
+.karmic-dilemma-label {
+  display: block;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: rgba(180,150,220,0.6);
+  margin-bottom: 10px;
+}
+.karmic-dilemma-text {
+  font-size: 1.15rem;
+  color: rgba(220,200,255,0.85);
+  font-style: italic;
+  line-height: 1.6;
+}
+
+/* Mythological parallel card */
+.karmic-parallel-card {
+  background: linear-gradient(135deg, rgba(100,50,200,0.18), rgba(30,10,60,0.35));
+  border: 1px solid rgba(200,160,255,0.22);
+  border-radius: 20px;
+  padding: 28px 30px;
+  margin-bottom: 36px;
+  position: relative;
+  overflow: hidden;
+}
+.karmic-parallel-card::before {
+  content: '';
+  position: absolute;
+  top: -1px; left: -1px; right: -1px; bottom: -1px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, rgba(200,150,255,0.1), transparent, rgba(100,180,255,0.05));
+  pointer-events: none;
+}
+.karmic-parallel-label {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: rgba(200,160,255,0.65);
+  margin-bottom: 12px;
+}
+.karmic-parallel-title {
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: #d4a8ff;
+  margin: 0 0 14px;
+}
+.karmic-parallel-character {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.92rem;
+  color: rgba(220,200,255,0.8);
+  font-weight: 600;
+  margin-bottom: 14px;
+}
+.karmic-parallel-avatar { font-size: 1.1rem; }
+.karmic-parallel-summary {
+  color: rgba(220,200,255,0.75);
+  line-height: 1.7;
+  font-size: 0.95rem;
+  margin-bottom: 20px;
+}
+.karmic-parallel-shloka {
+  background: rgba(0,0,0,0.3);
+  border-left: 3px solid rgba(200,150,255,0.45);
+  border-radius: 0 10px 10px 0;
+  padding: 16px 20px;
+}
+.karmic-shloka-sanskrit {
+  font-family: 'Noto Serif Devanagari', serif;
+  font-size: 1rem;
+  color: rgba(220,200,255,0.9);
+  margin: 0 0 8px;
+  line-height: 1.6;
+}
+.karmic-shloka-translation {
+  font-size: 0.92rem;
+  color: rgba(200,180,255,0.8);
+  font-style: italic;
+  margin: 0 0 8px;
+}
+.karmic-shloka-source {
+  font-size: 0.78rem;
+  color: rgba(180,150,220,0.6);
+  margin: 0;
+}
+
+/* Branches divider */
+.karmic-branches-title {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  text-align: center;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: rgba(180,150,220,0.65);
+  margin-bottom: 28px;
+}
+.karmic-branches-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(180,140,255,0.3), transparent);
+}
+
+/* Branch cards grid */
+.karmic-branches-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px;
+}
+
+/* Branch card */
+.karmic-branch-card {
+  background: rgba(15,8,35,0.7);
+  border: 1px solid rgba(180,140,255,0.15);
+  border-radius: 20px;
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+  animation: karmic-fadein 0.5s ease-out both;
+  transition: transform 0.25s, box-shadow 0.25s;
+  box-shadow: 0 0 30px var(--branch-glow);
+}
+.karmic-branch-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--branch-color);
+  border-radius: 20px 20px 0 0;
+}
+.karmic-branch-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px var(--branch-glow);
+}
+
+.karmic-branch-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.karmic-branch-icon { font-size: 1.8rem; flex-shrink: 0; margin-top: 2px; }
+.karmic-branch-path {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--branch-color);
+  margin-bottom: 2px;
+}
+.karmic-branch-subtitle {
+  font-size: 0.74rem;
+  color: rgba(200,180,255,0.55);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.karmic-purushartha-badge {
+  margin-left: auto;
+  flex-shrink: 0;
+  padding: 4px 10px;
+  border-radius: 20px;
+  border: 1px solid var(--branch-color);
+  color: var(--branch-color);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+
+.karmic-branch-headline {
+  font-style: italic;
+  font-size: 0.95rem;
+  color: #d4c8ff;
+  font-weight: 600;
+  border-left: 2px solid var(--branch-color);
+  padding-left: 12px;
+  margin: 0 0 16px;
+  line-height: 1.5;
+}
+
+.karmic-branch-guidance {
+  font-size: 0.88rem;
+  color: rgba(220,200,255,0.75);
+  line-height: 1.7;
+  margin: 0 0 16px;
+}
+
+.karmic-risk-warning {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  background: rgba(245,158,11,0.08);
+  border: 1px solid rgba(245,158,11,0.2);
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 0.82rem;
+  color: rgba(251,191,36,0.85);
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+/* Nodes section */
+.karmic-nodes-section { margin-top: 4px; }
+.karmic-nodes-title {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(180,150,220,0.6);
+  margin-bottom: 10px;
+}
+.karmic-nodes-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.karmic-node-chip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 8px;
+  background: rgba(0,0,0,0.3);
+  border: 1px solid rgba(180,140,255,0.12);
+  border-radius: 10px;
+  padding: 10px 12px;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+.karmic-node-chip:hover {
+  background: rgba(var(--branch-color), 0.08);
+  border-color: rgba(180,140,255,0.3);
+  transform: translateX(4px);
+}
+.karmic-node-badge {
+  font-size: 0.66rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(220,200,255,0.75);
+  padding: 2px 7px;
+  border-radius: 4px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.karmic-node-label {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--node-color, #a78bfa);
+  flex-shrink: 0;
+}
+.karmic-node-desc {
+  width: 100%;
+  font-size: 0.78rem;
+  color: rgba(200,180,255,0.55);
+  line-height: 1.4;
+}
+
+.karmic-graph-ties {
+  margin-top: 10px;
+  border-top: 1px solid rgba(180,140,255,0.1);
+  padding-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.karmic-graph-tie-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.77rem;
+  color: rgba(200,180,255,0.6);
+  flex-wrap: wrap;
+}
+.karmic-tie-node {
+  font-weight: 600;
+  color: rgba(200,180,255,0.8);
+}
+.karmic-tie-label {
+  font-size: 0.7rem;
+  color: rgba(180,150,220,0.5);
+  font-style: italic;
+}
+
+/* Reset */
+.karmic-reset-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  margin-top: 48px;
+}
+.karmic-reset-btn {
+  padding: 14px 36px;
+  background: rgba(100,50,200,0.2);
+  border: 1px solid rgba(180,140,255,0.3);
+  border-radius: 30px;
+  color: #c4a0ff;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-weight: 600;
+}
+.karmic-reset-btn:hover {
+  background: rgba(120,60,220,0.35);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(120,60,200,0.25);
+}
+.karmic-ask-link {
+  font-size: 0.85rem;
+  color: rgba(180,150,220,0.65);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.karmic-ask-link:hover { color: #c4a0ff; }
+
+/* Mobile responsive */
+@media (max-width: 640px) {
+  .karmic-header { padding: 14px 16px; }
+  .karmic-header-title { font-size: 1.2rem; }
+  .karmic-input-section { padding: 28px 14px 0; }
+  .karmic-form { padding: 20px; }
+  .karmic-examples-grid { grid-template-columns: 1fr; }
+  .karmic-branches-grid { grid-template-columns: 1fr; }
+  .karmic-results { padding: 24px 14px; }
+  .karmic-parallel-card { padding: 20px; }
+  .karmic-branch-card { padding: 18px; }
+}

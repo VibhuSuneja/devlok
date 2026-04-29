@@ -28,6 +28,7 @@ import DailyReflection from './pages/DailyReflection.jsx';
 import ChangePhase from './pages/ChangePhase.jsx';
 import DanaPage from './pages/DanaPage.jsx';
 import SoulDebugGallery from './pages/SoulDebugGallery.jsx';
+import KarmicSimulatorPage from './pages/KarmicSimulatorPage.jsx';
 
 import { useLocation } from 'react-router-dom';
 
@@ -130,6 +131,7 @@ function App() {
           } 
         />
         <Route path="/ask" element={<AskRishiPage />} />
+        <Route path="/simulate" element={<KarmicSimulatorPage />} />
         <Route path="/meditate" element={<MeditationPage />} />
         <Route path="/chakra-meditate" element={<ChakraMeditationPage />} />
         <Route
